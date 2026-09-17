@@ -1,0 +1,123 @@
+/* DriveDrill site styles. No fonts, no trackers, no external requests. */
+:root {
+  --brand: #1f5fd6;
+  --bg: #ffffff;
+  --surface: #f5f7fb;
+  --text: #16181d;
+  --muted: #5a6270;
+  --line: #dfe3ea;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --brand: #5b92ff;
+    --bg: #101216;
+    --surface: #181b21;
+    --text: #eceef2;
+    --muted: #9aa3b2;
+    --line: #2a2f38;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 18px;
+  padding-bottom: 18px;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 19px;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.2px;
+}
+
+.logo span { color: var(--brand); }
+
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  margin-left: 18px;
+  font-size: 15px;
+}
+
+nav a:hover { color: var(--brand); }
+
+main { padding: 40px 0 72px; }
+
+h1 { font-size: 30px; line-height: 1.25; margin: 0 0 6px; letter-spacing: -0.5px; }
+h2 { font-size: 21px; margin: 34px 0 10px; letter-spacing: -0.2px; }
+h3 { font-size: 17px; margin: 24px 0 6px; }
+
+.updated { color: var(--muted); font-size: 15px; margin: 0 0 28px; }
+
+.lede {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brand);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 0 0 28px;
+}
+
+ul { padding-left: 22px; }
+li { margin: 7px 0; }
+
+a { color: var(--brand); }
+
+code {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 6px;
+  font-size: 14px;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 14px;
+  padding: 26px 0 44px;
+}
+
+footer a { color: var(--muted); }
+
+.disclaimer {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 520px) {
+  h1 { font-size: 25px; }
+  nav a { margin-left: 0; margin-right: 16px; }
+  header .wrap { gap: 8px; }
+}
