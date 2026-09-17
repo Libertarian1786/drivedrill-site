@@ -121,3 +121,59 @@ footer a { color: var(--muted); }
   nav a { margin-left: 0; margin-right: 16px; }
   header .wrap { gap: 8px; }
 }
+
+/* Download call to action */
+.cta {
+  margin: 28px 0 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+.button {
+  display: inline-block;
+  background: var(--brand);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 13px 22px;
+  border-radius: 10px;
+  line-height: 1.2;
+}
+.button:hover { filter: brightness(1.08); }
+.cta-note { color: var(--muted); font-size: 0.9rem; }
+
+/* Screenshot strip. Scrolls sideways on a phone rather than stacking four tall
+   images the visitor has to scroll past to reach the copy. */
+.shots {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 10px 0 14px;
+  margin: 18px 0 8px;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.shots figure {
+  flex: 0 0 auto;
+  width: 200px;
+  margin: 0;
+  scroll-snap-align: start;
+}
+.shots img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.shots figcaption {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-top: 8px;
+  text-align: center;
+}
+@media (min-width: 760px) {
+  .shots figure { width: 232px; }
+}
