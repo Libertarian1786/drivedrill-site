@@ -177,3 +177,31 @@ footer a { color: var(--muted); }
 @media (min-width: 760px) {
   .shots figure { width: 232px; }
 }
+
+/* The 51 jurisdictions. A two-to-three column grid so a real list of states reads as a
+   feature rather than as a wall the visitor has to scroll past. */
+.states {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px 24px;
+}
+.states li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+.states strong { font-weight: 600; }
+.states span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: right;
+  white-space: nowrap;
+}
+@media (min-width: 560px)  { .states { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .states { grid-template-columns: repeat(3, 1fr); } }
