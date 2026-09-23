@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://drivedrill.app/sitemap.xml
