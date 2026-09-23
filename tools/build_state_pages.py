@@ -123,12 +123,10 @@ def format_intro(state: dict) -> str:
         )
 
     return (
-        f"DriveDrill's practice exam for {esc(name)} mirrors the published knowledge-test "
-        f"format where one is publicly available. We haven't independently verified "
-        f"{esc(name)}'s current question count and pass score against a primary source, so "
-        f"we're not stating them here as official numbers &mdash; {esc(name)}'s official "
-        f"handbook below is the authoritative source. The questions in this quiz are "
-        f"written in the style of {esc(name)}'s knowledge test."
+        f"{esc(name)} doesn't publish its knowledge-test length and pass score on an "
+        f"official page we could confirm, so we don't state numbers here. The questions in "
+        f"this quiz are written in the style of {esc(name)}'s knowledge test, and "
+        f"{esc(name)}'s official driver handbook (linked below) is the source to study from."
     )
 
 
@@ -249,7 +247,9 @@ def render_state_page(state: dict, all_states: list[dict]) -> str:
     name = state["stateName"]
     slug = state["_slug"]
     agency = state["agency"]
-    total_questions = len(state["questions"])
+    # A floor that stays true for every app version in people's hands (packs have had 205 to
+    # 245 questions); an exact count would be wrong for anyone on an older or newer version.
+    total_questions = "200+"
     questions = pick_quiz_questions(state)
 
     title = f"Free {name} Permit Practice Test (2026) | DriveDrill"
@@ -349,7 +349,7 @@ def render_index_page(all_states: list[dict]) -> str:
         if state.get("examFormatVerified"):
             detail = f"{state['examQuestionCount']} questions &middot; pass with {state['passScore']}"
         else:
-            detail = f"{len(state['questions'])} practice questions"
+            detail = "200+ practice questions"
         items.append(
             f'      <li><a href="/practice/{slug}/"><strong>{esc(name)}</strong>'
             f"<span>{detail}</span></a></li>"
