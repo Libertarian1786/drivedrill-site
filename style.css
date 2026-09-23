@@ -6,6 +6,8 @@
   --text: #16181d;
   --muted: #5a6270;
   --line: #dfe3ea;
+  --good: #1f8a3b;
+  --bad: #c93030;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,6 +18,8 @@
     --text: #eceef2;
     --muted: #9aa3b2;
     --line: #2a2f38;
+    --good: #3ddc6a;
+    --bad: #ff6b6b;
   }
 }
 
@@ -205,3 +209,115 @@ footer a { color: var(--muted); }
 }
 @media (min-width: 560px)  { .states { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 900px)  { .states { grid-template-columns: repeat(3, 1fr); } }
+
+/* /practice/ index: same idea as .states above, but each row is a link to
+   that state's practice-quiz page. Kept as its own class rather than reusing
+   .states so the homepage list above is never affected by this. */
+.state-links {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 8px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px 24px;
+}
+.state-links li { border-bottom: 1px solid var(--line); }
+.state-links a {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 2px;
+  text-decoration: none;
+  color: var(--text);
+}
+.state-links a:hover strong { color: var(--brand); }
+.state-links strong { font-weight: 600; }
+.state-links span {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: right;
+  white-space: nowrap;
+}
+@media (min-width: 560px)  { .state-links { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .state-links { grid-template-columns: repeat(3, 1fr); } }
+
+/* Breadcrumb back-link on practice pages */
+.crumbs { font-size: 14px; margin: 0 0 16px; }
+.crumbs a { color: var(--muted); text-decoration: none; }
+.crumbs a:hover { color: var(--brand); }
+
+/* Free state practice quiz */
+.score-readout {
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  padding: 10px 0;
+  margin: 0 0 4px;
+  font-weight: 600;
+  font-size: 15px;
+  border-bottom: 1px solid var(--line);
+  z-index: 1;
+}
+
+.quiz-q {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 16px 16px 14px;
+  margin: 16px 0 0;
+}
+.quiz-q legend {
+  font-weight: 600;
+  padding: 0 4px;
+  font-size: 15px;
+  line-height: 1.4;
+}
+.quiz-q .qnum { color: var(--brand); margin-right: 2px; }
+
+.choices {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.choice {
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+.choice-letter {
+  display: inline-block;
+  width: 18px;
+  color: var(--muted);
+  font-weight: 600;
+}
+.choice:hover:not(:disabled) { border-color: var(--brand); }
+.choice:disabled { cursor: default; }
+.choice.right { background: var(--good); border-color: var(--good); color: #fff; }
+.choice.right .choice-letter { color: #fff; }
+.choice.wrong { background: var(--bad); border-color: var(--bad); color: #fff; }
+.choice.wrong .choice-letter { color: #fff; }
+
+.explain {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: 8px;
+  font-size: 15px;
+}
+.explain .verdict { color: var(--brand); }
+
+.endcard {
+  margin: 30px 0 26px;
+  padding: 20px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  text-align: center;
+}
+.endcard p { margin: 0 0 12px; }
+.endcard .cta { margin: 0; justify-content: center; }
