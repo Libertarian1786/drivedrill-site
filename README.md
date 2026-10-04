@@ -2,9 +2,9 @@
 
 Public marketing and legal pages for **DriveDrill** (DMV permit practice test, iOS).
 
-Served by GitHub Pages at <https://drivedrill.app>. Source of truth for these files is
-`site/` in the private app repo — edit there and copy across, so the app and the site never
-disagree about the terms they both reference.
+Served by GitHub Pages at <https://drivedrill.app>. This repo is the source of truth for the site. The app repo's `site/` folder (privacy and
+terms copies) must be kept in step with privacy.html and terms.html here, so the app and the
+site never disagree about the terms they both reference.
 
 - `/` landing
 - `/privacy.html` — linked from the app and from App Store Connect

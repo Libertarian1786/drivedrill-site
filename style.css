@@ -337,3 +337,6 @@ footer a { color: var(--muted); }
 .endcard p { margin: 0 0 12px; }
 .endcard .cta { margin: 0; justify-content: center; }
 .endcard .cta-note { margin: 12px 0 0; }
+
+/* Narrow phones: the state meta lines may wrap instead of overflowing. */
+@media (max-width: 400px) { .states span, .state-links span { white-space: normal; } }

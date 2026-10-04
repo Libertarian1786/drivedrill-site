@@ -261,7 +261,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict]) -> str:
     <p class="cta">
       {en.store_button("es-car", "Descargar DriveDrill en el App Store")}
     </p>
-    <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, elige Español en Configuración › DriveDrill › Idioma.</p>
+    <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, toca Ajustes › Idioma en la app y elige Español.</p>
   </div>
 
   <p>
