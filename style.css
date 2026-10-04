@@ -255,6 +255,9 @@ footer a { color: var(--muted); }
 .lang-switch { margin: 0 0 8px; }
 .also { margin: 6px 0 0; }
 
+/* The one-line Pass Guarantee note under a page's first App Store button: text only, no badge */
+.guarantee-note { font-size: 14px; color: var(--muted); margin: 6px 0 0; }
+
 /* A text link beside an App Store button */
 .cta .more { font-weight: 600; text-decoration: none; }
 .cta .more:hover { text-decoration: underline; }

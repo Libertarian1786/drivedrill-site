@@ -13,6 +13,9 @@ site never disagree about the terms they both reference.
 - `/cdl/`, `/motorcycle/` — CDL and motorcycle prep (hand-written)
 - `/es/`, `/es/cdl/`, `/es/motocicleta/` — the Spanish twins (hand-written; the state list on
   `/es/` is generated)
+- `/guarantee/`, `/es/garantia/` — the Pass Guarantee and its Spanish twin (hand-written). The
+  same terms are a section of terms.html; support.html says what to send for a claim; each
+  selling page carries one line about it under its first App Store button
 - `/practice/<state>/` and `/es/<state>/` — 51 English and 51 Spanish sample-quiz pages
   (generated)
 
@@ -27,8 +30,10 @@ reads the question packs from the app repo at the commit in `APP_REF` (the versi
 the App Store; bump it when a version with new questions ships), rewrites `practice/`,
 `es/<state>/`, the state list on `es/index.html` and `sitemap.xml`, then runs
 `tools/check_site.py`, which fails on any parse error, broken internal link, missing title,
-description or canonical, hreflang pair without its return link, stray App Store link, price
-or trial length in the copy, or sitemap gap. Run the checker on its own after editing any page.
+description or canonical, hreflang pair without its return link, stray App Store link, price,
+currency word or trial length in the copy, pass-rate claim, page that cannot be reached from
+the home page, selling page without its Pass Guarantee line, or sitemap gap. Run the checker on
+its own after editing any page.
 
 ## App Store links: one place
 

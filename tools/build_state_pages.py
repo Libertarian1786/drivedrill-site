@@ -7,7 +7,8 @@ Builds the generated pages of drivedrill.app from DriveDrill's own question pack
   es/<state-slug>/index.html         Spanish twin of every state page (51), from the
                                      Spanish packs; templates in tools/build_es_pages.py
   es/index.html                      ONLY the state list between its BEGIN/END markers
-  sitemap.xml                        every page on the site
+  sitemap.xml                        every page on the site (hand-written ones in STATIC_PAGES
+                                     and LEGAL_PAGES below; hreflang pairs in SITEMAP_HREFLANG)
 
 then points every App Store button at its address in tools/store_links.py and runs
 tools/check_site.py (parse, links, head tags, hreflang pairs, store links).
@@ -520,26 +521,41 @@ STATIC_PAGES = [
     ("/es/", "0.9"),
     ("/es/cdl/", "0.8"),
     ("/es/motocicleta/", "0.8"),
+    ("/guarantee/", "0.5"),
+    ("/es/garantia/", "0.5"),
 ]
 LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html"]
 
+# Pages whose sitemap entry also lists its hreflang pair (en, es, x-default = en): the same
+# set the page's own <head> declares. tools/check_site.py fails if the two ever disagree.
+SITEMAP_HREFLANG = {
+    "/guarantee/": alternates("/guarantee/", "/es/garantia/"),
+    "/es/garantia/": alternates("/guarantee/", "/es/garantia/"),
+}
+
 
 def render_sitemap(all_states: list[dict]) -> str:
-    urls = [(f"{SITE_URL}{path}", prio) for path, prio in STATIC_PAGES]
+    urls = [(path, prio) for path, prio in STATIC_PAGES]
     for state in all_states:
-        urls.append((f"{SITE_URL}/practice/{state['_slug']}/", "0.8"))
+        urls.append((f"/practice/{state['_slug']}/", "0.8"))
     for state in all_states:
-        urls.append((f"{SITE_URL}/es/{state['_slug']}/", "0.8"))
-    urls += [(f"{SITE_URL}{path}", "0.3") for path in LEGAL_PAGES]
+        urls.append((f"/es/{state['_slug']}/", "0.8"))
+    urls += [(path, "0.3") for path in LEGAL_PAGES]
 
-    entries = "\n".join(
-        f"  <url>\n    <loc>{esc(loc)}</loc>\n    <lastmod>{TODAY}</lastmod>\n"
-        f"    <priority>{priority}</priority>\n  </url>"
-        for loc, priority in urls
-    )
+    def entry(path: str, priority: str) -> str:
+        # Extension elements (xhtml:link) come after <priority>, as the sitemap schema orders them.
+        alts = "".join(
+            f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{esc(url)}"/>\n'
+            for lang, url in SITEMAP_HREFLANG.get(path, {}).items()
+        )
+        return (f"  <url>\n    <loc>{esc(SITE_URL + path)}</loc>\n    <lastmod>{TODAY}</lastmod>\n"
+                f"    <priority>{priority}</priority>\n{alts}  </url>")
+
+    entries = "\n".join(entry(path, priority) for path, priority in urls)
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"'
+        ' xmlns:xhtml="http://www.w3.org/1999/xhtml">\n'
         f"{entries}\n"
         "</urlset>\n"
     )

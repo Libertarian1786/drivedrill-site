@@ -29,10 +29,10 @@ SITE_ROOT = Path(__file__).resolve().parent.parent
 APP_STORE = "https://apps.apple.com/us/app/id6813140105"
 
 STORE_LINKS = {
-    "car": APP_STORE,            # home page buttons, /practice/<state>/
+    "car": APP_STORE,            # home page buttons, /practice/<state>/, /guarantee/
     "cdl": APP_STORE,            # home page CDL section, /cdl/
     "motorcycle": APP_STORE,     # home page Motorcycle section, /motorcycle/
-    "es-car": APP_STORE,         # home page "En español" section, /es/, /es/<state>/
+    "es-car": APP_STORE,         # home page "En español" section, /es/, /es/<state>/, /es/garantia/
     "es-cdl": APP_STORE,         # /es/cdl/ and the CDL section of /es/
     "es-motorcycle": APP_STORE,  # /es/motocicleta/ and the motorcycle section of /es/
 }
