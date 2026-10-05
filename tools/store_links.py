@@ -2,9 +2,10 @@
 """
 Where every "Get DriveDrill" button on drivedrill.app points. ONE place, no JavaScript.
 
-Every App Store button on the site is written the same way:
+Every App Store button on the site is written the same way, around Apple's own badge artwork
+(/img/app-store-badge.svg, or /img/app-store-badge-es.svg on the Spanish pages):
 
-    <a class="button store-link" data-store="cdl" href="https://apps.apple.com/...">
+    <a class="store-link appstore" data-store="cdl" href="https://apps.apple.com/..."><img ...></a>
 
 data-store names one of the slots in STORE_LINKS below, and the href is always that slot's
 address. To send a set of buttons somewhere else (an App Store custom product page, for
@@ -29,12 +30,12 @@ SITE_ROOT = Path(__file__).resolve().parent.parent
 APP_STORE = "https://apps.apple.com/us/app/id6813140105"
 
 STORE_LINKS = {
-    "car": APP_STORE,            # home page buttons, /practice/<state>/, /guarantee/
-    "cdl": APP_STORE,            # home page CDL section, /cdl/
-    "motorcycle": APP_STORE,     # home page Motorcycle section, /motorcycle/
-    "es-car": APP_STORE,         # home page "En español" section, /es/, /es/<state>/, /es/garantia/
-    "es-cdl": APP_STORE,         # /es/cdl/ and the CDL section of /es/
-    "es-motorcycle": APP_STORE,  # /es/motocicleta/ and the motorcycle section of /es/
+    "car": APP_STORE,            # home page, /practice/, /practice/<state>/, /guarantee/
+    "cdl": APP_STORE,            # /cdl/
+    "motorcycle": APP_STORE,     # /motorcycle/
+    "es-car": APP_STORE,         # /es/, /es/<state>/, /es/garantia/
+    "es-cdl": APP_STORE,         # /es/cdl/
+    "es-motorcycle": APP_STORE,  # /es/motocicleta/
 }
 
 A_TAG = re.compile(r"<a\b[^>]*>", re.IGNORECASE)

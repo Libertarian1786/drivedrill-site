@@ -21,7 +21,23 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import build_state_pages as en
-from build_state_pages import QUESTION_FLOOR, SITE_URL, esc
+from build_state_pages import CHECK_SVG, QUESTION_FLOOR, SITE_URL, esc
+
+# The Spanish store wording (owner's decision 2026-10-05), not a translation of the English.
+PILL_ES = "EDICIÓN 2026"
+TRIAL_ES = "7 días de prueba gratis en los planes semanales"
+GUARANTEE_NOTE_ES = ('Garantía de aprobación: apruebas tu examen de conocimientos o te devolvemos tu dinero. '
+                     '<a href="/es/garantia/">Condiciones.</a>')
+FOOTER_LINE_ES = "DriveDrill es una app de estudio independiente y no está afiliada a ningún organismo estatal."
+
+# The hero phone: the Spanish capture of the same screens the English pages use.
+PHONE_ES = ("/img/phone-practice-es.jpg",
+            "Una pregunta de práctica de DriveDrill en español sobre una ambulancia que se acerca a "
+            "una intersección, con una ilustración de la escena.")
+PHONE_ES_BY_STATE = {
+    "CA": ("/img/phone-exam-ca-es.jpg",
+           "El simulacro de examen de California en DriveDrill, en español: pregunta 16 de 46."),
+}
 
 # Spanish for the 9 verified states whose pack has notes, keyed by state code, with the English
 # they translate. If a pack's English notes change, the build stops until this is updated.
@@ -164,48 +180,65 @@ def spanish_test_notice(state: dict, n: Names) -> str:
                 if since else f"En {n.sentence}, el examen de conocimientos se da solo en inglés.")
         link = test.get("sourceURL")
         source = f' <a href="{esc(link)}">Fuente oficial</a>' if link else ""
-        return f'  <div class="lede notice">{esc(contract(text))}{source}</div>\n\n'
+        return f'      <div class="lede notice">{esc(contract(text))}{source}</div>\n\n'
     if availability == "unconfirmed":
         text = (f"No encontramos ninguna confirmación oficial de que {n.sentence} ofrezca el "
                 f"examen de conocimientos en español.")
-        return f'  <div class="lede notice">{esc(contract(text))}</div>\n\n'
+        return f'      <div class="lede notice">{esc(contract(text))}</div>\n\n'
     return ""
 
 
-def meta_description(state: dict, n: Names) -> str:
+def facts_es(state: dict) -> tuple[str, str]:
+    """The Spanish of build_state_pages.facts_en, in the app's words (simulacro, apruebas con,
+    examen de práctica): a format only where the state's format is confirmed."""
+    count = f"{len(state['questions'])} preguntas"
     if state.get("examFormatVerified"):
-        return (f"Preguntas de práctica en español para el examen de manejo {n.de}: 10 preguntas con "
-                f"respuesta y explicación al instante, según el formato de "
-                f"{state['examQuestionCount']} preguntas del examen {n.de}.")
-    return (f"Preguntas de práctica en español para el examen de manejo {n.de}: 10 preguntas con "
-            f"respuesta y explicación al instante, al estilo del examen de conocimientos {n.de}.")
+        return count, f"simulacro de {state['examQuestionCount']}, apruebas con {state['passScore']}"
+    return count, "examen de práctica completo"
 
 
-NAV_ES = """<nav>
-      <a href="/es/#estados">Exámenes de práctica</a>
-      <a href="/privacy.html" hreflang="en">Privacidad</a>
-      <a href="/terms.html" hreflang="en">Términos</a>
-      <a href="/support.html" hreflang="en">Soporte</a>
-    </nav>"""
+def meta_description(state: dict, n: Names) -> str:
+    count = len(state["questions"])
+    if state.get("examFormatVerified"):
+        exam = (f"{count} preguntas, simulacro de {state['examQuestionCount']}, "
+                f"apruebas con {state['passScore']}.")
+    else:
+        exam = f"{count} preguntas y un examen de práctica completo."
+    return f"Aprueba el examen {n.de} a la primera. {exam} Cada respuesta, explicada. Pruébalo aquí."
 
 
-def render_header() -> str:
-    return f"""<header>
-  <div class="wrap">
-    <a class="logo" href="/es/">Drive<span>Drill</span></a>
-    {NAV_ES}
+def render_header(en_href: str = "/") -> str:
+    """The blue header of every Spanish page; en_href is the page's English twin."""
+    return f"""<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/es/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
+    <nav class="nav" aria-label="Principal">
+      <a class="d-only" href="/es/#estados">Estados</a>
+      <a href="/es/cdl/">CDL</a>
+      <a href="/es/motocicleta/">Motocicleta</a>
+      <a class="d-only" href="/es/garantia/">Garantía</a>
+      <a class="lang" href="{en_href}" hreflang="en" lang="en" aria-label="English"><span class="d-only">English</span><span class="m-only">EN</span></a>
+    </nav>
   </div>
 </header>"""
 
 
-def render_footer() -> str:
-    return """<footer>
+def render_footer(en_href: str = "/") -> str:
+    return f"""<footer class="foot">
   <div class="wrap">
-    &copy; 2026 DriveDrill ·
-    <a href="/es/#estados">Exámenes de práctica</a> ·
-    <a href="/privacy.html" hreflang="en">Privacidad</a> ·
-    <a href="/terms.html" hreflang="en">Términos</a> ·
-    <a href="/support.html" hreflang="en">Soporte</a>
+    <div class="foot-top">
+      <a class="brand" href="/es/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
+      <nav class="foot-nav" aria-label="Pie de página">
+        <a href="/es/#estados">Exámenes de práctica</a>
+        <a href="/es/garantia/">Garantía de aprobación</a>
+        <a href="/privacy.html" hreflang="en">Privacidad</a>
+        <a href="/terms.html" hreflang="en">Términos</a>
+        <a href="/support.html" hreflang="en">Soporte</a>
+        <a href="{en_href}" hreflang="en" lang="en">English</a>
+      </nav>
+    </div>
+    <p class="disclaimer-line">{FOOTER_LINE_ES}</p>
+    <p class="copy">&copy; 2026 DriveDrill</p>
   </div>
 </footer>"""
 
@@ -230,54 +263,69 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict]) -> str:
                           en.alternates(f"/practice/{slug}/", f"/es/{slug}/"))
     blocks = "\n".join(en.render_question_block(q, i + 1, qprefix="P") for i, q in enumerate(questions))
 
+    hero = en.render_hero(
+        crumbs=(f'<p class="crumbs"><a href="/es/#estados">&larr; Los 51 exámenes de práctica</a>'
+                f'<a href="/practice/{slug}/" hreflang="en" lang="en">In English</a></p>'),
+        pill=PILL_ES,
+        h1=f'Aprueba el examen {esc(n.de)} <span class="hl">a la primera.</span>',
+        facts=en.facts_line(*facts_es(state)),
+        cta=(f'{en.store_button("es-car", "es")}\n'
+             f'          <p class="trial-note">{CHECK_SVG}{TRIAL_ES}</p>\n'
+             f'          <p class="g-note">{GUARANTEE_NOTE_ES}</p>'),
+        phone=PHONE_ES_BY_STATE.get(code, PHONE_ES),
+    )
+
     return f"""<!DOCTYPE html>
 <html lang="es">
 {head}
 <body>
-{render_header()}
+{render_header(f"/practice/{slug}/")}
 
-<main class="wrap">
-  <p class="crumbs"><a href="/es/#estados">&larr; Los 51 exámenes de práctica</a><span class="sep" aria-hidden="true">&middot;</span><a href="/practice/{slug}/" hreflang="en" lang="en">In English</a></p>
-  <h1>Examen de manejo {esc(n.de)} 2026: preguntas de práctica</h1>
-  <p class="updated">10 preguntas de muestra abajo &middot; más de {floor} en la app &middot; respuestas explicadas</p>
+<main>
+{hero}
 
-{spanish_test_notice(state, n)}  <div class="lede">{format_intro(state, n)}</div>
+  <section class="sec" id="muestra" aria-labelledby="sample-title">
+    <div class="wrap quiz-wrap">
+      <p class="updated">10 preguntas de muestra abajo &middot; más de {floor} en la app &middot; respuestas explicadas</p>
 
-  <h2>Practica con preguntas {esc(n.de)}</h2>
-  <p>
-    Elige una respuesta en cada pregunta para ver si acertaste, con una explicación.
-    Es una muestra corta: DriveDrill tiene más de {floor} preguntas {esc(n.de)}
-    y simulacros de examen completos en la app.
-  </p>
+{spanish_test_notice(state, n)}      <div class="lede">{format_intro(state, n)}</div>
 
-  <p class="score-readout" id="score" aria-live="polite">0 de {len(questions)} respondidas</p>
+      <h2 class="sec-title" id="sample-title">Practica con preguntas {esc(n.de)}</h2>
+      <p class="sec-sub">
+        Elige una respuesta en cada pregunta para ver si acertaste, con una explicación.
+        Es una muestra corta: DriveDrill tiene más de {floor} preguntas {esc(n.de)}
+        y simulacros de examen completos en la app.
+      </p>
 
-  <div class="quiz" id="quiz">
+      <p class="score-readout" id="score" aria-live="polite">0 de {len(questions)} respondidas</p>
+
+      <div class="quiz" id="quiz">
 {blocks}
-  </div>
+      </div>
 
-  <div class="endcard">
-    <p>Practica las más de {floor} preguntas {esc(n.de)} y toma simulacros de examen completos en la app, en español.</p>
-    <p class="cta">
-      {en.store_button("es-car", "Descargar DriveDrill en el App Store")}
-    </p>
-    <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, toca Ajustes › Idioma en la app y elige Español.</p>
-  </div>
+      <div class="endcard">
+        <p>Practica las más de {floor} preguntas {esc(n.de)} y toma simulacros de examen completos en la app, en español.</p>
+        <p class="cta">{en.store_button("es-car", "es")}</p>
+        <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, toca Ajustes › Idioma en la app y elige Español.</p>
+      </div>
 
-  <p>
-    Fuente oficial: <a href="{esc(state['handbookURL'])}">manual del conductor {esc(n.de)} ({esc(agency)})</a>
-    &mdash; siempre la referencia autorizada para las reglas vigentes.
-  </p>
-
-  <p class="disclaimer">
-    DriveDrill es una app de estudio independiente. No está afiliada a, respaldada por, ni
-    conectada con ningún organismo estatal de vehículos motorizados. Estas preguntas de práctica
-    están escritas al estilo del examen de conocimientos {esc(n.de)} y no son preguntas
-    oficiales del examen.
-  </p>
+      <div class="after-quiz">
+        <p>
+          Fuente oficial: <a href="{esc(state['handbookURL'])}">manual del conductor {esc(n.de)} ({esc(agency)})</a>
+          &mdash; siempre la referencia autorizada para las reglas vigentes.
+        </p>
+        <p class="disclaimer">
+          DriveDrill es una app de estudio independiente. No está afiliada a, respaldada por, ni
+          conectada con ningún organismo estatal de vehículos motorizados. Estas preguntas de práctica
+          están escritas al estilo del examen de conocimientos {esc(n.de)} y no son preguntas
+          oficiales del examen.
+        </p>
+      </div>
+    </div>
+  </section>
 </main>
 
-{render_footer()}
+{render_footer(f"/practice/{slug}/")}
 {en.quiz_script(QUIZ_WORDS_ES)}
 </body>
 </html>
@@ -289,16 +337,13 @@ def sort_key(name: str) -> str:
 
 
 def render_state_list(states: list[dict], es_packs: dict[str, dict]) -> str:
+    """The /es/ state list: one chip per state, in Spanish alphabetical order. The "Busca tu
+    estado" box above it filters the chips (es/index.html carries build_state_pages.FILTER_SCRIPT)."""
     rows = []
     for state in sorted(states, key=lambda s: sort_key(es_packs[s["stateCode"]]["stateName"])):
         name = es_packs[state["stateCode"]]["stateName"]
-        if state.get("examFormatVerified"):
-            detail = f"{state['examQuestionCount']} preguntas &middot; apruebas con {state['passScore']}"
-        else:
-            detail = f"{QUESTION_FLOOR}+ preguntas de práctica"
-        rows.append(f'      <li><a href="/es/{state["_slug"]}/"><strong>{esc(name)}</strong>'
-                    f"<span>{detail}</span></a></li>")
-    return '  <ul class="state-links">\n' + "\n".join(rows) + "\n  </ul>"
+        rows.append(f'        <li><a href="/es/{state["_slug"]}/">{esc(name)}</a></li>')
+    return '      <ul class="state-list" id="state-list">\n' + "\n".join(rows) + "\n      </ul>"
 
 
 def inject_state_list(index_path: Path, list_html: str) -> None:
@@ -308,7 +353,9 @@ def inject_state_list(index_path: Path, list_html: str) -> None:
     if start < 0 or end < start:
         raise SystemExit(f"{index_path}: the BEGIN/END es-state-list markers are missing")
     nl = "\r\n" if "\r\n" in text else "\n"
-    new = text[: start + len(LIST_BEGIN)] + nl + list_html.replace("\n", nl) + nl + "  " + text[end:]
+    line_start = text.rfind("\n", 0, end) + 1
+    indent = text[line_start:end] if not text[line_start:end].strip() else ""  # the END marker's own
+    new = text[: start + len(LIST_BEGIN)] + nl + list_html.replace("\n", nl) + nl + indent + text[end:]
     if new != text:
         with index_path.open("w", encoding="utf-8", newline="") as f:
             f.write(new)

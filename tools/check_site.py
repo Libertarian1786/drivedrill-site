@@ -14,7 +14,8 @@ Checks every published page of drivedrill.app before it is pushed. Standard libr
   * copy guards: no price or currency word (USD, dollars, dólares) on the selling pages; no
     trial length ("3-day free trial", "7-day", "days free", "prueba gratis de 3 días") and no
     pass-rate claim ("pass rate", "95% pass", "95 percent pass", "tasa de aprobación") on any
-    page, the legal pages included; and no "gratis" in a Spanish title or description
+    page, the legal pages included; and no "gratis" in a Spanish title or description. The one
+    exception: the approved price and trial strings in ALLOWED_COPY, in exactly that form
   * the Pass Guarantee: /guarantee/ and /es/garantia/ exist, link to each other, keep their
     title and description under 160 characters; every selling page carries the one-line
     guarantee note linking to the guarantee page in its own language, and the terms and
@@ -65,6 +66,21 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 # and quiz questions on the state pages quote fines ("$250"). Quiz questions also quote
 # suspensions ("a 30-day suspension"), so the "7-day" guard skips the state pages. The trial and
 # pass-rate guards read every page.
+#
+# Changed 2026-10-05, deliberately: the guards were written when prices and the trial length were
+# not final, so they kept both off the site. Both are live in the App Store as of 5 October 2026
+# (Weekly $7.99, Pass Pack $19.99, CDL Weekly $9.99, CDL Pass $39.99, Motorcycle Weekly $7.99,
+# Motorcycle Pass $19.99; a 7-day free trial on the weekly plans), and the owner approved printing
+# them. Only the exact strings below are allowed: each is cut out of the page text before the
+# price, trial and "7-day" guards run, so any other price, currency word or trial length, or any
+# rewording of these, still fails. Change a price in the App Store, change it here and on the pages.
+ALLOWED_COPY = (
+    "Motorcycle Weekly $7.99 · Motorcycle Pass $19.99",
+    "Weekly $7.99 · Pass Pack $19.99 one-time",
+    "CDL Weekly $9.99 · CDL Pass $39.99",
+    "7-day free trial on weekly plans",
+    "7 días de prueba gratis en los planes semanales",
+)
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
     r"\b\d+[- ]day (?:free )?trial\b|\bdays? free\b|\bfree for \d+ days?\b"
@@ -339,12 +355,16 @@ def main(argv: list[str] | None = None) -> int:
             m = PASS_RATE_RE.search(where)
             if m:
                 errors.append(f"{path}: a pass-rate claim in the copy ({around(where, m)!r})")
+            for allowed in ALLOWED_COPY:  # the approved price and trial strings, and only those
+                where = where.replace(allowed, " ")
             m = PRICE_RE.search(where) if path in PRICE_FREE else None
             if m:
-                errors.append(f"{path}: a price or currency in the copy ({around(where, m)!r})")
+                errors.append(f"{path}: a price or currency in the copy ({around(where, m)!r}); "
+                              f"only the exact strings in ALLOWED_COPY may state a price")
             m = TRIAL_RE.search(where) or (None if state_page else SEVEN_DAY_RE.search(where))
             if m:
-                errors.append(f"{path}: a trial length in the copy ({around(where, m)!r}); trial lengths stay off the site")
+                errors.append(f"{path}: a trial length in the copy ({around(where, m)!r}); only the exact "
+                              f"trial strings in ALLOWED_COPY may state a trial length")
         if new_or_twin:
             if p.html_lang == "es":
                 head_text = (p.titles[0] if p.titles else "") + " " + p.meta.get("description", "")
