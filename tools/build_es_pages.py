@@ -306,7 +306,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict]) -> str:
       <div class="endcard">
         <p>Practica las más de {floor} preguntas {esc(n.de)} y toma simulacros de examen completos en la app, en español.</p>
         <p class="cta">{en.store_button("es-car", "es")}</p>
-        <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, toca Ajustes › Idioma en la app y elige Español.</p>
+        <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, en la app toca Ajustes › Idioma: se abre DriveDrill en la app Configuración, donde puedes elegir Español.</p>
       </div>
 
       <div class="after-quiz">

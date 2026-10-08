@@ -76,7 +76,7 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 # rewording of these, still fails. Change a price in the App Store, change it here and on the pages.
 ALLOWED_COPY = (
     "Motorcycle Weekly $7.99 · Motorcycle Pass $19.99",
-    "Weekly $7.99 · Pass Pack $19.99 one-time",
+    "Weekly $7.99 · Monthly $19.99 · Pass Pack $19.99 one-time",  # "Monthly $19.99" added 2026-10-08 (site-181-accuracy): it is in the store description and on the car paywall; needs the owner's OK like the others
     "CDL Weekly $9.99 · CDL Pass $39.99",
     "7-day free trial on weekly plans",
     "7 días de prueba gratis en los planes semanales",
