@@ -25,7 +25,7 @@ from build_state_pages import CHECK_SVG, QUESTION_FLOOR, SITE_URL, esc
 
 # The Spanish store wording (owner's decision 2026-10-05), not a translation of the English.
 PILL_ES = "EDICIÓN 2026"
-TRIAL_ES = "7 días de prueba gratis en los planes semanales"
+TRIAL_ES = "3 días de prueba gratis en los planes semanales"
 GUARANTEE_NOTE_ES = ('Garantía de aprobación: apruebas tu examen de conocimientos o te devolvemos tu dinero. '
                      '<a href="/es/garantia/">Condiciones.</a>')
 FOOTER_LINE_ES = "DriveDrill es una app de estudio independiente y no está afiliada a ningún organismo estatal."
