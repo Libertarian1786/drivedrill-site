@@ -69,7 +69,7 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 #
 # Changed 2026-10-05, deliberately: the guards were written when prices and the trial length were
 # not final, so they kept both off the site. Both are live in the App Store as of 5 October 2026
-# (Weekly $7.99, Pass Pack $29.99, CDL Weekly $9.99, CDL Pass $39.99, Motorcycle Weekly $7.99,
+# (Weekly $7.99, Pass Pack $29.99, CDL Weekly $9.99, CDL Pass $49.99, Motorcycle Weekly $7.99,
 # Motorcycle Pass $19.99; a 3-day free trial on the weekly plans), and the owner approved printing
 # them. Only the exact strings below are allowed: each is cut out of the page text before the
 # price, trial and "7-day" guards run, so any other price, currency word or trial length, or any
@@ -77,7 +77,7 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 ALLOWED_COPY = (
     "Motorcycle Weekly $7.99 · Motorcycle Pass $19.99",
     "Weekly $7.99 · Monthly $19.99 · Pass Pack $29.99 one-time",  # "Monthly $19.99" added 2026-10-08 (site-181-accuracy): it is in the store description and on the car paywall; needs the owner's OK like the others
-    "CDL Weekly $9.99 · CDL Pass $39.99",
+    "CDL Weekly $9.99 · CDL Pass $49.99",
     "3-day free trial on weekly plans",
     "3 días de prueba gratis en los planes semanales",
 )
