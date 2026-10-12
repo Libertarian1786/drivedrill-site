@@ -1,0 +1,358 @@
+{
+ "_about": "DriveDrill onboarding art (1.8.4, A99). The app reads this file, downloads any asset whose files' sha256 differ from what it has, checks each hash, and keeps its bundled copy until a whole asset has arrived. Screen order and layout are in the app, never here. Paths are relative to this file.",
+ "format": 1,
+ "revision": 1,
+ "assets": [
+  {
+   "id": "vehicle-car-spin",
+   "kind": "frames",
+   "scale": 3,
+   "fps": 12,
+   "files": [
+    {
+     "path": "vehicles/vehicle-car-spin-00@3x.png",
+     "sha256": "d045517ba4d8920c4231a6732b3948931fdced0c4140e0e39ec69e20a218e83d",
+     "bytes": 75670
+    },
+    {
+     "path": "vehicles/vehicle-car-spin-01@3x.png",
+     "sha256": "8969343d90f1bbd0b25a7d7d201033660dda298a6cd5f22d6600834c948a26c1",
+     "bytes": 75844
+    },
+    {
+     "path": "vehicles/vehicle-car-spin-02@3x.png",
+     "sha256": "761826da0e3bb2f4ebcda5f6fb030cb8812256241dd08eaa2e3bb43fe70c2526",
+     "bytes": 75792
+    },
+    {
+     "path": "vehicles/vehicle-car-spin-03@3x.png",
+     "sha256": "4024c127e860de05c2b3e537be219d6819f0c3acddc629b5bd3ce0d13a4980aa",
+     "bytes": 75853
+    },
+    {
+     "path": "vehicles/vehicle-car-spin-04@3x.png",
+     "sha256": "4605450d427f41cf10c40df2fd25651bc046bc82165f5fd054acb8920a47be73",
+     "bytes": 75823
+    },
+    {
+     "path": "vehicles/vehicle-car-spin-05@3x.png",
+     "sha256": "e24b5bc2b1793ba4bed64a666866f397bafecdb451d880abdaf4be697c52a408",
+     "bytes": 75762
+    }
+   ]
+  },
+  {
+   "id": "vehicle-car-side",
+   "kind": "frames",
+   "scale": 3,
+   "fps": 24,
+   "files": [
+    {
+     "path": "vehicles/vehicle-car-side-00@3x.png",
+     "sha256": "22c1b8b67ea5628d80a1af206ffa7f556553cb5493757517f514d49340db9ab7",
+     "bytes": 20183
+    },
+    {
+     "path": "vehicles/vehicle-car-side-01@3x.png",
+     "sha256": "6989f29dd6e63a1889bec808733ac1d2eacc29e16b487e0bc4b8d33a50675c59",
+     "bytes": 20154
+    },
+    {
+     "path": "vehicles/vehicle-car-side-02@3x.png",
+     "sha256": "b5685e0a9bf4828c0cc41d76ea34621c30e32392bb87dc9d275393d13976c6a1",
+     "bytes": 20193
+    },
+    {
+     "path": "vehicles/vehicle-car-side-03@3x.png",
+     "sha256": "c1f96fc575c5aa965330143e4fd143ee74f77e03e8e343f5d468466c53cf9b3b",
+     "bytes": 20186
+    },
+    {
+     "path": "vehicles/vehicle-car-side-04@3x.png",
+     "sha256": "86c6c3100d8fb31d8ddb3d5c8119f076c4ceee409a121ea33820ab254449b964",
+     "bytes": 20128
+    },
+    {
+     "path": "vehicles/vehicle-car-side-05@3x.png",
+     "sha256": "0e98f8477b57de84e2b8e3d0fac9829f4cf67cfb897a8cd57c9c28222cd5606e",
+     "bytes": 20148
+    },
+    {
+     "path": "vehicles/vehicle-car-side-06@3x.png",
+     "sha256": "a21e06178367c1f2320f9ffda4b79c0ad76e8429c3443a992d396e57b48d62fb",
+     "bytes": 20258
+    },
+    {
+     "path": "vehicles/vehicle-car-side-07@3x.png",
+     "sha256": "6af1cd666e114076af1cd3aab974117864cb89711704f841d277dd867c274adc",
+     "bytes": 20207
+    },
+    {
+     "path": "vehicles/vehicle-car-side-08@3x.png",
+     "sha256": "0a8941f9b60d9c8c20899a7f96993c8d9d6ecdd90bc755a172815ac6d8a45190",
+     "bytes": 20148
+    },
+    {
+     "path": "vehicles/vehicle-car-side-09@3x.png",
+     "sha256": "eba243c6e998aec5157b7f37677c458ea298b7a1e213a92a1d73a598e158a122",
+     "bytes": 20131
+    },
+    {
+     "path": "vehicles/vehicle-car-side-10@3x.png",
+     "sha256": "05389f466d491e39f411315cf3e1df6278b66a334318fa92c2449ea33784c03d",
+     "bytes": 20195
+    },
+    {
+     "path": "vehicles/vehicle-car-side-11@3x.png",
+     "sha256": "79530cbf08bb712b5f9b32a60163e52968a533016d252b90c7a3626b690ddee5",
+     "bytes": 20161
+    }
+   ]
+  },
+  {
+   "id": "vehicle-moto-spin",
+   "kind": "frames",
+   "scale": 3,
+   "fps": 12,
+   "files": [
+    {
+     "path": "vehicles/vehicle-moto-spin-00@3x.png",
+     "sha256": "cb7a402ce3643e423701a51b8d12ea4eb6d694a5171b07bda139e20211654bb5",
+     "bytes": 106069
+    },
+    {
+     "path": "vehicles/vehicle-moto-spin-01@3x.png",
+     "sha256": "7003e1ab1e2d5d2534fd904674537e009dad2337e1160df75a6e3dd336ed5de2",
+     "bytes": 106582
+    },
+    {
+     "path": "vehicles/vehicle-moto-spin-02@3x.png",
+     "sha256": "e46082a8c28b2e92ce07ac670928ade20ef7ca14bc0751465719bfb696f2d6c0",
+     "bytes": 106508
+    },
+    {
+     "path": "vehicles/vehicle-moto-spin-03@3x.png",
+     "sha256": "e1c7fcc488445be320e36a6bef916379f940ce69c0ed4c7c0a0c8e7f7ed9ec8c",
+     "bytes": 106068
+    },
+    {
+     "path": "vehicles/vehicle-moto-spin-04@3x.png",
+     "sha256": "306569982041692fd21afc8a65fa2e9b5bbaace2cc2be817c1f6e7d58d4f59b5",
+     "bytes": 106659
+    },
+    {
+     "path": "vehicles/vehicle-moto-spin-05@3x.png",
+     "sha256": "dfd8b07e9ccbe0551cd027a238c02992ff6e7b29bb2f5eba6928aab93b69aa1d",
+     "bytes": 106626
+    }
+   ]
+  },
+  {
+   "id": "vehicle-moto-side",
+   "kind": "frames",
+   "scale": 3,
+   "fps": 24,
+   "files": [
+    {
+     "path": "vehicles/vehicle-moto-side-00@3x.png",
+     "sha256": "3e5cb53b9d4a0b68a04b7df5cd17c9957575e2db051e58c627fce69fc5711914",
+     "bytes": 39857
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-01@3x.png",
+     "sha256": "e93f515b9c7b105dd92c1924e33445443ec5fea5eadbe9abc959a6fa180b62f2",
+     "bytes": 40050
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-02@3x.png",
+     "sha256": "5a23219ffd6a8e866433600968bc4de17ce90f672eb4b35fb4b2c6850630a2d0",
+     "bytes": 40014
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-03@3x.png",
+     "sha256": "bb298ee88c21bad8f27e6b25b0e0ac03fc5a46dc91dbb970db9566831671d8e6",
+     "bytes": 39998
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-04@3x.png",
+     "sha256": "caf07eeeb2934e5e36b9a6f8276a254a1f29b070ee29b013a16b9eb525e22272",
+     "bytes": 39911
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-05@3x.png",
+     "sha256": "f3104c564cb986d17350f953e419f1096dc302de25f7a54e5f9321f9ff449deb",
+     "bytes": 39972
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-06@3x.png",
+     "sha256": "ce3e06cbb9036f7d576fa4f26de8df8135ab3ea3f245664d8fab658988a4dc66",
+     "bytes": 39881
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-07@3x.png",
+     "sha256": "541ee6a6b46ce2fe570507b324e560e3bd1d8538bb0862e79495c0836a582bae",
+     "bytes": 39931
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-08@3x.png",
+     "sha256": "338a1d2fd27f3c0f8265647768851ffcf9f5e092b24141fc5f8fadd94ab90dca",
+     "bytes": 39984
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-09@3x.png",
+     "sha256": "8662083a6811380fcbfde2e64f1d6042a6de2e7bf2ce0b368a90c0a7052bb4fc",
+     "bytes": 40003
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-10@3x.png",
+     "sha256": "b31807d17271099476a5d344d00094c9c8cb159b7c2b40d441e5e030c7531d4e",
+     "bytes": 40033
+    },
+    {
+     "path": "vehicles/vehicle-moto-side-11@3x.png",
+     "sha256": "6cf47952ae00be4b59ebfac44326e6e0e59b00f5de48ebab4f72509ba4c075e2",
+     "bytes": 39868
+    }
+   ]
+  },
+  {
+   "id": "vehicle-semi-spin",
+   "kind": "frames",
+   "scale": 3,
+   "fps": 12,
+   "files": [
+    {
+     "path": "vehicles/vehicle-semi-spin-00@3x.png",
+     "sha256": "c3d216d2eeb36d756a4b234b447ac25ff9b7ea1fbcef4eabe4667e90ef6f97b7",
+     "bytes": 55487
+    },
+    {
+     "path": "vehicles/vehicle-semi-spin-01@3x.png",
+     "sha256": "8a28c1e813686acb631afa4698a6bd55a3e66ec5d00fd7d1b20f2a4328e49b11",
+     "bytes": 55562
+    },
+    {
+     "path": "vehicles/vehicle-semi-spin-02@3x.png",
+     "sha256": "a4fd5bd737e6cf46886b1368e092d2b5a79b99175de761c8ad32893f387f260a",
+     "bytes": 55499
+    },
+    {
+     "path": "vehicles/vehicle-semi-spin-03@3x.png",
+     "sha256": "e5dea857fe2915eb4e5ae22d39927ad3cee89a34540c9e31a6d9eb746907226b",
+     "bytes": 55551
+    },
+    {
+     "path": "vehicles/vehicle-semi-spin-04@3x.png",
+     "sha256": "f54c5b32b8bae21e2933a1a5e7dc351abd6ed34542e390eeeabddf0aedf81f7a",
+     "bytes": 55597
+    },
+    {
+     "path": "vehicles/vehicle-semi-spin-05@3x.png",
+     "sha256": "bfd91d93919aabf7ab6500aab64838f1dcdffb2330ded2c6c42e6fe6795e8045",
+     "bytes": 55522
+    }
+   ]
+  },
+  {
+   "id": "vehicle-semi-side",
+   "kind": "frames",
+   "scale": 3,
+   "fps": 24,
+   "files": [
+    {
+     "path": "vehicles/vehicle-semi-side-00@3x.png",
+     "sha256": "0485ba791eb63d5fec8bc04bc7e4f17e3fb5e971551228188b7bdc34a53dcdee",
+     "bytes": 15466
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-01@3x.png",
+     "sha256": "6f6bc15718c230f83f6f4a70160724c2a3063666a5aafa722416d080b23aa6aa",
+     "bytes": 15417
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-02@3x.png",
+     "sha256": "d26912ba229eb86fc132f7b7328d7bba4285272ae403795955927f7af090b215",
+     "bytes": 15517
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-03@3x.png",
+     "sha256": "9585c2ea08ba7fda951dcb463188a69660199250ce6a0356c973fb2b168708de",
+     "bytes": 15421
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-04@3x.png",
+     "sha256": "71b8d72d1f2d7197d7665d334218992628e513e378fc076e1fde4fec5c94aedd",
+     "bytes": 15424
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-05@3x.png",
+     "sha256": "2de58095c81e164ca0d6236f49808ad6730008404f1541b5955d307dba7c8043",
+     "bytes": 15455
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-06@3x.png",
+     "sha256": "7f3a2291f71447593e04d1232399a389839dd93e3ead9c8dd3b8abaf5e000d8c",
+     "bytes": 15448
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-07@3x.png",
+     "sha256": "a8028cf6ee8e7cd0730f62377a11a80c38e956813ae58641e235af3e6b8e3294",
+     "bytes": 15391
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-08@3x.png",
+     "sha256": "651321510c523d341d78a4de416607bd873676faa199b8240c8ad4a1d38bae17",
+     "bytes": 15455
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-09@3x.png",
+     "sha256": "977d49929a40e03ee6298fa787d47c80fd6d5b674d449806f1b7d673b0da0154",
+     "bytes": 15470
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-10@3x.png",
+     "sha256": "c0058ea99320c7bc7a8520bac2404ff257adec6c6f788be6e8229239a5efa328",
+     "bytes": 15457
+    },
+    {
+     "path": "vehicles/vehicle-semi-side-11@3x.png",
+     "sha256": "bf3a2861c8c5c72a45d32bbfd90261f0c5a201ea00df2b2ee1aa85bbf9d0244f",
+     "bytes": 15446
+    }
+   ]
+  },
+  {
+   "id": "loader-car",
+   "kind": "video",
+   "files": [
+    {
+     "path": "loader/loader-car.mp4",
+     "sha256": "ea6c60d44242d67c7f2505d5352984bafc3d7dc29601c7a37d984300eca392cf",
+     "bytes": 450195
+    }
+   ]
+  },
+  {
+   "id": "loader-moto",
+   "kind": "video",
+   "files": [
+    {
+     "path": "loader/loader-moto.mp4",
+     "sha256": "2cb999c628bcc62a9c1cd0c3ddb24b5954dc75abbbfbf1e694e4fe3d86895487",
+     "bytes": 460583
+    }
+   ]
+  },
+  {
+   "id": "loader-semi",
+   "kind": "video",
+   "files": [
+    {
+     "path": "loader/loader-semi.mp4",
+     "sha256": "749de5b82289c89499380bb41636fb9b99dddb085177d862d66322f01500f179",
+     "bytes": 367940
+    }
+   ]
+  }
+ ]
+}
