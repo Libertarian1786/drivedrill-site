@@ -75,10 +75,10 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 # price, trial and "7-day" guards run, so any other price, currency word or trial length, or any
 # rewording of these, still fails. Change a price in the App Store, change it here and on the pages.
 ALLOWED_COPY = (
-    # Prices verified read-only against App Store Connect (USA) on 2026-10-17; the strings are the page text.
-    "Weekly $7.99 with 3-day trial · Weekly $7.99 no trial (from version 1.8.4: $7.99 first week, then $19.99/week) · Weekly $4.99 no trial (special offer) · Monthly $24.99 · Pass Pack $15.99 one-time",
-    "CDL Weekly $9.99 with 3-day trial · CDL Weekly $9.99 no trial · CDL Weekly $7.99 no trial (special offer) · CDL Pass $35.99",
-    "Motorcycle Weekly $7.99 with 3-day trial · Motorcycle Weekly $7.99 no trial · Motorcycle Weekly $4.99 no trial (special offer) · Motorcycle Pass $15.99",
+    # 2026-10-17 owner: "pull all prices but the ones we are listing ie the 7.99 a week or 15.99 one time" + "the CDL has their own prices" (CDL $9.99/week, $35.99 Pass).
+    "Weekly $7.99 with 3-day trial · Pass Pack $15.99 one-time",
+    "CDL Weekly $9.99 with 3-day trial · CDL Pass $35.99 one-time",
+    "Motorcycle Weekly $7.99 with 3-day trial · Motorcycle Pass $15.99 one-time",
     "3-day free trial on weekly plans",
     "3 días de prueba gratis en los planes semanales",
 )
