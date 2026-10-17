@@ -41,3 +41,10 @@ Every App Store button is `<a class="button store-link" data-store="SLOT" href="
 every slot's address lives in `tools/store_links.py`. To point a set of buttons at a custom
 product page, change that slot's ONE line there, run `python tools/store_links.py` (it
 rewrites every page), check, commit, push.
+
+## Store art and video (2026-10-17)
+
+`img/store/` holds the approved 1.8.7 store screenshots (EN + ES, webp + jpg, 540 px wide) and
+`video/` the web versions (480 px, no audio, under 1 MB each, posters beside them) of the store
+videos. Source: `reports/drivedrill_marketing/store_shots_v2/final`. The hero of the home pages
+autoplays the muted knowledge-test loop; the other videos load on scroll.

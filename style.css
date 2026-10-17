@@ -268,7 +268,7 @@ svg.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-widt
 .prices dt { font-weight: 700; }
 .prices dd { margin: 0; color: var(--ink-2); }
 .prices .p { white-space: nowrap; }
-@media (max-width: 599px) { .prices div { flex-direction: column; } .prices .p { display: block; } .prices .dot { display: none; } }
+@media (max-width: 599px) { .prices div { flex-direction: column; } .prices .p { display: block; white-space: normal; } .prices .dot { display: none; } }
 .prices.plain { list-style: none; padding: 4px 20px; }
 .prices.plain li { margin: 0; padding: 14px 0; border-bottom: 1px solid #DDE4EF; color: var(--ink-2); font-size: 16px; line-height: 1.5; }
 .prices.plain li:last-child { border-bottom: 0; }
@@ -358,3 +358,47 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .foot-nav a:hover { text-decoration: underline; }
 .foot .disclaimer-line { margin: 20px 0 6px; line-height: 1.5; }
 .foot .copy { margin: 0; color: #AEB6C8; font-size: 14px; }
+
+/* ---------- 2026-10-17 marketing refresh: store art, video, feature gallery ---------- */
+.hero-art { position: relative; display: flex; justify-content: center; padding: 8px 20px 32px; }
+.hero-art picture, .hero-art video { display: block; width: min(250px, calc(100vw - 96px)); height: auto; border-radius: 26px; background: var(--blue-deep); box-shadow: 0 30px 60px -22px rgba(3, 14, 60, .65), 0 10px 26px -12px rgba(0, 0, 0, .4); overflow: hidden; }
+.hero-art img { display: block; width: 100%; height: auto; border-radius: 26px; }
+.hero-art video { aspect-ratio: 480 / 1040; object-fit: cover; }
+@media (min-width: 900px) {
+  .hero-art { padding: 0 0 56px; align-self: center; }
+  .hero-art picture, .hero-art video { width: min(320px, 28vw); border-radius: 32px; }
+  .hero-art img { border-radius: 32px; }
+}
+
+.steps3 { list-style: none; margin: 0 0 8px; padding: 0; display: grid; gap: 16px; }
+.steps3 li { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 22px 22px 20px; }
+.steps3 .n { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: #fff; font: 700 16px/1 var(--display); margin-bottom: 12px; }
+.steps3 h3 { margin: 0 0 6px; font: 700 21px/1.2 var(--display); letter-spacing: -.01em; }
+.steps3 p { margin: 0; color: var(--ink-2); font-size: 16.5px; line-height: 1.5; }
+@media (min-width: 760px) { .steps3 { grid-template-columns: repeat(3, 1fr); gap: 22px; } }
+
+.shots { list-style: none; margin: 0; padding: 4px 16px 18px; display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.shots li { flex: 0 0 auto; width: 214px; scroll-snap-align: start; }
+.shots picture, .shots img { display: block; width: 100%; height: auto; }
+.shots img { border-radius: 18px; box-shadow: 0 0 0 1px var(--line), 0 16px 32px -20px rgba(13, 30, 80, .45); aspect-ratio: 540 / 1173; background: var(--blue-deep); }
+.shots-wrap { margin: 0 -16px; }
+@media (min-width: 768px) { .shots-wrap { margin: 0; } .shots { padding-left: 0; padding-right: 0; } }
+@media (min-width: 1000px) {
+  .shots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px 20px; overflow: visible; }
+  .shots li { width: auto; }
+}
+
+.vids { display: grid; gap: 22px; justify-items: center; }
+.vid { margin: 0; text-align: center; width: min(250px, 100%); }
+.vid video { display: block; width: 100%; height: auto; aspect-ratio: 480 / 1040; border-radius: 22px; background: var(--blue-deep); box-shadow: 0 22px 44px -22px rgba(13, 30, 80, .55); object-fit: cover; }
+.vid figcaption { margin-top: 12px; font-size: 15.5px; color: var(--ink-2); line-height: 1.4; }
+@media (min-width: 760px) { .vids { grid-template-columns: repeat(3, 1fr); } .vid { width: min(260px, 100%); } }
+.vid-doc { margin: 0 0 28px; }
+
+.lane-art { display: block; background: var(--blue-deep); }
+.lane-art img { display: block; width: 100%; height: auto; aspect-ratio: 540 / 1173; object-fit: cover; object-position: top; }
+.lane-art-wrap { height: 300px; overflow: hidden; background: var(--blue-deep); }
+.road-art { max-height: 360px; overflow: hidden; background: var(--blue-deep); }
+.road-art img { display: block; width: 100%; max-width: 420px; margin: 0 auto; height: auto; }
+.more-line { margin: 18px 0 0; color: var(--ink-2); font-size: 16.5px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -79,13 +79,12 @@ GUARANTEE_NOTE_EN = ('Pass Guarantee: pass your knowledge test or get your money
 FOOTER_LINE_EN = "DriveDrill is an independent study app and is not affiliated with any state agency."
 
 # The hero phone of a state page: a capture that names no state, except on California's own page.
-PHONE_EN = ("/img/phone-practice.jpg",
-            "A DriveDrill practice question about an ambulance coming up to an intersection, "
-            "with a picture of the scene.")
+PHONE_EN = ("/img/store/02-road-scenes-en",
+            "A DriveDrill practice question with an animated road scene: an ambulance approaching "
+            "an intersection. Watch the road situation, then answer.")
 PHONE_EN_BY_STATE = {
-    "CA": ("/img/phone-exam-ca.jpg",
-           "DriveDrill's California mock exam, question 16 of 46: a railroad crossing question "
-           "with a picture of the crossing."),
+    "CA": ("/img/store/05-mock-exam-en",
+           "DriveDrill's California mock exam, question 16 of 46, with an optional timer."),
 }
 
 CHECK_SVG = ('<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'
@@ -396,9 +395,7 @@ def render_hero(*, crumbs: str, pill: str, h1: str, facts: str, cta: str, phone:
           {cta}
         </div>
       </div>
-      <div class="hero-phone">
-        <div class="device"><img src="{src}" width="760" height="1651" alt="{esc(alt)}"></div>
-      </div>
+      <div class="hero-art"><picture><source type="image/webp" srcset="{src}.webp"><img src="{src}.jpg" width="540" height="1173" alt="{esc(alt)}" decoding="async"></picture></div>
     </div>
   </section>"""
 

@@ -64,6 +64,7 @@
 
   <section class="sec">
     <div class="wrap prose">
+      <figure class="vid vid-doc"><video muted loop playsinline preload="none" poster="/video/guarantee-poster.jpg" width="480" height="1040" aria-label="Mock exam results and the Pass Guarantee"><source src="/video/guarantee.mp4" type="video/mp4"></video><figcaption>Pass your permit test or get your money back. Conditions apply, read them below.</figcaption></figure>
       <h2>What it covers</h2>
       <p>
         Any paid DriveDrill purchase: a weekly or monthly subscription charge, or a one-time pass
@@ -162,5 +163,18 @@
     <p class="copy">&copy; 2026 DriveDrill</p>
   </div>
 </footer>
+<script>
+(function () {
+  var v = document.querySelectorAll('video');
+  if (!v.length) return;
+  var rm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  for (var i = 0; i < v.length; i++) { v[i].muted = true; if (rm) { v[i].removeAttribute('autoplay'); v[i].pause(); } }
+  if (!('IntersectionObserver' in window) || rm) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { var el = e.target; if (e.isIntersecting) { var p = el.play(); if (p && p.catch) p.catch(function () {}); } else { el.pause(); } });
+  }, { threshold: .35 });
+  for (var j = 0; j < v.length; j++) io.observe(v[j]);
+})();
+</script>
 </body>
 </html>
