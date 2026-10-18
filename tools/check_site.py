@@ -79,8 +79,6 @@ ALLOWED_COPY = (
     "Weekly $7.99 with 3-day trial · Pass Pack $15.99 one-time",
     "CDL Weekly $9.99 with 3-day trial · CDL Pass $35.99 one-time",
     "Motorcycle Weekly $7.99 with 3-day trial · Motorcycle Pass $15.99 one-time",
-    "🔥 Sale: car permit $0.99 first week, then $7.99/week · One day only · Get it on the App Store",
-    "🔥 Oferta: permiso de auto $0.99 la primera semana, luego $7.99/semana · Solo hoy · Descárgala en el App Store",
     "3-day free trial on weekly plans",
     "3 días de prueba gratis en los planes semanales",
 )
