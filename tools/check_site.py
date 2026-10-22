@@ -77,11 +77,11 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 ALLOWED_COPY = (
     # 2026-10-17 owner: "pull all prices but the ones we are listing ie the 7.99 a week or 15.99 one time" + "the CDL has their own prices" (CDL $9.99/week, $35.99 Pass).
     # 2026-10-19 owner: "say "Full Access" with only one time charge of 17.99", "Can you change it 17.99 - Paid Once - No Subscription".
-    "Weekly $7.99 with 3-day trial · Full Access $17.99 - Paid Once - No Subscription",
-    "CDL Weekly $9.99 with 3-day trial · CDL Pass $35.99 one-time",
-    "Motorcycle Weekly $7.99 with 3-day trial · Motorcycle Full Access $17.99 - Paid Once - No Subscription",
-    "3-day free trial on weekly plans",
-    "3 días de prueba gratis en los planes semanales",
+    # 2026-10-23 owner ("Website reflect accurately our prices and purchase ability" -> "Yes to all"): 1.8.10 sells
+    # no free trial on any weekly plan, and Motorcycle is Full Access only (since 1.8.8).
+    "Weekly $7.99 · Full Access $17.99 - Paid Once - No Subscription",
+    "CDL Weekly $9.99 · CDL Pass $35.99 one-time",
+    "Motorcycle Full Access $17.99 - Paid Once - No Subscription",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
