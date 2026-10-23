@@ -689,7 +689,7 @@ STATIC_PAGES = [
     ("/guarantee/", "0.5"),
     ("/es/garantia/", "0.5"),
 ]
-LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html"]
+LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html", "/unlock.html"]
 
 # Pages whose sitemap entry also lists its hreflang pair (en, es, x-default = en): the same
 # set the page's own <head> declares. tools/check_site.py fails if the two ever disagree.

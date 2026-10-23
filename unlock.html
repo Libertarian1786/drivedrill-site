@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Unlock DriveDrill — DriveDrill</title>
+<meta name="description" content="Finish a DriveDrill purchase made on the web: open DriveDrill on the iPhone that will use it.">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#2163EB">
+<link rel="stylesheet" href="style.css">
+<style>
+  .unlock { max-width: 34rem; margin: 0 auto; text-align: center; }
+  .unlock h1, .unlock .h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .6rem; }
+  .unlock p { margin: .5rem 0; }
+  .unlock .big { display: block; width: 100%; margin: 1.4rem 0 .6rem; padding: 1rem 1.2rem; border-radius: 14px;
+    background: #2163EB; color: #fff; font-weight: 700; font-size: 1.15rem; text-decoration: none; border: 0; cursor: pointer; }
+  .unlock .second { display: block; width: 100%; margin: .4rem 0; padding: .85rem 1.2rem; border-radius: 14px;
+    background: #fff; color: #2163EB; font-weight: 700; font-size: 1rem; border: 2px solid #2163EB; cursor: pointer; }
+  .unlock .step { text-align: left; background: #F3F6FD; border-radius: 14px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+  .unlock .step ol { margin: .3rem 0 0 1.2rem; padding: 0; }
+  .unlock .fine { color: #5B6475; font-size: .92rem; }
+  .unlock [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
+  </div>
+</header>
+
+<main>
+  <section class="sec">
+    <div class="wrap unlock">
+
+      <!-- Owner 2026-10-23 ("Yes"): a purchase made on the web, finished in the app. RevenueCat sends the buyer here
+           after paying, with the redemption link in ?redeem_url=. The app (1.8.10 and later) answers drivedrill://
+           and hands RevenueCat's redemption link to RevenueCat whatever its scheme, so this page only swaps the
+           scheme. Nothing is stored or sent anywhere: the link stays in this page. -->
+      <div id="redeem" hidden>
+        <h1 data-t="r_title">Payment done. One last step.</h1>
+        <p data-t="r_body">Open this page on the iPhone that has DriveDrill, then tap the button.</p>
+        <a id="open" class="big" href="#" data-t="r_button">Open DriveDrill to unlock</a>
+        <div class="step">
+          <strong data-t="r_other_title">Paid on your own phone?</strong>
+          <p data-t="r_other_body">Send this page to your teen. They open it on their iPhone and tap the button.</p>
+          <button id="share" class="second" type="button" data-t="r_share">Send to my teen</button>
+          <p id="copied" class="fine" hidden data-t="r_copied">Link copied. Paste it in a message to your teen.</p>
+        </div>
+        <p class="fine" data-t="r_fine">Tap the button only once, on the iPhone that will use DriveDrill. Nothing happens? Make sure DriveDrill is installed and up to date, then open this page again.</p>
+      </div>
+
+      <div id="done" hidden>
+        <h2 class="h1" data-t="d_title">You're all set</h2>
+        <p data-t="d_body">DriveDrill is unlocked on your teen's phone. If it still shows the plans, have them close and reopen the app.</p>
+      </div>
+
+      <div id="none">
+        <h2 class="h1" data-t="n_title">Unlock DriveDrill</h2>
+        <p data-t="n_body">This page finishes a DriveDrill purchase made on the web. Open it from the link you got after paying.</p>
+      </div>
+
+      <p class="fine"><span data-t="help">Need help?</span> <a href="mailto:support@drivedrill.app">support@drivedrill.app</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav class="foot-nav" aria-label="Footer">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/support.html">Support</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var ES = {
+    r_title: "Pago listo. Un último paso.",
+    r_body: "Abre esta página en el iPhone que tiene DriveDrill y toca el botón.",
+    r_button: "Abrir DriveDrill para desbloquear",
+    r_other_title: "¿Pagaste en tu propio teléfono?",
+    r_other_body: "Envía esta página a tu hijo o hija. La abre en su iPhone y toca el botón.",
+    r_share: "Enviar a mi hijo o hija",
+    r_copied: "Enlace copiado. Pégalo en un mensaje para tu hijo o hija.",
+    r_fine: "Toca el botón solo una vez, en el iPhone que usará DriveDrill. ¿No pasa nada? Revisa que DriveDrill esté instalado y actualizado, y abre esta página otra vez.",
+    d_title: "Todo listo",
+    d_body: "DriveDrill ya está desbloqueado en el teléfono de tu hijo o hija. Si todavía ve los planes, que cierre la app y la vuelva a abrir.",
+    n_title: "Desbloquear DriveDrill",
+    n_body: "Esta página termina una compra de DriveDrill hecha en la web. Ábrela desde el enlace que recibiste después de pagar.",
+    help: "¿Necesitas ayuda?"
+  };
+  if ((navigator.language || "").toLowerCase().indexOf("es") === 0) {
+    document.documentElement.lang = "es";
+    var nodes = document.querySelectorAll("[data-t]");
+    for (var i = 0; i < nodes.length; i++) {
+      var k = nodes[i].getAttribute("data-t");
+      if (ES[k]) nodes[i].textContent = ES[k];
+    }
+  }
+  var q = new URLSearchParams(location.search);
+  var redeem = q.get("redeem_url") || "";
+  var m = /[?&]redemption_token=([A-Za-z0-9_\-]+)/.exec(redeem);
+  if (m) {
+    document.getElementById("none").hidden = true;
+    document.getElementById("redeem").hidden = false;
+    document.getElementById("open").href = "drivedrill://redeem_web_purchase?redemption_token=" + m[1];
+    document.getElementById("share").addEventListener("click", function () {
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: "DriveDrill", url: url }).catch(function () {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { document.getElementById("copied").hidden = false; });
+      }
+    });
+  } else if (q.get("app_user_id")) {
+    document.getElementById("none").hidden = true;
+    document.getElementById("done").hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

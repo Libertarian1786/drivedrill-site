@@ -46,7 +46,7 @@ SITE = "https://drivedrill.app"
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param",
         "source", "track", "wbr"}
 SKIP_FILES = {"googled6a639a37ec9b0af.html"}       # Search Console token, not a page
-LEGACY = {"/privacy.html", "/terms.html", "/support.html"}  # older pages: no canonical, no twin
+LEGACY = {"/privacy.html", "/terms.html", "/support.html", "/unlock.html"}  # older pages: no canonical, no twin
 # The Pass Guarantee page in each language, and the one-line note every selling page carries
 # under its first App Store button.
 GUARANTEE = {"en": "/guarantee/", "es": "/es/garantia/"}
