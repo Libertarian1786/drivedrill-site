@@ -105,7 +105,7 @@
   }
   var q = new URLSearchParams(location.search);
   var redeem = q.get("redeem_url") || "";
-  var m = /[?&]redemption_token=([A-Za-z0-9_\-]+)/.exec(redeem);
+  var m = /[?&]redemption_token=([A-Za-z0-9_.\-]+)/.exec(redeem);
   if (m) {
     document.getElementById("none").hidden = true;
     document.getElementById("redeem").hidden = false;
