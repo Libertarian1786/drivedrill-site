@@ -404,5 +404,5 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 /* 2026-10-24 (owner "Yes"): web checkout link under the hero App Store badge (1.8.11 redeems it). */
-.web-buy { font-size: 14.5px; max-width: 30em; margin: 0; color: inherit; opacity: .92; }
-.web-buy a { font-weight: 700; color: inherit; text-decoration: underline; }
+.web-buy { font-size: 14.5px; line-height: 1.45; max-width: 30em; margin: 0; color: #fff; }
+.web-buy a { font-weight: 700; color: #fff; text-underline-offset: 3px; }
