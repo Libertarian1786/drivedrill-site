@@ -402,3 +402,7 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .road-art img { display: block; width: 100%; max-width: 420px; margin: 0 auto; height: auto; }
 .more-line { margin: 18px 0 0; color: var(--ink-2); font-size: 16.5px; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* 2026-10-24 (owner "Yes"): web checkout link under the hero App Store badge (1.8.11 redeems it). */
+.web-buy { font-size: 14.5px; max-width: 30em; margin: 0; color: var(--muted, #5b6472); }
+.web-buy a { font-weight: 600; }
