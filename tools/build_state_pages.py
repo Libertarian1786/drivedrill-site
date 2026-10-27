@@ -686,6 +686,8 @@ STATIC_PAGES = [
     ("/es/", "0.9"),
     ("/es/cdl/", "0.8"),
     ("/es/motocicleta/", "0.8"),
+    ("/parents/", "0.8"),            # 2026-10-27: the parents page and its Spanish twin
+    ("/es/padres/", "0.8"),
     ("/guarantee/", "0.5"),
     ("/es/garantia/", "0.5"),
 ]
@@ -696,6 +698,8 @@ LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html", "/unlock.html"]
 SITEMAP_HREFLANG = {
     "/guarantee/": alternates("/guarantee/", "/es/garantia/"),
     "/es/garantia/": alternates("/guarantee/", "/es/garantia/"),
+    "/parents/": alternates("/parents/", "/es/padres/"),
+    "/es/padres/": alternates("/parents/", "/es/padres/"),
 }
 
 

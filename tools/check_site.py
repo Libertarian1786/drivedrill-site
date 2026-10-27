@@ -54,8 +54,8 @@ GUARANTEE_LINE = {
     "en": "Pass Guarantee: pass your knowledge test or get your money back.",
     "es": "Garantía de aprobación: apruebas tu examen de conocimientos o te devolvemos tu dinero.",
 }
-SELLING = {"/": "en", "/cdl/": "en", "/motorcycle/": "en",
-           "/es/": "es", "/es/cdl/": "es", "/es/motocicleta/": "es"}
+SELLING = {"/": "en", "/cdl/": "en", "/motorcycle/": "en", "/parents/": "en",
+           "/es/": "es", "/es/cdl/": "es", "/es/motocicleta/": "es", "/es/padres/": "es"}
 PRICE_FREE = set(SELLING) | {"/practice/"} | set(GUARANTEE.values())
 REQUIRED = PRICE_FREE | LEGACY        # hand-written pages that must exist
 STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus PRICE_FREE)
@@ -79,9 +79,14 @@ ALLOWED_COPY = (
     # 2026-10-19 owner: "say "Full Access" with only one time charge of 17.99", "Can you change it 17.99 - Paid Once - No Subscription".
     # 2026-10-23 owner ("Website reflect accurately our prices and purchase ability" -> "Yes to all"): 1.8.10 sells
     # no free trial on any weekly plan, and Motorcycle is Full Access only (since 1.8.8).
-    "Weekly $7.99 · Full Access $17.99 - Paid Once - No Subscription",
+    # 2026-10-27 owner price cut of 10-26 ($2.99 weekly, $9.99 one-time): car Weekly $2.99, car Full Access $9.99 and
+    # Motorcycle Full Access $9.99, in the App Store and on the web; CDL unchanged. The parents pages (/parents/,
+    # /es/padres/) print the same rows, the Spanish one in Spanish.
+    "Weekly $2.99 · Full Access $9.99 - Paid Once - No Subscription",
     "CDL Weekly $9.99 · CDL Pass $35.99 one-time",
-    "Motorcycle Full Access $17.99 - Paid Once - No Subscription",
+    "Motorcycle Full Access $9.99 - Paid Once - No Subscription",
+    "Semanal $2.99 · Acceso total $9.99 - Pago único - Sin suscripción",
+    "Acceso total de motocicleta $9.99 - Pago único - Sin suscripción",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(

@@ -406,3 +406,14 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 /* 2026-10-24 (owner "Yes"): web checkout link under the hero App Store badge (1.8.11 redeems it). */
 .web-buy { font-size: 14.5px; line-height: 1.45; max-width: 30em; margin: 0; color: #fff; }
 .web-buy a { font-weight: 700; color: #fff; text-underline-offset: 3px; }
+
+/* 2026-10-27: the parents page (/parents/, /es/padres/): pay-on-the-web buttons and the FAQ. */
+.btn-blue { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 20px; border-radius: 14px; background: var(--blue); color: #fff; font-weight: 700; font-size: 16px; text-decoration: none; }
+.btn-blue:hover { background: var(--blue-deep); }
+.pay-btns { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }
+.steps3 .small { margin-top: 10px; font-size: 14.5px; color: var(--muted); }
+.faq h3 { font: 700 19px/1.3 var(--display); margin: 28px 0 8px; }
+.faq h3:first-of-type { margin-top: 0; }
+.faq p { margin: 0 0 12px; color: var(--ink-2); }
+/* The header gained a fourth item ("Parents" / "Padres"); keep it clear of the brand on phones. */
+@media (max-width: 430px) { .nav { gap: 10px; } .nav a { font-size: 14.5px; } .nav .lang { padding: 2px 8px; } }
