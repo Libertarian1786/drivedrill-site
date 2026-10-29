@@ -417,3 +417,8 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .faq p { margin: 0 0 12px; color: var(--ink-2); }
 /* The header gained a fourth item ("Parents" / "Padres"); keep it clear of the brand on phones. */
 @media (max-width: 430px) { .nav { gap: 10px; } .nav a { font-size: 14.5px; } .nav .lang { padding: 2px 8px; } }
+/* State pages (2026-10-29): link chips and the topic list inside a prose column. */
+.prose .state-list { padding-left: 0; margin: 0 0 24px; }
+.prose .state-list li { margin: 0; }
+.prose .topics { columns: 2 16em; column-gap: 32px; }
+.prose .topics li { break-inside: avoid; margin: 4px 0; }

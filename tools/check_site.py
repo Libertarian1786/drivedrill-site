@@ -21,17 +21,24 @@ Checks every published page of drivedrill.app before it is pushed. Standard libr
     guarantee note linking to the guarantee page in its own language, and the terms and
     support pages link to it
   * every page can be reached from the home page by following links (no orphan pages)
-  * sitemap.xml lists exactly the pages that have a canonical, any hreflang it gives for a
-    page matches that page's own, and robots.txt points at it
+  * structured data: every JSON-LD block parses; state pages carry FAQPage (questions and answers
+    visible on the page) and BreadcrumbList (items are pages of this site); the app pages carry a
+    MobileApplication pointing at tools/store_links.py's App Store address, with no price or rating;
+    titles <= 60 and descriptions <= 155 characters on those pages
+  * sitemap.xml lists exactly the indexable pages that have a canonical (never a noindex page),
+    each with the lastmod of the day its file last changed, any hreflang it gives for a page
+    matches that page's own, and robots.txt points at it
 
 Usage:
     python tools/check_site.py            # exits 1 and lists every problem if anything fails
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 import xml.etree.ElementTree as ET
+from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urldefrag, urlparse
@@ -41,6 +48,7 @@ SITE_ROOT = TOOLS.parent
 sys.path.insert(0, str(TOOLS))
 
 import store_links  # noqa: E402
+import build_state_pages  # noqa: E402  (lastmod(): the sitemap date rule, shared with the build)
 
 SITE = "https://drivedrill.app"
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param",
@@ -61,6 +69,18 @@ REQUIRED = PRICE_FREE | LEGACY        # hand-written pages that must exist
 STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus PRICE_FREE)
 STATE_SLUGS_MIN = 51
 HEAD_MAX = 160                        # characters, for the guarantee pages' title and description
+
+# Structured data (JSON-LD). Every block must parse and name schema.org and a @type. The state
+# pages carry FAQPage (whose questions must be on the page, visibly) and BreadcrumbList (whose
+# items must be pages of this site, ending at the page itself); APP_PAGES carry the iOS app as a
+# MobileApplication, which must point at the App Store address in tools/store_links.py and must
+# carry no price (offers) and no rating or review (aggregateRating, review).
+APP_PAGES = {"/", "/practice/", "/cdl/", "/motorcycle/", "/es/", "/es/cdl/", "/es/motocicleta/"}
+APP_TYPES = {"MobileApplication", "SoftwareApplication"}
+APP_BANNED_KEYS = {"offers", "aggregateRating", "review", "price", "priceCurrency"}
+# Titles and descriptions of the pages tuned for search stay within what results show.
+SEARCH_TITLE_MAX, SEARCH_DESCRIPTION_MAX = 60, 155
+ISO_DAY = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 # Copy guards. The price guard reads only PRICE_FREE: the legal pages state prices on purpose,
 # and quiz questions on the state pages quote fines ("$250"). Quiz questions also quote
@@ -120,6 +140,10 @@ class Page(HTMLParser):
         self.iframes = 0
         self._in_title = False
         self._text: list[str] = []
+        self._visible: list[str] = []      # text outside <script>/<style>/<head>
+        self._hidden_depth = 0
+        self.jsonld: list[tuple[str, int]] = []   # (raw JSON-LD text, line)
+        self._in_jsonld = False
         self.saw_doctype = False
 
     # --- structure
@@ -159,6 +183,11 @@ class Page(HTMLParser):
             self.hreflang[a["hreflang"]] = a.get("href", "")
         elif tag == "script" and a.get("src"):
             self.scripts_external.append(a["src"])
+        if tag == "script" and a.get("type", "").strip().lower() == "application/ld+json":
+            self._in_jsonld = True
+            self.jsonld.append(("", line))
+        if tag in ("script", "style", "head") and not selfclosing:
+            self._hidden_depth += 1
         elif tag == "iframe":
             self.iframes += 1
         if tag == "a":
@@ -174,6 +203,10 @@ class Page(HTMLParser):
             return
         if tag == "title":
             self._in_title = False
+        if tag == "script":
+            self._in_jsonld = False
+        if tag in ("script", "style", "head") and self._hidden_depth:
+            self._hidden_depth -= 1
         if not self.stack:
             self.errors.append(f"line {line}: stray </{tag}>")
             return
@@ -192,6 +225,11 @@ class Page(HTMLParser):
     def handle_data(self, data):
         if self._in_title and self.titles:
             self.titles[-1] += data
+        if self._in_jsonld and self.jsonld:
+            raw, line = self.jsonld[-1]
+            self.jsonld[-1] = (raw + data, line)
+        if not self._hidden_depth:
+            self._visible.append(data)
         self._text.append(data)
 
     def finish(self):
@@ -204,6 +242,14 @@ class Page(HTMLParser):
     @property
     def text(self) -> str:
         return " ".join(self._text)
+
+    @property
+    def visible_text(self) -> str:
+        return re.sub(r"\s+", " ", "".join(self._visible)).strip()
+
+    @property
+    def noindex(self) -> bool:
+        return "noindex" in self.meta.get("robots", "").lower()
 
 
 def url_path_of(file: Path) -> str:
@@ -258,6 +304,96 @@ def file_for(url_path: str) -> Path | None:
     elif p.is_dir():
         return None  # "/es" without the slash would redirect; insist on the canonical form
     return p if p.is_file() else None
+
+
+def walk(node):
+    """Every dict inside a JSON value, the value itself included."""
+    if isinstance(node, dict):
+        yield node
+        for v in node.values():
+            yield from walk(v)
+    elif isinstance(node, list):
+        for v in node:
+            yield from walk(v)
+
+
+def check_structured_data(path: str, p: "Page", pages: dict) -> list[str]:
+    errors: list[str] = []
+    types: set[str] = set()
+    visible = p.visible_text
+    for raw, line in p.jsonld:
+        where = f"{path}: line {line}: JSON-LD"
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError as exc:
+            errors.append(f"{where} does not parse: {exc}")
+            continue
+        for block in (data if isinstance(data, list) else [data]):
+            if not isinstance(block, dict):
+                errors.append(f"{where} is not an object")
+                continue
+            if block.get("@context") not in ("https://schema.org", "http://schema.org"):
+                errors.append(f"{where}: @context is {block.get('@context')!r}, want https://schema.org")
+            kind = block.get("@type")
+            if not isinstance(kind, str) or not kind:
+                errors.append(f"{where}: no @type")
+                continue
+            types.add(kind)
+            if kind == "FAQPage":
+                qs = block.get("mainEntity")
+                if not isinstance(qs, list) or not qs:
+                    errors.append(f"{where}: FAQPage without questions")
+                    qs = []
+                for q in qs:
+                    answer = q.get("acceptedAnswer") if isinstance(q, dict) else None
+                    name = (q.get("name") or "").strip() if isinstance(q, dict) else ""
+                    text = (answer.get("text") or "").strip() if isinstance(answer, dict) else ""
+                    if not name or not text or q.get("@type") != "Question" or answer.get("@type") != "Answer":
+                        errors.append(f"{where}: FAQPage question without name, Answer or text: {str(q)[:120]}")
+                        continue
+                    if re.sub(r"\s+", " ", name) not in visible:
+                        errors.append(f"{where}: FAQ question {name!r} is not on the page")
+                    if re.sub(r"\s+", " ", text) not in visible:
+                        errors.append(f"{where}: FAQ answer to {name!r} differs from the one on the page")
+            elif kind == "BreadcrumbList":
+                items = block.get("itemListElement")
+                if not isinstance(items, list) or not items:
+                    errors.append(f"{where}: BreadcrumbList without items")
+                    continue
+                for i, item in enumerate(items, 1):
+                    if (not isinstance(item, dict) or item.get("@type") != "ListItem"
+                            or item.get("position") != i or not item.get("name")):
+                        errors.append(f"{where}: breadcrumb {i} needs @type ListItem, position {i} and a name")
+                        continue
+                    url = str(item.get("item", ""))
+                    r = resolve(path, url)
+                    if not url.startswith(SITE + "/") or not r or r[0] not in pages:
+                        errors.append(f"{where}: breadcrumb {i} item {url!r} is not a page on this site")
+                last = items[-1].get("item") if isinstance(items[-1], dict) else None
+                if last != SITE + path:
+                    errors.append(f"{where}: the last breadcrumb is {last!r}, want the page itself {SITE + path}")
+            elif kind in APP_TYPES:
+                for k in ("name", "operatingSystem", "applicationCategory"):
+                    if not block.get(k):
+                        errors.append(f"{where}: {kind} has no {k}")
+                banned = sorted({k for d in walk(block) for k in d} & APP_BANNED_KEYS)
+                if banned:
+                    errors.append(f"{where}: {kind} must not carry {banned} (no prices, no ratings)")
+                urls = [block.get("installUrl")] + list(block.get("sameAs") or [])
+                if store_links.APP_STORE not in urls:
+                    errors.append(f"{where}: {kind} does not point at the App Store address in tools/store_links.py")
+    state_page = bool(STATE_PAGE.fullmatch(path)) and path not in PRICE_FREE
+    want = ({"FAQPage", "BreadcrumbList"} if state_page else set()) | (
+        {"MobileApplication"} if path in APP_PAGES else set())
+    for kind in sorted(want - types):
+        errors.append(f"{path}: no {kind} JSON-LD")
+    if state_page or path in APP_PAGES:
+        title, desc = (p.titles[0] if p.titles else ""), p.meta.get("description", "")
+        if len(title) > SEARCH_TITLE_MAX:
+            errors.append(f"{path}: title is {len(title)} characters (max {SEARCH_TITLE_MAX}): {title!r}")
+        if len(desc) > SEARCH_DESCRIPTION_MAX:
+            errors.append(f"{path}: description is {len(desc)} characters (max {SEARCH_DESCRIPTION_MAX})")
+    return errors
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -372,6 +508,7 @@ def main(argv: list[str] | None = None) -> int:
             if m:
                 errors.append(f"{path}: a trial length in the copy ({around(where, m)!r}); only the exact "
                               f"trial strings in ALLOWED_COPY may state a trial length")
+        errors += check_structured_data(path, p, pages)
         if new_or_twin:
             if p.html_lang == "es":
                 head_text = (p.titles[0] if p.titles else "") + " " + p.meta.get("description", "")
@@ -440,6 +577,17 @@ def main(argv: list[str] | None = None) -> int:
         errors.append(f"sitemap.xml does not parse: {exc}")
         url_elems = []
     locs = [(u.findtext("s:loc", default="", namespaces=ns) or "").strip() for u in url_elems]
+    today = date.today().isoformat()
+    for u, loc in zip(url_elems, locs):
+        mod = (u.findtext("s:lastmod", default="", namespaces=ns) or "").strip()
+        r = resolve("/", loc)
+        if not ISO_DAY.fullmatch(mod) or mod > today:
+            errors.append(f"sitemap.xml: {loc} lastmod {mod!r} is not a date up to today")
+        elif r and r[0] in pages and mod != build_state_pages.lastmod(r[0], SITE_ROOT):
+            errors.append(f"sitemap.xml: {loc} lastmod {mod} is not the day the page last changed "
+                          f"({build_state_pages.lastmod(r[0], SITE_ROOT)}); run tools/build_state_pages.py")
+        if r and r[0] in pages and pages[r[0]].noindex:
+            errors.append(f"sitemap.xml: {loc} is noindex and must not be listed")
     sitemap_hreflang: dict[str, dict[str, str]] = {}
     for u, loc in zip(url_elems, locs):
         alts: dict[str, str] = {}
@@ -462,7 +610,8 @@ def main(argv: list[str] | None = None) -> int:
     for path in GUARANTEE.values():
         if not sitemap_hreflang.get(SITE + path):
             errors.append(f"sitemap.xml: {SITE + path} has no hreflang pair")
-    want = {SITE + path for path, p in pages.items() if p.canonical} | {SITE + x for x in LEGACY}
+    want = {SITE + path for path, p in pages.items() if p.canonical and not p.noindex} | {
+        SITE + x for x in LEGACY if x in pages and not pages[x].noindex}
     for missing in sorted(want - set(locs)):
         errors.append(f"sitemap.xml: missing {missing}")
     robots = (SITE_ROOT / "robots.txt").read_text(encoding="utf-8")

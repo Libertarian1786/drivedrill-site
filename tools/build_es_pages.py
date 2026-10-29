@@ -101,6 +101,17 @@ ES_NOTES = {
 # A state whose Spanish name takes the article inside a sentence (the app's pack strings).
 ARTICLE = {"DC": "el"}
 
+# The app's own Spanish topic labels (Localizable.xcstrings at APP_REF, the "es" value of each
+# English label in build_state_pages.TOPIC_EN).
+TOPIC_ES = {
+    "signs": "Señales de tránsito", "signals": "Semáforos y marcas viales",
+    "right-of-way": "Derecho de paso", "speed": "Velocidad y distancia",
+    "passing": "Rebase y uso de carriles", "parking": "Estacionamiento y paradas",
+    "sharing-road": "Compartir el camino", "impairment": "Alcohol y drogas",
+    "emergencies": "Emergencias y choques", "conditions": "Clima y noche",
+    "vehicle": "Vehículo y equipo", "licensing": "Licencias y sanciones",
+}
+
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
           "septiembre", "octubre", "noviembre", "diciembre"]
 
@@ -197,14 +208,113 @@ def facts_es(state: dict) -> tuple[str, str]:
     return count, "examen de práctica completo"
 
 
+def state_title(state: dict, n: Names) -> str:
+    """No "gratis" in a Spanish title or description (tools/check_site.py)."""
+    return en.fit([f"Examen de manejo {n.de} 2026: práctica del permiso | DriveDrill",
+                   f"Examen de manejo {n.de} 2026: práctica del permiso",
+                   f"Examen de práctica del permiso {n.de} 2026",
+                   f"Examen de manejo {n.de} 2026"], en.TITLE_MAX, "Spanish title")
+
+
 def meta_description(state: dict, n: Names) -> str:
-    count = len(state["questions"])
+    count, k = len(state["questions"]), en.NUM_QUIZ_QUESTIONS
     if state.get("examFormatVerified"):
-        exam = (f"{count} preguntas, simulacro de {state['examQuestionCount']}, "
+        exam = (f"{count} preguntas en la app, simulacro de {state['examQuestionCount']}, "
                 f"apruebas con {state['passScore']}.")
     else:
-        exam = f"{count} preguntas y un examen de práctica completo."
-    return f"Aprueba el examen {n.de} a la primera. {exam} Cada respuesta, explicada. Pruébalo aquí."
+        exam = f"{count} preguntas y exámenes de práctica completos en la app."
+    return en.fit([
+        f"Examen de práctica del permiso {n.de} 2026, en español: {k} preguntas con cada respuesta explicada. {exam}",
+        f"Examen de práctica del permiso {n.de} 2026: {k} preguntas con cada respuesta explicada. {exam}",
+        f"Práctica del permiso {n.de}: {k} preguntas con cada respuesta explicada. {exam}",
+    ], en.DESCRIPTION_MAX, "Spanish description")
+
+
+def spanish_test_es(state: dict, n: Names) -> str:
+    """The Spanish of build_state_pages.spanish_test_en (the pack's spanishTest)."""
+    test = state.get("spanishTest") or {}
+    a = test.get("knowledgeTestInSpanish")
+    check = " Los idiomas pueden cambiar: confírmalo antes del día del examen."
+    if a == "yes":
+        text = f"Una fuente oficial {n.de} indica que el examen de conocimientos se ofrece en español." + check
+    elif a == "online":
+        text = (f"El examen de conocimientos oficial en línea {n.de} se ofrece en español; no se publica en "
+                f"qué idiomas se da en persona." + check)
+    elif a == "no":
+        since = test.get("englishOnlySince")
+        text = (f"En {n.sentence}, el examen de conocimientos se da solo en inglés desde el {long_date(since)}."
+                if since else f"En {n.sentence}, el examen de conocimientos se da solo en inglés.")
+    elif a == "unconfirmed":
+        text = (f"No encontramos ninguna confirmación oficial de que {n.sentence} ofrezca el "
+                f"examen de conocimientos en español." + check)
+    else:
+        raise SystemExit(f"{state['stateCode']}: unknown spanishTest value {a!r}")
+    text = esc(contract(text))
+    if test.get("sourceURL"):
+        text += f' Fuente: <a href="{esc(test["sourceURL"])}">{esc(test.get("source") or "fuente oficial")}</a>.'
+    return text
+
+
+def faq_es(state: dict, n: Names) -> list[tuple[str, str]]:
+    """The Spanish twin of build_state_pages.faq_en: the same questions, in tú."""
+    slug, agency = state["_slug"], esc(state["agency"])
+    count, k = len(state["questions"]), en.NUM_QUIZ_QUESTIONS
+    handbook = f'<a href="{esc(state["handbookURL"])}">manual oficial del conductor {esc(n.de)}</a> ({agency})'
+    if state.get("examFormatVerified"):
+        how_many = format_intro(state, n)
+        mock = f"un simulacro de {state['examQuestionCount']} preguntas"
+    else:
+        how_many = (f"{esc(n.subj)} no publica en una página oficial que pudiéramos confirmar cuántas preguntas "
+                    f"tiene su examen de conocimientos ni cuántas hay que contestar bien, así que aquí no damos "
+                    f"cifras. El {handbook} es la fuente para estudiar.")
+        mock = "exámenes de práctica completos"
+    topics = en.topics_phrase(en.top_topics(state), TOPIC_ES, "y")
+    return [
+        (f"¿Cuántas preguntas tiene el examen de permiso {n.de}?", how_many),
+        (f"¿Puedo hacer el examen de permiso {n.de} en español?",
+         f'{spanish_test_es(state, n)} Las preguntas {esc(n.de)} en DriveDrill también están '
+         f'<a href="/practice/{slug}/" hreflang="en">en inglés</a>.'),
+        (f"¿Son estas las preguntas reales del examen {n.de}?",
+         f"No. Son preguntas de práctica escritas al estilo del examen de conocimientos {esc(n.de)}, no "
+         f"preguntas oficiales del examen. DriveDrill es una app de estudio independiente y no está "
+         f"afiliada a ningún organismo estatal."),
+        (f"¿Cuesta algo este examen de práctica {n.de}?",
+         f"No. Puedes responder las {k} preguntas de muestra de esta página sin pagar y sin registrarte, "
+         f"con cada respuesta explicada. La app DriveDrill para iPhone tiene las {count} preguntas "
+         f"{esc(n.de)} y {mock}."),
+        (f"¿Qué debo estudiar para el examen de permiso {n.de}?",
+         f"El {handbook} es la referencia autorizada para las reglas vigentes. Las preguntas {esc(n.de)} "
+         f"en DriveDrill cubren {topics}, entre otros temas."),
+        ("¿DriveDrill tiene práctica para la CDL y para motocicleta?",
+         'Sí. La app también tiene práctica para los <a href="/es/cdl/">exámenes de conocimientos de la '
+         'CDL</a> y el <a href="/es/motocicleta/">examen de permiso de motocicleta</a>, en español. Para '
+         'las familias: <a href="/es/padres/">DriveDrill para padres</a>.'),
+    ]
+
+
+def about_es(state: dict, n: Names, sample_specific: int) -> str:
+    count, spec = len(state["questions"]), en.specific_count(state)
+    if state.get("examFormatVerified"):
+        fmt = format_intro(state, n)
+        app = (f"{count} preguntas {esc(n.de)}, {spec} de ellas escritas para las reglas propias {esc(n.de)}, "
+               f"y un simulacro de {state['examQuestionCount']} preguntas que apruebas con {state['passScore']}.")
+    else:
+        fmt = (f"{esc(n.subj)} no publica en una página oficial que pudiéramos confirmar cuántas preguntas tiene "
+               f"su examen de conocimientos ni cuántas hay que contestar bien, así que aquí no damos cifras.")
+        app = (f"{count} preguntas {esc(n.de)}, {spec} de ellas escritas para las reglas propias {esc(n.de)}, "
+               f"y exámenes de práctica completos.")
+    topics = "\n".join(f"        <li>{esc(TOPIC_ES[t])}: {c}</li>" for t, c in en.topic_counts(state))
+    return f"""      <h2 class="sec-title" id="about-title">Sobre el examen de conocimientos {esc(n.de)}</h2>
+      <ul>
+        <li><strong>Formato:</strong> {fmt}</li>
+        <li><strong>En español:</strong> {spanish_test_es(state, n)}</li>
+        <li><strong>Qué estudiar:</strong> el <a href="{esc(state['handbookURL'])}">manual oficial del conductor {esc(n.de)}</a> ({esc(state['agency'])}), siempre la referencia autorizada para las reglas vigentes.</li>
+        <li><strong>En DriveDrill:</strong> {app}</li>
+      </ul>
+      <p>Las {en.NUM_QUIZ_QUESTIONS} preguntas de arriba incluyen {sample_specific} sobre reglas propias {esc(n.de)}. Temas del banco de preguntas {esc(n.de)} en DriveDrill (preguntas por tema; una pregunta puede cubrir dos):</p>
+      <ul class="topics">
+{topics}
+      </ul>"""
 
 
 def render_header(en_href: str = "/") -> str:
@@ -253,21 +363,37 @@ QUIZ_WORDS_ES = """  var T = {
   };"""
 
 
-def render_state_page(state: dict, es_pack: dict, questions: list[dict]) -> str:
+def render_state_page(state: dict, es_pack: dict, questions: list[dict],
+                      es_packs: dict[str, dict], by_code: dict[str, dict]) -> str:
     code, slug, agency = state["stateCode"], state["_slug"], state["agency"]
     n = names_for(code, es_pack)
     floor = QUESTION_FLOOR
+    sample_specific = sum(1 for q in questions if q["id"].startswith(code.lower() + "-"))
 
-    title = f"Examen de manejo {n.de} 2026: preguntas de práctica | DriveDrill"
+    faq = faq_es(state, n)
+    title = state_title(state, n)
     head = en.render_head(title, meta_description(state, n), f"{SITE_URL}/es/{slug}/",
-                          en.alternates(f"/practice/{slug}/", f"/es/{slug}/"))
+                          en.alternates(f"/practice/{slug}/", f"/es/{slug}/"),
+                          extra=en.faq_jsonld(faq) + "\n" + en.breadcrumb_jsonld(
+                              [("DriveDrill en español", "/es/"),
+                               (f"Examen de práctica del permiso {n.de}", f"/es/{slug}/")]))
     blocks = "\n".join(en.render_question_block(q, i + 1, qprefix="P") for i, q in enumerate(questions))
+
+    bordering, related = en.related_states(state, by_code)
+    related_title = (f"Exámenes de práctica de los estados vecinos {esc(n.de)}" if bordering
+                     else "Más exámenes de práctica por estado")
+    related_html = en.chip_list(
+        [(f"/es/{s['_slug']}/", f"Examen de práctica {names_for(s['stateCode'], es_packs[s['stateCode']]).de}")
+         for s in sorted(related, key=lambda s: sort_key(es_packs[s['stateCode']]['stateName']))]
+        + [("/es/#estados", "Los 50 estados y DC")])
+    more_html = en.chip_list([("/es/cdl/", "Examen de la CDL"), ("/es/motocicleta/", "Examen de motocicleta"),
+                              ("/es/padres/", "Para padres"), ("/es/garantia/", "Garantía de aprobación")])
 
     hero = en.render_hero(
         crumbs=(f'<p class="crumbs"><a href="/es/#estados">&larr; Los 51 exámenes de práctica</a>'
                 f'<a href="/practice/{slug}/" hreflang="en" lang="en">In English</a></p>'),
         pill=PILL_ES,
-        h1=f'Aprueba el examen {esc(n.de)} <span class="hl">a la primera.</span>',
+        h1=f'Examen de práctica del permiso {esc(n.de)} <span class="hl">2026</span>',
         facts=en.facts_line(*facts_es(state)),
         cta=(f'{en.store_button("es-car", "es")}\n'
              f'          <p class="trial-note">{CHECK_SVG}{TRIAL_ES}</p>\n'
@@ -286,11 +412,10 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict]) -> str:
 
   <section class="sec" id="muestra" aria-labelledby="sample-title">
     <div class="wrap quiz-wrap">
-      <p class="updated">10 preguntas de muestra abajo &middot; más de {floor} en la app &middot; respuestas explicadas</p>
+      <p class="updated">{len(questions)} preguntas de muestra abajo &middot; más de {floor} en la app &middot; respuestas explicadas</p>
 
-{spanish_test_notice(state, n)}      <div class="lede">{format_intro(state, n)}</div>
-
-      <h2 class="sec-title" id="sample-title">Practica con preguntas {esc(n.de)}</h2>
+{spanish_test_notice(state, n)}
+      <h2 class="sec-title" id="sample-title">Examen de manejo {esc(n.de)} en español: {len(questions)} preguntas de práctica</h2>
       <p class="sec-sub">
         Elige una respuesta en cada pregunta para ver si acertaste, con una explicación.
         Es una muestra corta: DriveDrill tiene más de {floor} preguntas {esc(n.de)}
@@ -308,7 +433,28 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict]) -> str:
         <p class="cta">{en.store_button("es-car", "es")}</p>
         <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, en la app toca Ajustes › Idioma: se abre DriveDrill en la app Configuración, donde puedes elegir Español.</p>
       </div>
+    </div>
+  </section>
 
+  <section class="sec sec-alt" id="sobre" aria-labelledby="about-title">
+    <div class="wrap prose">
+{about_es(state, n, sample_specific)}
+    </div>
+  </section>
+
+  <section class="sec" id="preguntas-frecuentes" aria-labelledby="faq-title">
+    <div class="wrap prose faq">
+      <h2 class="sec-title" id="faq-title">Examen de permiso {esc(n.de)}: preguntas frecuentes</h2>
+{en.faq_html(faq)}
+    </div>
+  </section>
+
+  <section class="sec sec-alt" id="mas" aria-labelledby="related-title">
+    <div class="wrap prose">
+      <h2 class="sec-title" id="related-title">{related_title}</h2>
+{related_html}
+      <h2 class="sec-title" id="more-title">Más práctica en DriveDrill</h2>
+{more_html}
       <div class="after-quiz">
         <p>
           Fuente oficial: <a href="{esc(state['handbookURL'])}">manual del conductor {esc(n.de)} ({esc(agency)})</a>
@@ -361,7 +507,7 @@ def inject_state_list(index_path: Path, list_html: str) -> None:
             f.write(new)
 
 
-def build(site_root: Path, states: list[dict], es_packs: dict[str, dict]) -> int:
+def build(site_root: Path, states: list[dict], es_packs: dict[str, dict], by_code: dict[str, dict]) -> int:
     """Writes es/<slug>/index.html for every state and the /es/ list. Needs each state's
     '_quiz_ids' (set by build_state_pages) so each twin shows the same questions."""
     for state in states:
@@ -374,8 +520,13 @@ def build(site_root: Path, states: list[dict], es_packs: dict[str, dict]) -> int
         questions = [by_id[qid] for qid in state["_quiz_ids"]]
         page_dir = es_dir / state["_slug"]
         page_dir.mkdir(parents=True, exist_ok=True)
-        (page_dir / "index.html").write_text(render_state_page(state, pack, questions), encoding="utf-8")
+        (page_dir / "index.html").write_text(render_state_page(state, pack, questions, es_packs, by_code),
+                                             encoding="utf-8")
     inject_state_list(es_dir / "index.html", render_state_list(states, es_packs))
+    # The hand-written /es/ says how many sample questions each state page has.
+    want = f"Cada página tiene {en.NUM_QUIZ_QUESTIONS} preguntas de muestra"
+    if want not in (es_dir / "index.html").read_text(encoding="utf-8"):
+        raise SystemExit(f"es/index.html: update the sample count above the state list to {want!r}")
     return len(states)
 
 

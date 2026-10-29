@@ -2,7 +2,9 @@
 """
 Builds the generated pages of drivedrill.app from DriveDrill's own question packs:
 
-  practice/<state-slug>/index.html   English: a 10-question sample quiz per state (51)
+  practice/<state-slug>/index.html   English: a 25-question sample quiz per state (51), a guide to
+                                     the state's test, a FAQ, links to nearby states, and
+                                     FAQPage + BreadcrumbList JSON-LD
   practice/index.html                English: the list of all 51
   es/<state-slug>/index.html         Spanish twin of every state page (51), from the
                                      Spanish packs; templates in tools/build_es_pages.py
@@ -17,7 +19,8 @@ The packs are read, never written, from the DriveDrill app repo AT A GIT COMMIT,
 is reproducible and does not depend on which branch that repo has checked out. APP_REF below
 is the commit of the version on the App Store; bump it when a version with new questions goes
 live. --app-ref builds from another commit; --content reads an already extracted Content dir.
-An English state page and its Spanish twin always show the same 10 questions.
+An English state page and its Spanish twin always show the same 25 questions. The build also
+writes the app's MobileApplication JSON-LD into the hand-written pages in APP_JSONLD_PAGES.
 
 Usage:
     python tools/build_state_pages.py [--app-ref REF | --content DIR]
@@ -44,17 +47,70 @@ sys.path.insert(0, str(TOOLS))
 import store_links  # noqa: E402  (tools/store_links.py: the one place store URLs live)
 
 APP_REPO = Path(r"C:\dev\DriveDrill-DMV")
-# Version 1.6.1 ("subscription access audit"), live on the App Store on 2026-10-03. The question
-# packs are byte-identical through 1.7 (66c7c6f) and 1.8 (06efb1a).
-APP_REF = "1d31d68"
+# Version 1.8.14 (build 61), live on the App Store since 2026-10-26. Its car question packs
+# match 1.6.1 (1d31d68, the ref before 2026-10-29) question for question; only each pack's
+# "updated" date moved.
+APP_REF = "ada6d0d1"
 CONTENT_IN_REPO = "DriveDrill/Resources/Content"
 
 APP_STORE_URL = store_links.STORE_LINKS["car"]
 SITE_URL = "https://drivedrill.app"
 TODAY = date.today().isoformat()
 
-NUM_QUIZ_QUESTIONS = 10
-NUM_STATE_SPECIFIC = 4  # of the 10, how many must be state-specific (id "<code>-...")
+NUM_QUIZ_QUESTIONS = 25
+NUM_STATE_SPECIFIC = 10  # of the 25, how many must be state-specific (id "<code>-...")
+
+# Search results show about this much of a title; every generated title stays within it.
+TITLE_MAX = 60
+
+# The app's topic labels (DriveDrill/Models/Question.swift, QuestionTag.labels and .order, at
+# APP_REF). The Spanish ones are the app's own, from Localizable.xcstrings (build_es_pages.py).
+TOPIC_ORDER = ["signs", "signals", "right-of-way", "speed", "passing", "parking",
+               "sharing-road", "impairment", "emergencies", "conditions", "vehicle", "licensing"]
+TOPIC_EN = {
+    "signs": "Road Signs", "signals": "Signals & Markings", "right-of-way": "Right of Way",
+    "speed": "Speed & Following", "passing": "Passing & Lane Use", "parking": "Parking & Stopping",
+    "sharing-road": "Sharing the Road", "impairment": "Alcohol & Drugs",
+    "emergencies": "Emergencies & Crashes", "conditions": "Weather & Night",
+    "vehicle": "Vehicle & Equipment", "licensing": "Licensing & Penalties",
+}
+
+# Which states share a land border (DC: Maryland and Virginia). Four Corners point contacts are
+# not borders. Alaska and Hawaii have none, so their pages link a few other states instead
+# (OTHER_STATES), under a different heading. The build checks the map is symmetric.
+NEIGHBORS = {
+    "AL": "FL GA MS TN", "AK": "", "AZ": "CA NV UT NM", "AR": "MO TN MS LA TX OK",
+    "CA": "OR NV AZ", "CO": "WY NE KS OK NM UT", "CT": "NY MA RI", "DE": "MD PA NJ",
+    "DC": "MD VA", "FL": "AL GA", "GA": "FL AL TN NC SC", "HI": "", "ID": "WA OR NV UT WY MT",
+    "IL": "WI IA MO KY IN", "IN": "IL MI OH KY", "IA": "MN WI IL MO NE SD", "KS": "NE MO OK CO",
+    "KY": "IL IN OH WV VA TN MO", "LA": "TX AR MS", "ME": "NH", "MD": "PA DE VA WV DC",
+    "MA": "RI CT NY VT NH", "MI": "IN OH WI", "MN": "ND SD IA WI", "MS": "LA AR TN AL",
+    "MO": "IA IL KY TN AR OK KS NE", "MT": "ID WY SD ND", "NE": "SD IA MO KS CO WY",
+    "NV": "CA OR ID UT AZ", "NH": "ME MA VT", "NJ": "NY PA DE", "NM": "AZ CO OK TX",
+    "NY": "VT MA CT NJ PA", "NC": "VA TN GA SC", "ND": "MN SD MT", "OH": "PA WV KY IN MI",
+    "OK": "KS MO AR TX NM CO", "OR": "WA ID NV CA", "PA": "NY NJ DE MD WV OH", "RI": "CT MA",
+    "SC": "NC GA", "SD": "ND MN IA NE WY MT", "TN": "KY VA NC GA AL MS AR MO", "TX": "NM OK AR LA",
+    "UT": "ID WY CO AZ NV", "VT": "NH MA NY", "VA": "MD DC WV KY TN NC", "WA": "ID OR",
+    "WV": "OH PA MD VA KY", "WI": "MI MN IA IL", "WY": "MT SD NE CO UT ID",
+}
+OTHER_STATES = {"AK": "WA HI OR", "HI": "CA AK WA"}
+
+MONTHS_EN = ["January", "February", "March", "April", "May", "June", "July", "August",
+             "September", "October", "November", "December"]
+
+# The hand-written pages that carry the app's MobileApplication JSON-LD, between these markers
+# just before </head>; the build writes what goes between them (see app_jsonld). /practice/ is
+# generated and gets it in render_index_page.
+APP_JSONLD_BEGIN = "<!-- BEGIN app-jsonld: generated by tools/build_state_pages.py; edit the generator, not this block -->"
+APP_JSONLD_END = "<!-- END app-jsonld -->"
+APP_JSONLD_PAGES = {
+    "index.html": "en",
+    "cdl/index.html": "en",
+    "motorcycle/index.html": "en",
+    "es/index.html": "es",
+    "es/cdl/index.html": "es",
+    "es/motocicleta/index.html": "es",
+}
 
 # Every state's bank has at least this many questions, in English and in Spanish; the build
 # stops if a pack ever has fewer, so "más de 230" on the Spanish state pages cannot go stale silently.
@@ -265,14 +321,196 @@ def facts_en(state: dict) -> tuple[str, str]:
     return count, "full practice exam"
 
 
+def fit(candidates: list[str], limit: int, what: str) -> str:
+    """The first candidate that fits in `limit` characters; the build stops if none does."""
+    for c in candidates:
+        if len(c) <= limit:
+            return c
+    raise SystemExit(f"No {what} fits in {limit} characters: {candidates}")
+
+
+def state_title(state: dict) -> str:
+    name, short = state["stateName"], short_name(state)
+    return fit([f"{name} Permit Practice Test 2026 (Free) | DriveDrill",
+                f"{short} Permit Practice Test 2026 (Free) | DriveDrill",
+                f"{name} Permit Practice Test 2026 (Free)",
+                f"{short} Permit Practice Test 2026 (Free)"], TITLE_MAX, "title")
+
+
 def meta_description(state: dict) -> str:
-    n = len(state["questions"])
+    n, k = len(state["questions"]), NUM_QUIZ_QUESTIONS
+    name, short = state["stateName"], short_name(state)
     if state.get("examFormatVerified"):
-        exam = f"{n} questions, mock exam of {state['examQuestionCount']}, pass with {state['passScore']}."
+        exam = f"{n} questions in the app, mock exam of {state['examQuestionCount']}, pass with {state['passScore']}."
     else:
-        exam = f"{n} questions and a full practice exam."
-    return (f"Pass the {short_name(state)} permit test first try. {exam} "
-            f"Every answer explained. Try 10 sample questions here.")
+        exam = f"{n} questions and full practice exams in the app."
+    cands = []
+    for s in (name, short):
+        cands += [f"Free {s} permit practice test for 2026: {k} DMV-style questions, every answer explained. {exam}",
+                  f"Free {s} permit practice test for 2026: {k} questions, every answer explained. {exam}",
+                  f"Free {s} permit practice test: {k} questions, every answer explained. {exam}"]
+    return fit(cands, DESCRIPTION_MAX, "description")
+
+
+def topic_counts(state: dict) -> list[tuple[str, int]]:
+    """(tag, number of the state's questions with that tag), in the app's topic order. A
+    question can carry two tags, so the counts add up to more than the bank."""
+    counts = {t: 0 for t in TOPIC_ORDER}
+    for q in state["questions"]:
+        for t in q.get("tags", []):
+            if t in counts:
+                counts[t] += 1
+    return [(t, c) for t, c in counts.items() if c]
+
+
+def top_topics(state: dict, n: int = 4) -> list[str]:
+    """The n most-covered topic tags of a state's bank, most first (ties in the app's order)."""
+    return [t for t, _ in sorted(topic_counts(state), key=lambda tc: -tc[1])[:n]]
+
+
+def specific_count(state: dict) -> int:
+    """How many questions of the bank were written for the state itself (id "<code>-...")."""
+    code = state["stateCode"].lower()
+    return sum(1 for q in state["questions"] if q["id"].startswith(code + "-"))
+
+
+def check_neighbors(states: list[dict]) -> None:
+    codes = {s["stateCode"] for s in states}
+    if set(NEIGHBORS) != codes:
+        raise SystemExit(f"NEIGHBORS does not list exactly the 51 states: {sorted(set(NEIGHBORS) ^ codes)}")
+    for a, row in NEIGHBORS.items():
+        for b in row.split():
+            if a not in NEIGHBORS[b].split():
+                raise SystemExit(f"NEIGHBORS is not symmetric: {a} lists {b}, {b} does not list {a}")
+    for a, row in OTHER_STATES.items():
+        if NEIGHBORS[a] or not set(row.split()) <= codes:
+            raise SystemExit(f"OTHER_STATES[{a}] is wrong")
+
+
+def related_states(state: dict, by_code: dict[str, dict]) -> tuple[bool, list[dict]]:
+    """(True if these are bordering states, the states), sorted by name."""
+    code = state["stateCode"]
+    row = NEIGHBORS[code] or OTHER_STATES[code]
+    return bool(NEIGHBORS[code]), sorted((by_code[c] for c in row.split()), key=lambda s: s["stateName"])
+
+
+def long_date_en(iso: str) -> str:
+    y, m, d = (int(x) for x in iso.split("-"))
+    return f"{MONTHS_EN[m - 1]} {d}, {y}"
+
+
+def spanish_test_en(state: dict) -> str:
+    """Whether the state gives the knowledge test in Spanish, as the app's pack records it
+    (spanishTest; the meaning of each value is the app's SpanishTest.Availability)."""
+    name, agency = esc(state["stateName"]), esc(state["agency"])
+    test = state.get("spanishTest") or {}
+    a = test.get("knowledgeTestInSpanish")
+    check = f" Languages can change, so check with the {name} {agency} before test day."
+    if a == "yes":
+        text = f"An official {name} source names Spanish for the knowledge test." + check
+    elif a == "online":
+        text = (f"{name}'s official online knowledge test offers Spanish; the languages offered in "
+                f"person are not published." + check)
+    elif a == "no":
+        since = test.get("englishOnlySince")
+        text = (f"{name} gives the knowledge test in English only, since {long_date_en(since)}."
+                if since else f"{name} gives the knowledge test in English only.")
+    elif a == "unconfirmed":
+        text = f"We found no official source that says {name} offers the knowledge test in Spanish." + check
+    else:
+        raise SystemExit(f"{state['stateCode']}: unknown spanishTest value {a!r}")
+    if test.get("sourceURL"):
+        label = esc(test.get("source") or "Source")
+        text += f' Source: <a href="{esc(test["sourceURL"])}">{label}</a>.'
+    return text
+
+
+# ------------------------------------------------------------------------------ structured data
+
+def strip_tags(fragment: str) -> str:
+    return html.unescape(re.sub(r"<[^>]+>", "", fragment)).strip()
+
+
+def jsonld(obj: dict) -> str:
+    """A JSON-LD block. '</' is escaped so no string can close the script element."""
+    body = json.dumps(obj, ensure_ascii=False, indent=1).replace("</", "<\\/")
+    return f'<script type="application/ld+json">\n{body}\n</script>'
+
+
+def faq_jsonld(items: list[tuple[str, str]]) -> str:
+    """FAQPage for the visible FAQ section: the same questions, and each answer as plain text."""
+    return jsonld({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": strip_tags(a)}}
+            for q, a in items
+        ],
+    })
+
+
+def breadcrumb_jsonld(crumbs: list[tuple[str, str]]) -> str:
+    return jsonld({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": name, "item": SITE_URL + path}
+            for i, (name, path) in enumerate(crumbs)
+        ],
+    })
+
+
+APP_DESCRIPTION = {
+    "en": ("Permit practice tests for all 50 states and DC, with CDL and motorcycle practice, "
+           "every answer explained, in English and Spanish."),
+    "es": ("Práctica para el examen de permiso de manejo de los 50 estados y DC, con práctica de "
+           "CDL y motocicleta y cada respuesta explicada, en inglés y en español."),
+}
+
+
+def app_jsonld(lang: str) -> str:
+    """The iOS app as a MobileApplication. Deliberately no offers/price (the site prints prices
+    only in the approved strings) and no aggregateRating or review (too few ratings, and Google
+    does not want self-serving ratings on the seller's own pages); no person named."""
+    store = store_links.APP_STORE
+    return jsonld({
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "DriveDrill",
+        "operatingSystem": "iOS",
+        "applicationCategory": "EducationalApplication",
+        "description": APP_DESCRIPTION[lang],
+        "inLanguage": ["en", "es"],
+        "url": f"{SITE_URL}/" if lang == "en" else f"{SITE_URL}/es/",
+        "installUrl": store,
+        "sameAs": [store],
+        "image": f"{SITE_URL}/apple-touch-icon.png",
+    })
+
+
+def website_jsonld() -> str:
+    """The site's name for search results (home page only)."""
+    return jsonld({"@context": "https://schema.org", "@type": "WebSite",
+                   "name": "DriveDrill", "url": f"{SITE_URL}/"})
+
+
+def inject_app_jsonld(site_root: Path) -> None:
+    """Writes the app's JSON-LD (plus WebSite on the home page) between the markers of every
+    page in APP_JSONLD_PAGES."""
+    for rel, lang in APP_JSONLD_PAGES.items():
+        path = site_root / rel
+        with path.open(encoding="utf-8", newline="") as f:
+            text = f.read()
+        start, end = text.find(APP_JSONLD_BEGIN), text.find(APP_JSONLD_END)
+        if start < 0 or end < start:
+            raise SystemExit(f"{path}: the BEGIN/END app-jsonld markers are missing")
+        nl = "\r\n" if "\r\n" in text else "\n"
+        block = app_jsonld(lang) + ("\n" + website_jsonld() if rel == "index.html" else "")
+        new = text[: start + len(APP_JSONLD_BEGIN)] + nl + block.replace("\n", nl) + nl + text[end:]
+        if new != text:
+            with path.open("w", encoding="utf-8", newline="") as f:
+                f.write(new)
 
 
 # ------------------------------------------------------------------------------ page parts
@@ -287,10 +525,14 @@ def alternates(en_path: str, es_path: str) -> dict[str, str]:
 
 
 def render_head(title: str, description: str, canonical: str,
-                hreflang: dict[str, str] | None = None) -> str:
+                hreflang: dict[str, str] | None = None, extra: str = "") -> str:
+    """extra: JSON-LD blocks, written just before the stylesheet link."""
     if len(description) > DESCRIPTION_MAX:
         raise SystemExit(f"{canonical}: meta description is {len(description)} characters "
                          f"(max {DESCRIPTION_MAX}): {description}")
+    if len(title) > TITLE_MAX:
+        raise SystemExit(f"{canonical}: title is {len(title)} characters (max {TITLE_MAX}): {title}")
+    extra = extra + "\n" if extra else ""
     alt = "".join(
         f'<link rel="alternate" hreflang="{lang}" href="{esc(url)}">\n'
         for lang, url in (hreflang or {}).items()
@@ -318,7 +560,7 @@ def render_head(title: str, description: str, canonical: str,
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(description)}">
 <meta name="twitter:image" content="{SITE_URL}/og.png">
-<link rel="stylesheet" href="/style.css">
+{extra}<link rel="stylesheet" href="/style.css">
 </head>"""
 
 
@@ -518,18 +760,109 @@ FILTER_SCRIPT = """<script>
 
 # ------------------------------------------------------------------------------ English pages
 
-def render_state_page(state: dict, questions: list[dict]) -> str:
+def topics_phrase(tags: list[str], labels: dict[str, str], conj: str) -> str:
+    """"road signs, right of way, sharing the road and licensing and penalties"."""
+    words = [labels[t].lower().replace(" & ", f" {conj} ") for t in tags]
+    return ", ".join(words[:-1]) + f" {conj} " + words[-1] if len(words) > 1 else "".join(words)
+
+
+def chip_list(links: list[tuple[str, str]], lang: str | None = None) -> str:
+    attr = f' hreflang="{lang}"' if lang else ""
+    rows = "\n".join(f'        <li><a href="{href}"{attr}>{esc(label)}</a></li>' for href, label in links)
+    return f'      <ul class="state-list related">\n{rows}\n      </ul>'
+
+
+def faq_html(items: list[tuple[str, str]]) -> str:
+    return "\n".join(f"      <h3>{esc(q)}</h3>\n      <p>{a}</p>" for q, a in items)
+
+
+def faq_en(state: dict) -> list[tuple[str, str]]:
+    """The FAQ of an English state page: (question, answer HTML). Every number comes from the
+    pack, and only where its format is verified."""
+    name, agency, slug = esc(state["stateName"]), esc(state["agency"]), state["_slug"]
+    n, k = len(state["questions"]), NUM_QUIZ_QUESTIONS
+    handbook = f'<a href="{esc(state["handbookURL"])}">{name} {agency} driver handbook</a>'
+    if state.get("examFormatVerified"):
+        count = format_intro(state)
+        mock = f"a {state['examQuestionCount']}-question mock exam"
+    else:
+        count = (f"{name} doesn't publish its knowledge-test length and pass score on an official page "
+                 f"we could confirm, so we don't give a number here. The {handbook} is the source to study from.")
+        mock = "full practice exams"
+    topics = topics_phrase(top_topics(state), TOPIC_EN, "and")
+    return [
+        (f"How many questions are on the {state['stateName']} permit test?", count),
+        (f"Can I take the {state['stateName']} permit test in Spanish?",
+         f'{spanish_test_en(state)} DriveDrill\'s {name} questions are also <a href="/es/{slug}/" '
+         f'hreflang="es">in Spanish</a>.'),
+        (f"Are these the real {state['stateName']} test questions?",
+         f"No. They are practice questions written in the style of {name}'s knowledge test, not official "
+         f"test questions. DriveDrill is an independent study app and is not affiliated with the {name} "
+         f"{agency} or any other state agency."),
+        (f"Is this {state['stateName']} permit practice test free?",
+         f"Yes. The {k} sample questions on this page are free, with every answer explained and no "
+         f"sign-up. The DriveDrill iPhone app has all {n} {name} questions and {mock}."),
+        (f"What should I study for the {state['stateName']} permit test?",
+         f"The official {handbook} is the authoritative source for current rules. DriveDrill's {name} "
+         f"questions cover {topics}, among other topics."),
+        ("Does DriveDrill have CDL and motorcycle practice tests?",
+         'Yes. The app also has practice for the <a href="/cdl/">CDL knowledge tests</a> and the '
+         '<a href="/motorcycle/">motorcycle permit test</a>. Parents paying for a teen can read '
+         '<a href="/parents/">DriveDrill for parents</a>.'),
+    ]
+
+
+def about_en(state: dict, sample_specific: int) -> str:
+    name, agency = esc(state["stateName"]), esc(state["agency"])
+    n, spec = len(state["questions"]), specific_count(state)
+    if state.get("examFormatVerified"):
+        fmt = format_intro(state)
+        app = (f"{n} {name} questions, {spec} of them written for {name}'s own rules, and a mock exam "
+               f"of {state['examQuestionCount']} that you pass with {state['passScore']}.")
+    else:
+        fmt = (f"{name} doesn't publish its knowledge-test length and pass score on an official page we "
+               f"could confirm, so we don't give numbers here.")
+        app = f"{n} {name} questions, {spec} of them written for {name}'s own rules, and full practice exams."
+    topics = "\n".join(f"        <li>{esc(TOPIC_EN[t])}: {c}</li>" for t, c in topic_counts(state))
+    return f"""      <h2 class="sec-title" id="about-title">About the {name} knowledge test</h2>
+      <ul>
+        <li><strong>Format:</strong> {fmt}</li>
+        <li><strong>In Spanish:</strong> {spanish_test_en(state)}</li>
+        <li><strong>What to study:</strong> the official <a href="{esc(state['handbookURL'])}">{name} {agency} driver handbook</a>, always the authoritative reference for current rules.</li>
+        <li><strong>In DriveDrill:</strong> {app}</li>
+      </ul>
+      <p>The {NUM_QUIZ_QUESTIONS} questions above include {sample_specific} on {name}-specific rules. Topics in DriveDrill's {name} bank (questions per topic; a question can cover two):</p>
+      <ul class="topics">
+{topics}
+      </ul>"""
+
+
+def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dict]) -> str:
     name = state["stateName"]
     slug = state["_slug"]
     agency = state["agency"]
     es_name = state["_es_name"]
     n = len(state["questions"])
+    code = state["stateCode"].lower()
+    sample_specific = sum(1 for q in questions if q["id"].startswith(code + "-"))
 
-    title = f"Free {name} Permit Practice Test (2026) | DriveDrill"
+    faq = faq_en(state)
+    title = state_title(state)
     description = meta_description(state)
     canonical = f"{SITE_URL}/practice/{slug}/"
     head = render_head(title, description, canonical,
-                       alternates(f"/practice/{slug}/", f"/es/{slug}/"))
+                       alternates(f"/practice/{slug}/", f"/es/{slug}/"),
+                       extra=faq_jsonld(faq) + "\n" + breadcrumb_jsonld(
+                           [("DriveDrill", "/"), ("Permit practice tests", "/practice/"),
+                            (f"{name} permit practice test", f"/practice/{slug}/")]))
+
+    bordering, related = related_states(state, by_code)
+    related_title = (f"Practice tests for states near {esc(short_name(state))}" if bordering
+                     else "More state practice tests")
+    related_html = chip_list([(f"/practice/{s['_slug']}/", f"{s['stateName']} permit practice test")
+                              for s in related] + [("/practice/", "All 50 states + DC")])
+    more_html = chip_list([("/cdl/", "CDL practice test"), ("/motorcycle/", "Motorcycle permit practice test"),
+                           ("/parents/", "For parents"), ("/guarantee/", "Pass Guarantee")])
 
     question_blocks = "\n".join(
         render_question_block(q, i + 1) for i, q in enumerate(questions)
@@ -543,7 +876,7 @@ def render_state_page(state: dict, questions: list[dict]) -> str:
         crumbs=(f'<p class="crumbs"><a href="/practice/">&larr; All 50 states + DC</a>'
                 f'<a href="/es/{slug}/" hreflang="es" lang="es">{esc(es_name)} en español</a></p>'),
         pill=PILL_EN,
-        h1=f'Pass the {esc(short_name(state))} permit test <span class="hl">first try.</span>',
+        h1=f'{esc(short_name(state))} permit practice test <span class="hl">2026</span>',
         facts=facts_line(*facts_en(state)),
         cta=(f'{store_button("car")}\n'
              f'          <p class="trial-note">{CHECK_SVG}{TRIAL_EN}</p>\n'
@@ -562,10 +895,8 @@ def render_state_page(state: dict, questions: list[dict]) -> str:
 
   <section class="sec" id="sample" aria-labelledby="sample-title">
     <div class="wrap quiz-wrap">
-      <div class="lede">{format_intro(state)}</div>
-
-      <h2 class="sec-title" id="sample-title">{esc(name)} sample questions</h2>
-      <p class="sec-sub">Pick an answer to see if you got it right. Every answer explained.</p>
+      <h2 class="sec-title" id="sample-title">Free {esc(name)} practice permit test: {len(questions)} questions</h2>
+      <p class="sec-sub">{len(questions)} sample questions from DriveDrill's {n}-question {esc(name)} bank. Pick an answer to see if you got it right, and why.</p>
 
       <p class="score-readout" id="score" aria-live="polite">0 of {len(questions)} answered</p>
 
@@ -579,7 +910,28 @@ def render_state_page(state: dict, questions: list[dict]) -> str:
         <p class="cta">{store_button("car")}</p>
         <p class="trial-note">{CHECK_SVG}{TRIAL_EN}</p>
       </div>
+    </div>
+  </section>
 
+  <section class="sec sec-alt" id="about" aria-labelledby="about-title">
+    <div class="wrap prose">
+{about_en(state, sample_specific)}
+    </div>
+  </section>
+
+  <section class="sec" id="faq" aria-labelledby="faq-title">
+    <div class="wrap prose faq">
+      <h2 class="sec-title" id="faq-title">{esc(name)} permit test: questions and answers</h2>
+{faq_html(faq)}
+    </div>
+  </section>
+
+  <section class="sec sec-alt" id="more" aria-labelledby="related-title">
+    <div class="wrap prose">
+      <h2 class="sec-title" id="related-title">{related_title}</h2>
+{related_html}
+      <h2 class="sec-title" id="more-title">More DriveDrill practice</h2>
+{more_html}
       <div class="after-quiz">
         <p>
           Official source: <a href="{esc(state['handbookURL'])}">{esc(name)} {esc(agency)} driver handbook</a>
@@ -588,7 +940,9 @@ def render_state_page(state: dict, questions: list[dict]) -> str:
         <p class="lang-line" lang="es">¿Prefieres estudiar en español? <a href="/es/{slug}/" hreflang="es">{esc(es_name)} en español</a></p>
         <p class="disclaimer">
           These practice questions are written in the style of {esc(name)}'s knowledge test and
-          are not official test questions.
+          are not official test questions. DriveDrill is an independent study app and is not
+          affiliated with, endorsed by, or connected to the {esc(name)} {esc(agency)} or any other
+          state agency.
         </p>
       </div>
     </div>
@@ -603,12 +957,15 @@ def render_state_page(state: dict, questions: list[dict]) -> str:
 
 
 def render_index_page(all_states: list[dict]) -> str:
-    title = "Free DMV Permit Practice Tests — All 50 States + DC | DriveDrill"
+    k = NUM_QUIZ_QUESTIONS
+    title = "Free DMV Permit Practice Test 2026: All 50 States + DC"
     description = (
-        "Free 10-question permit practice tests for all 50 states and DC, with instant answers "
-        "and explanations. Pick your state."
+        f"Free DMV permit practice tests for all 50 states and DC: {k} sample questions per state, "
+        f"every answer explained, no sign-up. Pick your state."
     )
     canonical = f"{SITE_URL}/practice/"
+    extra = app_jsonld("en") + "\n" + breadcrumb_jsonld(
+        [("DriveDrill", "/"), ("Permit practice tests", "/practice/")])
 
     items = []
     for state in all_states:
@@ -623,7 +980,7 @@ def render_index_page(all_states: list[dict]) -> str:
 
     return f"""<!DOCTYPE html>
 <html lang="en">
-{render_head(title, description, canonical)}
+{render_head(title, description, canonical, extra=extra)}
 <body>
 {render_header("/es/#estados")}
 
@@ -632,8 +989,8 @@ def render_index_page(all_states: list[dict]) -> str:
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <span class="pill">{PILL_EN}</span>
-        <h1 id="hero-title">Free practice tests for all 50 states + DC</h1>
-        <p class="sub">Pick your state for a free 10-question sample of DriveDrill's permit practice test.</p>
+        <h1 id="hero-title">Free DMV permit practice tests for all 50 states + DC</h1>
+        <p class="sub">Pick your state for a free {k}-question permit practice test, with every answer explained.</p>
         <div class="cta">
           {store_button("car")}
           <p class="trial-note">{CHECK_SVG}{TRIAL_EN}</p>
@@ -645,7 +1002,8 @@ def render_index_page(all_states: list[dict]) -> str:
   <section class="sec" aria-label="States">
     <div class="wrap">
       <div class="lede prose">
-        Each page below has 10 sample questions with instant answers and explanations. Where a
+        Each page below has {k} sample questions with instant answers and explanations, a short
+        guide to the state's knowledge test, and answers to common questions. Where a
         state publishes its knowledge-test format on an official page we could confirm, the page
         gives the mock exam's length and pass score; otherwise it says full practice exam and
         points to the state's official handbook instead of guessing at numbers.
@@ -691,7 +1049,9 @@ STATIC_PAGES = [
     ("/guarantee/", "0.5"),
     ("/es/garantia/", "0.5"),
 ]
-LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html", "/unlock.html"]
+# /unlock.html is not listed: it is noindex (the web-purchase unlock step), and a sitemap should
+# only list pages meant for search results. tools/check_site.py fails on a noindex page in it.
+LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html"]
 
 # Pages whose sitemap entry also lists its hreflang pair (en, es, x-default = en): the same
 # set the page's own <head> declares. tools/check_site.py fails if the two ever disagree.
@@ -701,6 +1061,27 @@ SITEMAP_HREFLANG = {
     "/parents/": alternates("/parents/", "/es/padres/"),
     "/es/padres/": alternates("/parents/", "/es/padres/"),
 }
+
+
+def file_of(url_path: str, site_root: Path = SITE_ROOT) -> Path:
+    return site_root / (url_path.lstrip("/") + ("index.html" if url_path.endswith("/") else ""))
+
+
+def lastmod(url_path: str, site_root: Path = SITE_ROOT) -> str:
+    """The day a page last changed: today if its file differs from the last commit (or is new),
+    else the date of the last commit that changed it. tools/check_site.py uses the same rule."""
+    rel = file_of(url_path, site_root).relative_to(site_root).as_posix()
+    git = ["git", "-C", str(site_root)]
+    try:
+        dirty = subprocess.run(git + ["status", "--porcelain", "--", rel],
+                               check=True, capture_output=True, text=True).stdout.strip()
+        if dirty:
+            return TODAY
+        day = subprocess.run(git + ["log", "-1", "--format=%cs", "--", rel],
+                             check=True, capture_output=True, text=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        return TODAY
+    return day or TODAY
 
 
 def render_sitemap(all_states: list[dict]) -> str:
@@ -717,7 +1098,7 @@ def render_sitemap(all_states: list[dict]) -> str:
             f'    <xhtml:link rel="alternate" hreflang="{lang}" href="{esc(url)}"/>\n'
             for lang, url in SITEMAP_HREFLANG.get(path, {}).items()
         )
-        return (f"  <url>\n    <loc>{esc(SITE_URL + path)}</loc>\n    <lastmod>{TODAY}</lastmod>\n"
+        return (f"  <url>\n    <loc>{esc(SITE_URL + path)}</loc>\n    <lastmod>{lastmod(path)}</lastmod>\n"
                 f"    <priority>{priority}</priority>\n{alts}  </url>")
 
     entries = "\n".join(entry(path, priority) for path, priority in urls)
@@ -758,6 +1139,8 @@ def main() -> None:
     check_home_counts(all_states)
     for state in all_states:
         state["_es_name"] = es_packs[state["stateCode"]]["stateName"]  # "Nueva York en español"
+    check_neighbors(all_states)
+    by_code = {s["stateCode"]: s for s in all_states}
 
     import build_es_pages  # Spanish templates; imports this module's helpers
 
@@ -767,17 +1150,21 @@ def main() -> None:
     verified_count = 0
     for state in all_states:
         questions = pick_quiz_questions(state)
+        if len(questions) != NUM_QUIZ_QUESTIONS:
+            raise SystemExit(f"{state['stateCode']}: only {len(questions)} sample questions")
         state["_quiz_ids"] = [q["id"] for q in questions]
         page_dir = practice_dir / state["_slug"]
         page_dir.mkdir(parents=True, exist_ok=True)
-        (page_dir / "index.html").write_text(render_state_page(state, questions), encoding="utf-8")
+        (page_dir / "index.html").write_text(render_state_page(state, questions, by_code), encoding="utf-8")
         if state.get("examFormatVerified"):
             verified_count += 1
 
     (practice_dir / "index.html").write_text(render_index_page(all_states), encoding="utf-8")
-    es_written = build_es_pages.build(SITE_ROOT, all_states, es_packs)
-    (SITE_ROOT / "sitemap.xml").write_text(render_sitemap(all_states), encoding="utf-8")
+    es_written = build_es_pages.build(SITE_ROOT, all_states, es_packs, by_code)
+    inject_app_jsonld(SITE_ROOT)
     changed = store_links.apply_store_links(SITE_ROOT, quiet=True)
+    # Last, so each page's lastmod sees every change this build made.
+    (SITE_ROOT / "sitemap.xml").write_text(render_sitemap(all_states), encoding="utf-8")
 
     print(f"Read the question packs from {source}")
     print(f"Generated {len(all_states)} English state pages under {practice_dir}")

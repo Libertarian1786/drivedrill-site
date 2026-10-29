@@ -28,11 +28,17 @@ says the app collects nothing, and this site has to be able to say the same.
 
 reads the question packs from the app repo at the commit in `APP_REF` (the version live on
 the App Store; bump it when a version with new questions ships), rewrites `practice/`,
-`es/<state>/`, the state list on `es/index.html` and `sitemap.xml`, then runs
+`es/<state>/` (25 sample questions, a guide to the state's test, a FAQ, links to nearby states,
+FAQPage + BreadcrumbList JSON-LD; every number from the pack, and only where its format is
+verified), the state list on `es/index.html`, the app's MobileApplication JSON-LD between the
+`app-jsonld` markers of the home, CDL and motorcycle pages (EN + ES), and `sitemap.xml` (each
+page's lastmod is the day its file last changed in git, or today if it has uncommitted changes;
+noindex pages are left out), then runs
 `tools/check_site.py`, which fails on any parse error, broken internal link, missing title,
 description or canonical, hreflang pair without its return link, stray App Store link, price,
 currency word or trial length in the copy, pass-rate claim, page that cannot be reached from
-the home page, selling page without its Pass Guarantee line, or sitemap gap. Run the checker on
+the home page, selling page without its Pass Guarantee line, sitemap gap or wrong lastmod, or JSON-LD that does not parse, an FAQ that differs from the
+visible one, or app markup with a price or rating. Run the checker on
 its own after editing any page.
 
 ## App Store links: one place
