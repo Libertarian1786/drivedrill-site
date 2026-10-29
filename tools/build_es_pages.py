@@ -112,6 +112,41 @@ TOPIC_ES = {
     "vehicle": "Vehículo y equipo", "licensing": "Licencias y sanciones",
 }
 
+# The Spanish of a pack's spanishTest "source" label where it holds generic English words; the
+# names of documents and pages stay as published. The build stops on a label that looks generic
+# (GENERIC_SOURCE_WORDS) and has no entry here.
+SOURCE_ES = {
+    "CA DMV sample tests; CA DMV news release": "exámenes de muestra del CA DMV; comunicado de prensa del CA DMV",
+    "Delaware DMV sample exam; 2 DE Admin. Code 2221": "examen de muestra del Delaware DMV; 2 DE Admin. Code 2221",
+    "FLHSMV news release, 2026-01-30": "comunicado de prensa de FLHSMV, 2026-01-30",
+    "HDOT news release, 2021-11-03": "comunicado de prensa de HDOT, 2021-11-03",
+    "ALEA Driver License Manual, Nov 2024": "ALEA Driver License Manual, noviembre de 2024",
+    "Kentucky Driver Manual, updated 7-23-26": "Kentucky Driver Manual, actualizado el 7-23-26",
+    "Mass RMV, First Time Driver guide": "Mass RMV, guía First Time Driver",
+    "knowtodrive.com/michigan; What Every Driver Must Know (Spanish)":
+        "knowtodrive.com/michigan; What Every Driver Must Know (en español)",
+    "SC Legislature, H.5001 (2025-2026)": "Legislatura de Carolina del Sur, H.5001 (2025-2026)",
+    "Tennessee Comprehensive Driver License Manual (2022); TN General Assembly, SB 1889":
+        "Tennessee Comprehensive Driver License Manual (2022); Asamblea General de Tennessee, SB 1889",
+}
+GENERIC_SOURCE_WORDS = re.compile(
+    r"\b(?:news release|sample|updated|guide|Legislature|General Assembly|Spanish|"
+    r"Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b")
+
+
+def source_es(label: str) -> str:
+    if label in SOURCE_ES:
+        return SOURCE_ES[label]
+    if GENERIC_SOURCE_WORDS.search(label):
+        raise SystemExit(f"Spanish source label missing in SOURCE_ES (tools/build_es_pages.py): {label!r}")
+    return label
+
+
+def unconfirmed_es(n: "Names") -> str:
+    return (f"No pudimos confirmar en una página oficial cuántas preguntas tiene el examen de "
+            f"conocimientos {esc(n.de)} ni cuántas hay que contestar bien, así que aquí no damos cifras.")
+
+
 MONTHS = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto",
           "septiembre", "octubre", "noviembre", "diciembre"]
 
@@ -172,9 +207,7 @@ def format_intro(state: dict, n: Names) -> str:
             return note
         return f"{computed} {note}"
     return (
-        f"{esc(n.subj)} no publica en una página oficial que pudiéramos confirmar cuántas preguntas "
-        f"tiene su examen de conocimientos ni cuántas hay que contestar bien para aprobar, así que "
-        f"aquí no damos cifras. Las preguntas de este cuestionario están escritas al estilo del "
+        f"{unconfirmed_es(n)} Las preguntas de este cuestionario están escritas al estilo del "
         f"examen de conocimientos {esc(n.de)}, y el manual oficial del conductor {esc(n.de)} "
         f"(enlace abajo) es la fuente para estudiar."
     )
@@ -210,10 +243,9 @@ def facts_es(state: dict) -> tuple[str, str]:
 
 def state_title(state: dict, n: Names) -> str:
     """No "gratis" in a Spanish title or description (tools/check_site.py)."""
-    return en.fit([f"Examen de manejo {n.de} 2026: práctica del permiso | DriveDrill",
-                   f"Examen de manejo {n.de} 2026: práctica del permiso",
-                   f"Examen de práctica del permiso {n.de} 2026",
-                   f"Examen de manejo {n.de} 2026"], en.TITLE_MAX, "Spanish title")
+    return en.fit([f"Examen de práctica del permiso {n.de} 2026 | DriveDrill",
+                   f"Examen de manejo {n.de} 2026: práctica | DriveDrill",
+                   f"Examen de manejo {n.de} 2026 | DriveDrill"], en.TITLE_MAX, "Spanish title")
 
 
 def meta_description(state: dict, n: Names) -> str:
@@ -251,7 +283,7 @@ def spanish_test_es(state: dict, n: Names) -> str:
         raise SystemExit(f"{state['stateCode']}: unknown spanishTest value {a!r}")
     text = esc(contract(text))
     if test.get("sourceURL"):
-        text += f' Fuente: <a href="{esc(test["sourceURL"])}">{esc(test.get("source") or "fuente oficial")}</a>.'
+        text += f' Fuente: <a href="{esc(test["sourceURL"])}">{esc(source_es(test.get("source") or "fuente oficial"))}</a>.'
     return text
 
 
@@ -264,9 +296,7 @@ def faq_es(state: dict, n: Names) -> list[tuple[str, str]]:
         how_many = format_intro(state, n)
         mock = f"un simulacro de {state['examQuestionCount']} preguntas"
     else:
-        how_many = (f"{esc(n.subj)} no publica en una página oficial que pudiéramos confirmar cuántas preguntas "
-                    f"tiene su examen de conocimientos ni cuántas hay que contestar bien, así que aquí no damos "
-                    f"cifras. El {handbook} es la fuente para estudiar.")
+        how_many = f"{unconfirmed_es(n)} El {handbook} es la fuente para estudiar."
         mock = "exámenes de práctica completos"
     topics = en.topics_phrase(en.top_topics(state), TOPIC_ES, "y")
     return [
@@ -299,8 +329,7 @@ def about_es(state: dict, n: Names, sample_specific: int) -> str:
         app = (f"{count} preguntas {esc(n.de)}, {spec} de ellas escritas para las reglas propias {esc(n.de)}, "
                f"y un simulacro de {state['examQuestionCount']} preguntas que apruebas con {state['passScore']}.")
     else:
-        fmt = (f"{esc(n.subj)} no publica en una página oficial que pudiéramos confirmar cuántas preguntas tiene "
-               f"su examen de conocimientos ni cuántas hay que contestar bien, así que aquí no damos cifras.")
+        fmt = unconfirmed_es(n)
         app = (f"{count} preguntas {esc(n.de)}, {spec} de ellas escritas para las reglas propias {esc(n.de)}, "
                f"y exámenes de práctica completos.")
     topics = "\n".join(f"        <li>{esc(TOPIC_ES[t])}: {c}</li>" for t, c in en.topic_counts(state))
@@ -367,7 +396,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
                       es_packs: dict[str, dict], by_code: dict[str, dict]) -> str:
     code, slug, agency = state["stateCode"], state["_slug"], state["agency"]
     n = names_for(code, es_pack)
-    floor = QUESTION_FLOOR
+    count = len(state["questions"])
     sample_specific = sum(1 for q in questions if q["id"].startswith(code.lower() + "-"))
 
     faq = faq_es(state, n)
@@ -412,13 +441,13 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
 
   <section class="sec" id="muestra" aria-labelledby="sample-title">
     <div class="wrap quiz-wrap">
-      <p class="updated">{len(questions)} preguntas de muestra abajo &middot; más de {floor} en la app &middot; respuestas explicadas</p>
+      <p class="updated">{len(questions)} preguntas de muestra abajo &middot; {count} en la app &middot; respuestas explicadas</p>
 
 {spanish_test_notice(state, n)}
       <h2 class="sec-title" id="sample-title">Examen de manejo {esc(n.de)} en español: {len(questions)} preguntas de práctica</h2>
       <p class="sec-sub">
         Elige una respuesta en cada pregunta para ver si acertaste, con una explicación.
-        Es una muestra corta: DriveDrill tiene más de {floor} preguntas {esc(n.de)}
+        Es una muestra corta: DriveDrill tiene {count} preguntas {esc(n.de)}
         y simulacros de examen completos en la app.
       </p>
 
@@ -429,7 +458,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
       </div>
 
       <div class="endcard">
-        <p>Practica las más de {floor} preguntas {esc(n.de)} y toma simulacros de examen completos en la app, en español.</p>
+        <p>Practica las {count} preguntas {esc(n.de)} y toma simulacros de examen completos en la app, en español.</p>
         <p class="cta">{en.store_button("es-car", "es")}</p>
         <p class="cta-note">Si tu iPhone está en español, DriveDrill se abre en español. Si no, en la app toca Ajustes › Idioma: se abre DriveDrill en la app Configuración, donde puedes elegir Español.</p>
       </div>

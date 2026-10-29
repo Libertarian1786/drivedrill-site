@@ -113,7 +113,8 @@ APP_JSONLD_PAGES = {
 }
 
 # Every state's bank has at least this many questions, in English and in Spanish; the build
-# stops if a pack ever has fewer, so "más de 230" on the Spanish state pages cannot go stale silently.
+# stops if a pack ever has fewer, so "230+" on the home page cannot go stale silently. (The state
+# pages print each pack's exact count.)
 QUESTION_FLOOR = 230
 
 # The home page (hand-written) says "231–245 questions per state" and "1,500+ different questions
@@ -290,7 +291,7 @@ def format_intro(state: dict) -> str:
         passc = state["passScore"]
         pct = round(100 * passc / qcount)
         computed = (
-            f"{esc(name)}'s permit knowledge test is {qcount} questions, and you need "
+            f"{esc(subj(state))}'s permit knowledge test is {qcount} questions, and you need "
             f"{passc} correct (about {pct}%) to pass."
         )
         if not notes:
@@ -300,16 +301,37 @@ def format_intro(state: dict) -> str:
         return f"{computed} {esc(notes)}"
 
     return (
-        f"{esc(name)} doesn't publish its knowledge-test length and pass score on an "
-        f"official page we could confirm, so we don't state numbers here. The questions in "
-        f"this quiz are written in the style of {esc(name)}'s knowledge test, and "
-        f"{esc(name)}'s official driver handbook (linked below) is the source to study from."
+        f"{unconfirmed_en(state)} The questions in this quiz are written in the style of "
+        f"{esc(poss(state))} knowledge test, and {esc(poss(state))} official driver handbook "
+        f"(linked below) is the source to study from."
     )
 
 
 def short_name(state: dict) -> str:
     """The name in the headline: "DC" for the District of Columbia, else the state's name."""
     return "DC" if state["stateCode"] == "DC" else state["stateName"]
+
+
+def noun(state: dict) -> str:
+    """The name used as a noun inside a sentence: "the District of Columbia", "Texas"."""
+    return "the District of Columbia" if state["stateCode"] == "DC" else state["stateName"]
+
+
+def subj(state: dict) -> str:
+    """The name opening a sentence: "The District of Columbia", "Texas"."""
+    n = noun(state)
+    return n[0].upper() + n[1:]
+
+
+def poss(state: dict) -> str:
+    """The possessive: "the District of Columbia's", "Texas's"."""
+    return noun(state) + "'s"
+
+
+def unconfirmed_en(state: dict) -> str:
+    """What an unverified state's page says instead of a test length and pass score."""
+    return (f"We couldn't confirm {esc(poss(state))} test length and pass score on an official page, "
+            f"so we don't give numbers here.")
 
 
 def facts_en(state: dict) -> tuple[str, str]:
@@ -409,14 +431,14 @@ def spanish_test_en(state: dict) -> str:
     if a == "yes":
         text = f"An official {name} source names Spanish for the knowledge test." + check
     elif a == "online":
-        text = (f"{name}'s official online knowledge test offers Spanish; the languages offered in "
+        text = (f"{esc(subj(state))}'s official online knowledge test offers Spanish; the languages offered in "
                 f"person are not published." + check)
     elif a == "no":
         since = test.get("englishOnlySince")
-        text = (f"{name} gives the knowledge test in English only, since {long_date_en(since)}."
-                if since else f"{name} gives the knowledge test in English only.")
+        text = (f"{esc(subj(state))} gives the knowledge test in English only, since {long_date_en(since)}."
+                if since else f"{esc(subj(state))} gives the knowledge test in English only.")
     elif a == "unconfirmed":
-        text = f"We found no official source that says {name} offers the knowledge test in Spanish." + check
+        text = f"We found no official source that says {esc(noun(state))} offers the knowledge test in Spanish." + check
     else:
         raise SystemExit(f"{state['stateCode']}: unknown spanishTest value {a!r}")
     if test.get("sourceURL"):
@@ -786,8 +808,7 @@ def faq_en(state: dict) -> list[tuple[str, str]]:
         count = format_intro(state)
         mock = f"a {state['examQuestionCount']}-question mock exam"
     else:
-        count = (f"{name} doesn't publish its knowledge-test length and pass score on an official page "
-                 f"we could confirm, so we don't give a number here. The {handbook} is the source to study from.")
+        count = f"{unconfirmed_en(state)} The {handbook} is the source to study from."
         mock = "full practice exams"
     topics = topics_phrase(top_topics(state), TOPIC_EN, "and")
     return [
@@ -796,7 +817,7 @@ def faq_en(state: dict) -> list[tuple[str, str]]:
          f'{spanish_test_en(state)} DriveDrill\'s {name} questions are also <a href="/es/{slug}/" '
          f'hreflang="es">in Spanish</a>.'),
         (f"Are these the real {state['stateName']} test questions?",
-         f"No. They are practice questions written in the style of {name}'s knowledge test, not official "
+         f"No. They are practice questions written in the style of {esc(poss(state))} knowledge test, not official "
          f"test questions. DriveDrill is an independent study app and is not affiliated with the {name} "
          f"{agency} or any other state agency."),
         (f"Is this {state['stateName']} permit practice test free?",
@@ -817,12 +838,11 @@ def about_en(state: dict, sample_specific: int) -> str:
     n, spec = len(state["questions"]), specific_count(state)
     if state.get("examFormatVerified"):
         fmt = format_intro(state)
-        app = (f"{n} {name} questions, {spec} of them written for {name}'s own rules, and a mock exam "
+        app = (f"{n} {name} questions, {spec} of them written for {esc(poss(state))} own rules, and a mock exam "
                f"of {state['examQuestionCount']} that you pass with {state['passScore']}.")
     else:
-        fmt = (f"{name} doesn't publish its knowledge-test length and pass score on an official page we "
-               f"could confirm, so we don't give numbers here.")
-        app = f"{n} {name} questions, {spec} of them written for {name}'s own rules, and full practice exams."
+        fmt = unconfirmed_en(state)
+        app = f"{n} {name} questions, {spec} of them written for {esc(poss(state))} own rules, and full practice exams."
     topics = "\n".join(f"        <li>{esc(TOPIC_EN[t])}: {c}</li>" for t, c in topic_counts(state))
     return f"""      <h2 class="sec-title" id="about-title">About the {name} knowledge test</h2>
       <ul>
@@ -895,7 +915,7 @@ def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dic
 
   <section class="sec" id="sample" aria-labelledby="sample-title">
     <div class="wrap quiz-wrap">
-      <h2 class="sec-title" id="sample-title">Free {esc(name)} practice permit test: {len(questions)} questions</h2>
+      <h2 class="sec-title" id="sample-title">Free {esc(name)} permit practice test: {len(questions)} questions</h2>
       <p class="sec-sub">{len(questions)} sample questions from DriveDrill's {n}-question {esc(name)} bank. Pick an answer to see if you got it right, and why.</p>
 
       <p class="score-readout" id="score" aria-live="polite">0 of {len(questions)} answered</p>
@@ -939,7 +959,7 @@ def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dic
         </p>
         <p class="lang-line" lang="es">¿Prefieres estudiar en español? <a href="/es/{slug}/" hreflang="es">{esc(es_name)} en español</a></p>
         <p class="disclaimer">
-          These practice questions are written in the style of {esc(name)}'s knowledge test and
+          These practice questions are written in the style of {esc(poss(state))} knowledge test and
           are not official test questions. DriveDrill is an independent study app and is not
           affiliated with, endorsed by, or connected to the {esc(name)} {esc(agency)} or any other
           state agency.
