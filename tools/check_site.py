@@ -110,6 +110,7 @@ ALLOWED_COPY = (
     "Motorcycle Full Access $0.99 - Paid Once - No Subscription",
     "Acceso total $0.99 - Pago único - Sin suscripción",
     "Acceso total de motocicleta $0.99 - Pago único - Sin suscripción",
+    "CDL Pass $0.99 - Pago único - Sin suscripción",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
