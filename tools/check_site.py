@@ -104,11 +104,12 @@ ALLOWED_COPY = (
     # /es/padres/) print the same rows, the Spanish one in Spanish.
     # 2026-10-30 owner ("Make everything 1.99"): every plan $1.99 (weekly, no trial; one-time), car, CDL and
     # Motorcycle, in the App Store and on the web.
-    "Weekly $1.99 · Full Access $1.99 - Paid Once - No Subscription",
-    "CDL Weekly $1.99 · CDL Pass $1.99 one-time",
-    "Motorcycle Full Access $1.99 - Paid Once - No Subscription",
-    "Semanal $1.99 · Acceso total $1.99 - Pago único - Sin suscripción",
-    "Acceso total de motocicleta $1.99 - Pago único - Sin suscripción",
+    # 2026-10-30 owner ("everything set for now to 0.99 not wait" + "one time purchase"): one-time $0.99 only, no weekly.
+    "Full Access $0.99 - Paid Once - No Subscription",
+    "CDL Pass $0.99 - Paid Once - No Subscription",
+    "Motorcycle Full Access $0.99 - Paid Once - No Subscription",
+    "Acceso total $0.99 - Pago único - Sin suscripción",
+    "Acceso total de motocicleta $0.99 - Pago único - Sin suscripción",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
