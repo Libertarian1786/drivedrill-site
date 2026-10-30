@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://drivedrill.app/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>1.0</priority>
   </url>
   <url>
@@ -12,12 +12,12 @@
   </url>
   <url>
     <loc>https://drivedrill.app/cdl/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://drivedrill.app/motorcycle/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>0.9</priority>
   </url>
   <url>
@@ -37,7 +37,7 @@
   </url>
   <url>
     <loc>https://drivedrill.app/parents/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/parents/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/padres/"/>
@@ -45,7 +45,7 @@
   </url>
   <url>
     <loc>https://drivedrill.app/es/padres/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/parents/"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/padres/"/>
@@ -584,12 +584,12 @@
   </url>
   <url>
     <loc>https://drivedrill.app/terms.html</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://drivedrill.app/support.html</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <priority>0.3</priority>
   </url>
 </urlset>

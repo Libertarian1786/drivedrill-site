@@ -102,11 +102,13 @@ ALLOWED_COPY = (
     # 2026-10-27 owner price cut of 10-26 ($2.99 weekly, $9.99 one-time): car Weekly $2.99, car Full Access $9.99 and
     # Motorcycle Full Access $9.99, in the App Store and on the web; CDL unchanged. The parents pages (/parents/,
     # /es/padres/) print the same rows, the Spanish one in Spanish.
-    "Weekly $2.99 · Full Access $9.99 - Paid Once - No Subscription",
-    "CDL Weekly $9.99 · CDL Pass $35.99 one-time",
-    "Motorcycle Full Access $9.99 - Paid Once - No Subscription",
-    "Semanal $2.99 · Acceso total $9.99 - Pago único - Sin suscripción",
-    "Acceso total de motocicleta $9.99 - Pago único - Sin suscripción",
+    # 2026-10-30 owner ("Make everything 1.99"): every plan $1.99 (weekly, no trial; one-time), car, CDL and
+    # Motorcycle, in the App Store and on the web.
+    "Weekly $1.99 · Full Access $1.99 - Paid Once - No Subscription",
+    "CDL Weekly $1.99 · CDL Pass $1.99 one-time",
+    "Motorcycle Full Access $1.99 - Paid Once - No Subscription",
+    "Semanal $1.99 · Acceso total $1.99 - Pago único - Sin suscripción",
+    "Acceso total de motocicleta $1.99 - Pago único - Sin suscripción",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
