@@ -130,7 +130,7 @@ CHOICE_LETTERS = ["A", "B", "C", "D"]
 # The approved copy (owner's decision 2026-10-05). The hand-written pages use the same strings, and
 # tools/check_site.py allows the trial and price strings only in exactly this form.
 PILL_EN = "2026 EDITION"
-TRIAL_EN = "Pay once, no subscription"  # 2026-10-30: one-time purchases only
+TRIAL_EN = "Weekly plan or pay once"  # 2026-10-31: weekly plans back
 GUARANTEE_NOTE_EN = ('Pass Guarantee: pass your knowledge test or get your money back. '
                      '<a href="/guarantee/">Conditions apply.</a>')
 FOOTER_LINE_EN = "DriveDrill is an independent study app and is not affiliated with any state agency."
