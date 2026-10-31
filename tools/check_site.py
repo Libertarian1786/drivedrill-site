@@ -107,10 +107,10 @@ ALLOWED_COPY = (
     # 2026-10-30 owner ("everything set for now to 0.99 not wait" + "one time purchase"): one-time $0.99 only, no weekly.
     # 2026-10-31 owner ("Set prices and paywall to that", car and moto the same): weekly plans back.
     "Weekly $7.99, 3-day free trial · Full Access $17.99 - Paid Once - No Subscription",
-    "CDL Weekly $9.99 · CDL Pass $35.99 - Paid Once - No Subscription",
+    "CDL Weekly $9.99, 3-day free trial · CDL Pass $35.99 - Paid Once - No Subscription",
     "Motorcycle Weekly $7.99, 3-day free trial · Motorcycle Full Access $17.99 - Paid Once - No Subscription",
     "Semanal $7.99, 3 días gratis · Acceso total $17.99 - Pago único - Sin suscripción",
-    "CDL semanal $9.99 · CDL Pass $35.99 - Pago único - Sin suscripción",
+    "CDL semanal $9.99, 3 días gratis · CDL Pass $35.99 - Pago único - Sin suscripción",
     "Motocicleta semanal $7.99, 3 días gratis · Acceso total de motocicleta $17.99 - Pago único - Sin suscripción",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
