@@ -480,3 +480,14 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .foot a, .foot-nav a, .nav a, .brand, .crumbs a { text-decoration: none; }
 .foot .brand { color: #fff; }
 .hero-art picture, .shots img, .vid video, .lane-art, .lane-art-wrap, .road-art { background: var(--navy); }
+
+/* 2026-11-11 (owner: "I don't see any images of our new signs car view"): the driver's-seat sign pictures,
+   and the store-picture strip shown larger (three to a row on wide screens). */
+.pov { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.pov figure { margin: 0; background: var(--card); border-radius: 18px; overflow: hidden; box-shadow: 0 0 0 1px var(--line), 0 16px 32px -24px rgba(11, 37, 64, .45); }
+.pov img { display: block; width: 100%; height: auto; aspect-ratio: 1; }
+.pov figcaption { padding: 10px 12px 12px; font-weight: 700; font-size: 15px; line-height: 1.3; color: var(--ink); }
+@media (min-width: 760px) { .pov { grid-template-columns: repeat(3, 1fr); gap: 18px; } .pov figcaption { font-size: 16px; } }
+@media (min-width: 1000px) { .pov { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+.shots li { width: 250px; }
+@media (min-width: 1000px) { .shots { grid-template-columns: repeat(3, minmax(0, 300px)); justify-content: center; gap: 28px 32px; } }
