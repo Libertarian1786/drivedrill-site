@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex">
+<title>Desbloquear DriveDrill — DriveDrill</title>
+<meta name="description" content="Termina una compra de DriveDrill hecha en la web: abre DriveDrill en el iPhone que lo va a usar.">
+<link rel="canonical" href="https://drivedrill.app/es/desbloquear/">
+<link rel="alternate" hreflang="en" href="https://drivedrill.app/unlock.html">
+<link rel="alternate" hreflang="es" href="https://drivedrill.app/es/desbloquear/">
+<link rel="alternate" hreflang="x-default" href="https://drivedrill.app/unlock.html">
+<link rel="icon" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#DCEBFA">
+<link rel="stylesheet" href="/style.css">
+<style>
+  .unlock { max-width: 34rem; margin: 0 auto; text-align: center; }
+  .unlock h1, .unlock .h1 { font-size: 1.9rem; line-height: 1.2; margin: 0 0 .6rem; }
+  .unlock p { margin: .5rem 0; }
+  .unlock .big { display: block; width: 100%; margin: 1.4rem 0 .6rem; padding: 1rem 1.2rem; border-radius: 14px;
+    background: linear-gradient(180deg, #11895D, #0E7A53); color: #fff; border-radius: 18px; font-weight: 700; font-size: 1.15rem; text-decoration: none; border: 0; cursor: pointer; }
+  .unlock .second { display: block; width: 100%; margin: .4rem 0; padding: .85rem 1.2rem; border-radius: 14px;
+    background: #fff; color: #0E7A53; font-weight: 700; font-size: 1rem; border: 2px solid #0E7A53; cursor: pointer; }
+  .unlock .step { text-align: left; background: #FFFFFF; border: 1px solid #B7CDE4; border-radius: 14px; padding: 1rem 1.2rem; margin: 1.2rem 0; }
+  .unlock .step ol { margin: .3rem 0 0 1.2rem; padding: 0; }
+  .unlock .fine { color: #3E5873; font-size: .92rem; }
+  .unlock [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="/es/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
+    <nav class="nav" aria-label="Principal">
+      <a id="lang-switch" class="lang" href="/unlock.html" hreflang="en" lang="en" aria-label="English"><span class="d-only">English</span><span class="m-only">EN</span></a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="sec">
+    <div class="wrap unlock">
+
+      <!-- The Spanish twin of /unlock.html (owner 2026-11-11, "Make everything consistent"). RevenueCat still sends
+           the buyer to /unlock.html; its language switch brings the ?redeem_url= here, and this page does the same
+           thing with it: it only swaps the scheme. Nothing is stored or sent anywhere: the link stays in this page. -->
+      <div id="redeem" hidden>
+        <h1>Pago listo. Un último paso.</h1>
+        <p>Abre esta página en el iPhone que tiene DriveDrill y toca el botón.</p>
+        <a id="open" class="big" href="#">Abrir DriveDrill para desbloquear</a>
+        <div class="step">
+          <strong>¿Pagaste en otro dispositivo?</strong>
+          <p>Envía esta página al iPhone que tiene DriveDrill (el tuyo o el de tu hijo o hija), ábrela ahí y toca el botón.</p>
+          <button id="share" class="second" type="button">Enviar esta página</button>
+          <p id="copied" class="fine" hidden>Enlace copiado. Pégalo en un mensaje al iPhone que tiene DriveDrill.</p>
+        </div>
+        <p class="fine">El botón funciona una sola vez, dentro de la hora después de pagar, en el iPhone que usará DriveDrill. ¿Pasó más de una hora? Tócalo de todos modos: se envía un enlace nuevo al correo con el que pagaste. ¿No pasa nada? Revisa que DriveDrill esté instalado y actualizado.</p>
+      </div>
+
+      <div id="done" hidden>
+        <h2 class="h1">Todo listo</h2>
+        <p>DriveDrill ya está desbloqueado. Si todavía ves los planes, cierra la app y vuelve a abrirla.</p>
+      </div>
+
+      <div id="none">
+        <h2 class="h1">Desbloquear DriveDrill</h2>
+        <p>Esta página termina una compra de DriveDrill hecha en la web. Ábrela desde el enlace que recibiste después de pagar.</p>
+      </div>
+
+      <p class="fine">¿Necesitas ayuda? <a href="mailto:support@drivedrill.app">support@drivedrill.app</a></p>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <nav class="foot-nav" aria-label="Pie de página">
+      <a href="/es/privacidad/">Privacidad</a>
+      <a href="/es/terminos/">Términos</a>
+      <a href="/es/soporte/">Soporte</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // The language switch keeps the redemption link, so the other language can finish the unlock too.
+  var sw = document.getElementById("lang-switch");
+  if (sw && location.search) sw.href = sw.getAttribute("href") + location.search;
+  var q = new URLSearchParams(location.search);
+  var redeem = q.get("redeem_url") || "";
+  var m = /[?&]redemption_token=([A-Za-z0-9_.\-]+)/.exec(redeem);
+  if (m) {
+    document.getElementById("none").hidden = true;
+    document.getElementById("redeem").hidden = false;
+    document.getElementById("open").href = "drivedrill://redeem_web_purchase?redemption_token=" + m[1];
+    document.getElementById("share").addEventListener("click", function () {
+      var url = location.href;
+      if (navigator.share) {
+        navigator.share({ title: "DriveDrill", url: url }).catch(function () {});
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { document.getElementById("copied").hidden = false; });
+      }
+    });
+  } else if (q.get("app_user_id")) {
+    document.getElementById("none").hidden = true;
+    document.getElementById("done").hidden = false;
+  }
+})();
+</script>
+</body>
+</html>

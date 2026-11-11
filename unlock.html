@@ -7,6 +7,10 @@
 <meta name="robots" content="noindex">
 <title>Unlock DriveDrill — DriveDrill</title>
 <meta name="description" content="Finish a DriveDrill purchase made on the web: open DriveDrill on the iPhone that will use it.">
+<link rel="canonical" href="https://drivedrill.app/unlock.html">
+<link rel="alternate" hreflang="en" href="https://drivedrill.app/unlock.html">
+<link rel="alternate" hreflang="es" href="https://drivedrill.app/es/desbloquear/">
+<link rel="alternate" hreflang="x-default" href="https://drivedrill.app/unlock.html">
 <link rel="icon" href="favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#DCEBFA">
@@ -29,6 +33,9 @@
 <header class="top">
   <div class="wrap top-in">
     <a class="brand" href="/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
+    <nav class="nav" aria-label="Main">
+      <a id="lang-switch" class="lang" href="/es/desbloquear/" hreflang="es" lang="es" aria-label="Español"><span class="d-only">Español</span><span class="m-only">ES</span></a>
+    </nav>
   </div>
 </header>
 
@@ -80,6 +87,9 @@
 
 <script>
 (function () {
+  // The language switch keeps the redemption link, so the Spanish page can finish the unlock too.
+  var sw = document.getElementById("lang-switch");
+  if (sw && location.search) sw.href = sw.getAttribute("href") + location.search;
   var ES = {
     r_title: "Pago listo. Un último paso.",
     r_body: "Abre esta página en el iPhone que tiene DriveDrill y toca el botón.",
@@ -88,7 +98,7 @@
     r_other_body: "Envía esta página al iPhone que tiene DriveDrill (el tuyo o el de tu hijo o hija), ábrela ahí y toca el botón.",
     r_share: "Enviar esta página",
     r_copied: "Enlace copiado. Pégalo en un mensaje al iPhone que tiene DriveDrill.",
-    r_fine: "El botón funciona una sola vez, dentro de la hora después de pagar, en el iPhone que usará DriveDrill. ¿Pasó más de una hora? Tócalo de todos modos: te enviamos un enlace nuevo al correo con el que pagaste. ¿No pasa nada? Revisa que DriveDrill esté instalado y actualizado.",
+    r_fine: "El botón funciona una sola vez, dentro de la hora después de pagar, en el iPhone que usará DriveDrill. ¿Pasó más de una hora? Tócalo de todos modos: se envía un enlace nuevo al correo con el que pagaste. ¿No pasa nada? Revisa que DriveDrill esté instalado y actualizado.",
     d_title: "Todo listo",
     d_body: "DriveDrill ya está desbloqueado. Si todavía ves los planes, cierra la app y vuelve a abrirla.",
     n_title: "Desbloquear DriveDrill",

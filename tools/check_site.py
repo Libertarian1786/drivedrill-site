@@ -54,7 +54,10 @@ SITE = "https://drivedrill.app"
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param",
         "source", "track", "wbr"}
 SKIP_FILES = {"googled6a639a37ec9b0af.html"}       # Search Console token, not a page
-LEGACY = {"/privacy.html", "/terms.html", "/support.html", "/unlock.html"}  # older pages: no canonical, no twin
+LEGACY = {"/privacy.html", "/terms.html", "/support.html", "/unlock.html"}  # older pages: canonical optional, no store button
+# Their Spanish twins (2026-11-11, owner: "Make everything consistent"): canonical and hreflang like every
+# new page, but, like the English ones, no App Store button and not quiz pages. /es/desbloquear/ is noindex.
+ES_LEGAL = {"/es/privacidad/", "/es/terminos/", "/es/soporte/", "/es/desbloquear/"}
 # The Pass Guarantee page in each language, and the one-line note every selling page carries
 # under its first App Store button.
 GUARANTEE = {"en": "/guarantee/", "es": "/es/garantia/"}
@@ -65,8 +68,9 @@ GUARANTEE_LINE = {
 SELLING = {"/": "en", "/cdl/": "en", "/motorcycle/": "en", "/parents/": "en",
            "/es/": "es", "/es/cdl/": "es", "/es/motocicleta/": "es", "/es/padres/": "es"}
 PRICE_FREE = set(SELLING) | {"/practice/"} | set(GUARANTEE.values())
-REQUIRED = PRICE_FREE | LEGACY        # hand-written pages that must exist
-STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus PRICE_FREE)
+REQUIRED = PRICE_FREE | LEGACY | ES_LEGAL  # hand-written pages that must exist
+STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus NOT_STATE)
+NOT_STATE = PRICE_FREE | ES_LEGAL
 STATE_SLUGS_MIN = 51
 HEAD_MAX = 160                        # characters, for the guarantee pages' title and description
 
@@ -389,7 +393,7 @@ def check_structured_data(path: str, p: "Page", pages: dict) -> list[str]:
                 urls = [block.get("installUrl")] + list(block.get("sameAs") or [])
                 if store_links.APP_STORE not in urls:
                     errors.append(f"{where}: {kind} does not point at the App Store address in tools/store_links.py")
-    state_page = bool(STATE_PAGE.fullmatch(path)) and path not in PRICE_FREE
+    state_page = bool(STATE_PAGE.fullmatch(path)) and path not in NOT_STATE
     want = ({"FAQPage", "BreadcrumbList"} if state_page else set()) | (
         {"MobileApplication"} if path in APP_PAGES else set())
     for kind in sorted(want - types):
@@ -471,7 +475,7 @@ def main(argv: list[str] | None = None) -> int:
                 errors.append(f"{path}: line {a['_line']}: store-link {slot} href {a.get('href')} != tools/store_links.py")
         if store_tags:
             sellers += 1
-        elif new_or_twin and path != "/practice/":
+        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL:
             errors.append(f"{path}: no App Store button (class=store-link)")
         # --- analytics-free
         if p.scripts_external:
@@ -500,7 +504,7 @@ def main(argv: list[str] | None = None) -> int:
         # --- copy guards, on the page text and its meta tags (which pages each reads: see PRICE_RE)
         text = re.sub(r"\s+", " ", p.text)
         meta_text = " ".join(p.meta.values())
-        state_page = bool(STATE_PAGE.fullmatch(path)) and path not in PRICE_FREE
+        state_page = bool(STATE_PAGE.fullmatch(path)) and path not in NOT_STATE
         for where in (text, meta_text):
             m = PASS_RATE_RE.search(where)
             if m:
@@ -555,9 +559,9 @@ def main(argv: list[str] | None = None) -> int:
         if GUARANTEE_LINE[lang] not in re.sub(r"\s+", " ", pages[path].text):
             errors.append(f"{path}: the one-line Pass Guarantee note is missing or reworded "
                           f"(want {GUARANTEE_LINE[lang]!r})")
-    for path in ("/terms.html", "/support.html"):
-        if path in pages and not links_to(path, GUARANTEE["en"]):
-            errors.append(f"{path}: no link to the Pass Guarantee page {GUARANTEE['en']}")
+    for path, lang in (("/terms.html", "en"), ("/support.html", "en"), ("/es/terminos/", "es"), ("/es/soporte/", "es")):
+        if path in pages and not links_to(path, GUARANTEE[lang]):
+            errors.append(f"{path}: no link to the Pass Guarantee page {GUARANTEE[lang]}")
 
     # --- every page can be reached from the home page by following links
     reachable, todo = ({"/"}, ["/"]) if "/" in pages else (set(), [])
@@ -627,7 +631,7 @@ def main(argv: list[str] | None = None) -> int:
     if re.search(r"(?im)^\s*Disallow:\s*/\s*$", robots):
         errors.append("robots.txt disallows the whole site")
 
-    state_pages = [x for x in pages if STATE_PAGE.fullmatch(x) and x not in PRICE_FREE]
+    state_pages = [x for x in pages if STATE_PAGE.fullmatch(x) and x not in NOT_STATE]
     es_states = [x for x in state_pages if x.startswith("/es/")]
     en_states = [x for x in state_pages if x.startswith("/practice/")]
     if len(es_states) < STATE_SLUGS_MIN or len(en_states) < STATE_SLUGS_MIN:

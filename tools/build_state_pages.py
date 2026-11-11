@@ -1068,9 +1068,11 @@ STATIC_PAGES = [
     ("/guarantee/", "0.5"),
     ("/es/garantia/", "0.5"),
 ]
-# /unlock.html is not listed: it is noindex (the web-purchase unlock step), and a sitemap should
-# only list pages meant for search results. tools/check_site.py fails on a noindex page in it.
-LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html"]
+# /unlock.html and /es/desbloquear/ are not listed: they are noindex (the web-purchase unlock step), and a
+# sitemap should only list pages meant for search results. tools/check_site.py fails on a noindex page in it.
+# 2026-11-11 (owner: "Make everything consistent"): the Spanish twins of the legal pages.
+LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html",
+               "/es/privacidad/", "/es/terminos/", "/es/soporte/"]
 
 # Pages whose sitemap entry also lists its hreflang pair (en, es, x-default = en): the same
 # set the page's own <head> declares. tools/check_site.py fails if the two ever disagree.
@@ -1079,6 +1081,12 @@ SITEMAP_HREFLANG = {
     "/es/garantia/": alternates("/guarantee/", "/es/garantia/"),
     "/parents/": alternates("/parents/", "/es/padres/"),
     "/es/padres/": alternates("/parents/", "/es/padres/"),
+    "/privacy.html": alternates("/privacy.html", "/es/privacidad/"),
+    "/es/privacidad/": alternates("/privacy.html", "/es/privacidad/"),
+    "/terms.html": alternates("/terms.html", "/es/terminos/"),
+    "/es/terminos/": alternates("/terms.html", "/es/terminos/"),
+    "/support.html": alternates("/support.html", "/es/soporte/"),
+    "/es/soporte/": alternates("/support.html", "/es/soporte/"),
 }
 
 
