@@ -109,10 +109,11 @@ ALLOWED_COPY = (
     # 2026-11-11 owner ("Yes" to matching the app): car Full Access is $44.99 (full_access_4499, app and web checkout).
     "Weekly $7.99, 3-day free trial · Full Access $44.99 - Paid Once - No Subscription",
     "CDL Weekly $9.99, 3-day free trial · CDL Full Access $35.99 - Paid Once - No Subscription",
-    "Motorcycle Weekly $7.99, 3-day free trial · Motorcycle Full Access $17.99 - Paid Once - No Subscription",
+    # 2026-11-11 owner ("I want moto to be the same as the car pricing wise", "Make everything consistent"): Motorcycle Full Access $44.99.
+    "Motorcycle Weekly $7.99, 3-day free trial · Motorcycle Full Access $44.99 - Paid Once - No Subscription",
     "Semanal $7.99, 3 días gratis · Acceso total $44.99 - Pago único - Sin suscripción",
     "CDL semanal $9.99, 3 días gratis · Acceso total de CDL $35.99 - Pago único - Sin suscripción",
-    "Motocicleta semanal $7.99, 3 días gratis · Acceso total de motocicleta $17.99 - Pago único - Sin suscripción",
+    "Motocicleta semanal $7.99, 3 días gratis · Acceso total de motocicleta $44.99 - Pago único - Sin suscripción",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
