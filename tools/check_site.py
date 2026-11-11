@@ -576,7 +576,8 @@ def main(argv: list[str] | None = None) -> int:
             if dst in pages and dst not in reachable:
                 reachable.add(dst)
                 todo.append(dst)
-    for path in sorted(set(pages) - reachable):
+    # 2026-11-11 (owner: "a hidden webpage"): /rate/ is linked from nowhere on purpose (QR code only, noindex)
+    for path in sorted(set(pages) - reachable - {"/rate/"}):
         errors.append(f"{path}: cannot be reached from the home page by following links")
 
     # --- sitemap and robots

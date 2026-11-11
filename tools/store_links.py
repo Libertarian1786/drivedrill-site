@@ -36,6 +36,9 @@ STORE_LINKS = {
     "es-car": APP_STORE,         # /es/, /es/<state>/, /es/garantia/
     "es-cdl": APP_STORE,         # /es/cdl/
     "es-motorcycle": APP_STORE,  # /es/motocicleta/
+    # 2026-11-11 (owner): the hidden /rate/ page, reached only by its QR code: install, then Apple's review screen
+    "rate-install": APP_STORE,
+    "rate-review": APP_STORE + "?action=write-review",
 }
 
 A_TAG = re.compile(r"<a\b[^>]*>", re.IGNORECASE)
