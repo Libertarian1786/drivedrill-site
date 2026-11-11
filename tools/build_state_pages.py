@@ -140,7 +140,7 @@ PHONE_EN = ("/img/store/1817/en-05",
             "Watch each rule play out: an animated road scene with a school bus stopped, red lights flashing.")
 PHONE_EN_BY_STATE = {
     "CA": ("/img/store/1817/en-03",
-           "Practice like the real test: a California mock exam, 46 questions, 38 to pass. 3,700+ practice questions."),
+           "Practice like the real test: a California mock exam, 46 questions, 38 to pass."),
 }
 
 CHECK_SVG = ('<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'

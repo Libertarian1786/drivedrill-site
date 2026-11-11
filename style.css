@@ -393,6 +393,7 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .vid video { display: block; width: 100%; height: auto; aspect-ratio: 480 / 1040; border-radius: 22px; background: var(--blue-deep); box-shadow: 0 22px 44px -22px rgba(13, 30, 80, .55); object-fit: cover; }
 .vid figcaption { margin-top: 12px; font-size: 15.5px; color: var(--ink-2); line-height: 1.4; }
 @media (min-width: 760px) { .vids { grid-template-columns: repeat(3, 1fr); } .vid { width: min(260px, 100%); } }
+@media (min-width: 760px) { .vids.n2 { grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; } }
 .vid-doc { margin: 0 0 28px; }
 
 .lane-art { display: block; background: var(--blue-deep); }
