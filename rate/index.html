@@ -35,5 +35,18 @@
   <p class="small">Tap the 5th star (★★★★★), then Send. If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
   <p>Thank you!</p>
 </main>
+<script>
+  // 2026-11-11 (owner: "can you just count the website clicks"): counts page visits and taps on the two buttons.
+  // Only a number goes up at abacus.jasoncameron.dev (a free counter, no sign-up); nothing about the visitor is sent.
+  (function () {
+    var base = "https://abacus.jasoncameron.dev/hit/dd-rate-dbc0c5c2/";
+    function hit(key) { try { fetch(base + key, { mode: "no-cors", keepalive: true }); } catch (e) {} }
+    hit("visits");
+    var one = document.querySelector('[data-store="rate-install"]');
+    var two = document.querySelector('[data-store="rate-review"]');
+    if (one) one.addEventListener("click", function () { hit("install_taps"); });
+    if (two) two.addEventListener("click", function () { hit("rate_taps"); });
+  })();
+</script>
 </body>
 </html>
