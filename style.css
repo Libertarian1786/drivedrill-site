@@ -1,31 +1,39 @@
-/* DriveDrill site styles. Light theme only (no dark variant): the blue "store look".
+/* DriveDrill site styles. Light theme only (no dark variant): the app's look since 2026-11-11.
    No web fonts, no trackers, no external requests; every image is in /img/. */
 :root {
   color-scheme: light;
-  --blue-top: #2163EB;
-  --blue-bot: #103EB6;
-  --blue: #1F5FD6;
-  --blue-deep: #1240B4;
-  --yellow: #FFD60A;
-  --ink: #0D1730;
-  --ink-2: #2E3A52;
-  --muted: #5B6679;
-  --line: #E2E7F0;
-  --surface: #F3F6FC;
-  --tint: #EAF1FF;
-  --navy: #0A1430;
-  --good: #1D8A3E;
+  /* 2026-11-11 (owner "Yes"): the app's look (SetupStyle.swift): pale blue page, white cards,
+     navy ink, green buttons, rounded bold type. The old names stay so every rule below follows. */
+  --page: #DCEBFA;
+  --card: #FFFFFF;
+  --blue-top: #DCEBFA;
+  --blue-bot: #CFE3F7;
+  --blue: #0E7A53;
+  --blue-deep: #0B2540;
+  --yellow: #0B6B48;
+  --green: #0B6B48;
+  --green-soft: #D4EFE2;
+  --btn-top: #11895D;
+  --btn-bot: #0E7A53;
+  --ink: #0B2540;
+  --ink-2: #3E5873;
+  --muted: #3E5873;
+  --line: #B7CDE4;
+  --surface: #EAF3FC;
+  --tint: #D4EFE2;
+  --navy: #0B2540;
+  --good: #0B6B48;
   --bad: #C8312F;
   --warn: #A35D00;
-  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --display: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 body {
   margin: 0;
-  background: #fff;
+  background: var(--page);
   color: var(--ink);
   font: 17px/1.55 var(--font);
   -webkit-font-smoothing: antialiased;
@@ -423,3 +431,52 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .prose .state-list li { margin: 0; }
 .prose .topics { columns: 2 16em; column-gap: 32px; }
 .prose .topics li { break-inside: avoid; margin: 4px 0; }
+
+/* ---------- 2026-11-11 (owner "Yes"): the app's look ----------
+   The header and hero sit on the app's pale blue with navy text; cards are white with the app's
+   hairline; buttons are the app's green gradient with 18px corners; headings are rounded bold. */
+.top { background: var(--page); color: var(--ink); border-bottom: 1px solid var(--line); }
+.brand, .nav a, .crumbs a { color: var(--ink); }
+.brand img { box-shadow: 0 0 0 1px var(--line); }
+.nav .lang { border-color: var(--ink); }
+.hero { background: var(--page); color: var(--ink); }
+.hero h1 { font-weight: 700; letter-spacing: -.02em; }
+.hero .sub, .facts-line, .g-note, .updated-h, .web-buy { color: var(--ink-2); }
+.g-note a, .updated-h a, .hero .sub a, .web-buy a { color: var(--green); }
+.trial-note svg { color: var(--green); }
+.pill { background: var(--green-soft); color: var(--green); }
+.appstore:focus-visible, .choice:focus-visible { outline-color: var(--green); }
+.sec-title, .lane h3, .road h3, .steps h3, .steps3 h3, .prose h2, .prose h3, .faq h3, .g-card h2, .endcard h2 { font-weight: 700; letter-spacing: -.015em; }
+.facts { border-bottom: 1px solid var(--line); background: var(--page); }
+.facts .ic { background: var(--green-soft); color: var(--green); }
+.sec-alt { background: var(--surface); }
+.lane, .steps li, .steps3 li, .quiz-q, .state-cards a, .tests li { background: var(--card); border-color: var(--line); border-radius: 22px; }
+.lane { box-shadow: 0 0 0 1px var(--line), 0 18px 40px -28px rgba(11, 37, 64, .35); }
+.road { background: var(--card); border-color: var(--line); border-radius: 22px; }
+.prices, .howto, .lede, .explain { background: var(--card); }
+.prices { box-shadow: 0 0 0 1px var(--line); }
+.prices div, .prices.plain li { border-bottom-color: var(--line); }
+.steps .n, .steps3 .n { background: var(--green); }
+.state-list a { background: var(--card); border-color: var(--line); border-radius: 16px; }
+.state-list a:hover, .state-cards a:hover { border-color: var(--green); color: var(--green); }
+.filter { background: var(--card); border-color: var(--line); border-radius: 16px; }
+.filter:focus-within { border-color: var(--green); box-shadow: 0 0 0 4px rgba(14, 122, 83, .15); }
+.choice { background: var(--surface); border-color: var(--line); }
+.choice.right { background: var(--green-soft); color: #08462F; }
+.score-readout { background: var(--page); }
+.lede { border-left-color: var(--green); }
+/* the Pass Guarantee card, the price card's badge column and the quiz end card: white cards, as in the app */
+.g-card, .trial-cta, .endcard { background: var(--card); color: var(--ink); box-shadow: 0 0 0 1px var(--line), 0 24px 50px -34px rgba(11, 37, 64, .45); }
+.g-card .shield, .hero-doc .shield { color: var(--green); }
+.g-card p, .endcard p, .trial-cta .app span { color: var(--ink-2); }
+.trial-cta .app img { box-shadow: 0 0 0 1px var(--line); }
+/* buttons: the app's green */
+.btn-blue, .btn-light {
+  background: linear-gradient(180deg, var(--btn-top), var(--btn-bot)); color: #fff; border-radius: 18px;
+  font-weight: 700; box-shadow: 0 10px 22px -14px rgba(14, 122, 83, .8);
+}
+.btn-blue:hover, .btn-light:hover { background: var(--btn-bot); }
+.more, a { color: var(--green); }
+.foot a, .foot-nav a, .nav a, .brand, .crumbs a { text-decoration: none; }
+.foot .brand { color: #fff; }
+.hero-art picture, .shots img, .vid video, .lane-art, .lane-art-wrap, .road-art { background: var(--navy); }

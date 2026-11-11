@@ -568,7 +568,7 @@ def render_head(title: str, description: str, canonical: str,
 <link rel="canonical" href="{esc(canonical)}">
 {alt}<link rel="icon" href="/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#2163EB">
+<meta name="theme-color" content="#DCEBFA">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DriveDrill">
 <meta property="og:title" content="{esc(title)}">
