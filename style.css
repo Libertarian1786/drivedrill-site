@@ -384,7 +384,7 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .shots-wrap { margin: 0 -16px; }
 @media (min-width: 768px) { .shots-wrap { margin: 0; } .shots { padding-left: 0; padding-right: 0; } }
 @media (min-width: 1000px) {
-  .shots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 22px 20px; overflow: visible; }
+  .shots { display: grid; grid-template-columns: repeat(6, 1fr); gap: 22px 16px; overflow: visible; }
   .shots li { width: auto; }
 }
 

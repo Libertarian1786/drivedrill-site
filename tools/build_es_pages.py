@@ -31,12 +31,11 @@ GUARANTEE_NOTE_ES = ('Garantía de aprobación: apruebas tu examen de conocimien
 FOOTER_LINE_ES = "DriveDrill es una app de estudio independiente y no está afiliada a ningún organismo estatal."
 
 # The hero phone: the Spanish capture of the same screens the English pages use.
-PHONE_ES = ("/img/store/02-road-scenes-es",
-            "Una pregunta de práctica de DriveDrill en español con una escena vial animada: una "
-            "ambulancia se acerca a una intersección. Mira la situación vial, luego responde.")
+PHONE_ES = ("/img/store/1817/es-05",
+            "Cada regla, en acción: una escena vial animada con un autobús escolar detenido y las luces rojas intermitentes.")
 PHONE_ES_BY_STATE = {
-    "CA": ("/img/store/05-mock-exam-es",
-           "El simulacro de examen de California en DriveDrill, en español: pregunta 16 de 46, con temporizador opcional."),
+    "CA": ("/img/store/1817/es-03",
+           "Simula el examen real: un simulacro del examen de California, 46 preguntas, 38 para aprobar. Más de 3,700 preguntas."),
 }
 
 # Spanish for the 9 verified states whose pack has notes, keyed by state code, with the English

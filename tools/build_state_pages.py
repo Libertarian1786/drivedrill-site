@@ -136,12 +136,11 @@ GUARANTEE_NOTE_EN = ('Pass Guarantee: pass your knowledge test or get your money
 FOOTER_LINE_EN = "DriveDrill is an independent study app and is not affiliated with any state agency."
 
 # The hero phone of a state page: a capture that names no state, except on California's own page.
-PHONE_EN = ("/img/store/02-road-scenes-en",
-            "A DriveDrill practice question with an animated road scene: an ambulance approaching "
-            "an intersection. Watch the road situation, then answer.")
+PHONE_EN = ("/img/store/1817/en-05",
+            "Watch each rule play out: an animated road scene with a school bus stopped, red lights flashing.")
 PHONE_EN_BY_STATE = {
-    "CA": ("/img/store/05-mock-exam-en",
-           "DriveDrill's California mock exam, question 16 of 46, with an optional timer."),
+    "CA": ("/img/store/1817/en-03",
+           "Practice like the real test: a California mock exam, 46 questions, 38 to pass. 3,700+ practice questions."),
 }
 
 CHECK_SVG = ('<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'
