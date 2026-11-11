@@ -247,7 +247,7 @@ svg.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-widt
 /* ---------- pass guarantee card ---------- */
 .g-card {
   border-radius: 28px; padding: 32px 24px; color: #fff; text-align: center;
-  background: radial-gradient(120% 140% at 0% 0%, #2B6EF2 0%, var(--blue-top) 35%, var(--blue-bot) 100%);
+  background: var(--card);
   display: grid; gap: 18px; justify-items: center; box-shadow: 0 24px 50px -30px rgba(16, 62, 182, .8);
 }
 .g-card .shield { width: 72px; height: 72px; color: var(--yellow); stroke-width: 1.7; }
@@ -491,3 +491,7 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 @media (min-width: 1000px) { .pov { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
 .shots li { width: 250px; }
 @media (min-width: 1000px) { .shots { grid-template-columns: repeat(3, minmax(0, 300px)); justify-content: center; gap: 28px 32px; } }
+/* checker 11-11: keep the orange edge on "English-only" notices, a neutral verdict line, and the explanation as a tinted box */
+.lede.notice { border-left-color: var(--warn); }
+.explain { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.explain .verdict { color: var(--ink); }
