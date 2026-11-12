@@ -37,15 +37,25 @@
 </main>
 <script>
   // 2026-11-11 (owner: "can you just count the website clicks"): counts page visits and taps on the two buttons.
-  // Only a number goes up at abacus.jasoncameron.dev (a free counter, no sign-up); nothing about the visitor is sent.
+  // Only a number goes up at abacus.jasoncameron.dev (a free counter, no sign-up); nothing about the visitor is sent with the count.
   (function () {
     var base = "https://abacus.jasoncameron.dev/hit/dd-rate-dbc0c5c2/";
     function hit(key) { try { fetch(base + key, { mode: "no-cors", keepalive: true }); } catch (e) {} }
-    hit("visits");
+    // 2026-11-12 (owner: "I just want state data", "city would be great too"): each visit and tap is also logged with the
+    // visitor's approximate city and state from get.geojs.io (their IP is looked up there and not kept by us), posted to an
+    // ntfy.sh topic the tracker reads. Only event | city | state | country is sent; no IP, no ID.
+    var geo = fetch("https://get.geojs.io/v1/ip/geo.json").then(function (r) { return r.json(); }).catch(function () { return {}; });
+    function log(ev) {
+      geo.then(function (g) {
+        var line = [ev, g.city || "?", g.region || "?", g.country_code || "?"].join(" | ");
+        try { fetch("https://ntfy.sh/dd-rate-geo-2673826459b2", { method: "POST", body: line, keepalive: true }); } catch (e) {}
+      });
+    }
+    hit("visits"); log("visit");
     var one = document.querySelector('[data-store="rate-install"]');
     var two = document.querySelector('[data-store="rate-review"]');
-    if (one) one.addEventListener("click", function () { hit("install_taps"); });
-    if (two) two.addEventListener("click", function () { hit("rate_taps"); });
+    if (one) one.addEventListener("click", function () { hit("install_taps"); log("install_tap"); });
+    if (two) two.addEventListener("click", function () { hit("rate_taps"); log("rate_tap"); });
   })();
 </script>
 </body>
