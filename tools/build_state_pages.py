@@ -50,7 +50,7 @@ APP_REPO = Path(r"C:\dev\DriveDrill-DMV")
 # Version 1.8.14 (build 61), live on the App Store since 2026-10-26. Its car question packs
 # match 1.6.1 (1d31d68, the ref before 2026-10-29) question for question; only each pack's
 # "updated" date moved.
-APP_REF = "ada6d0d1"
+APP_REF = "2b8890dc"  # 2.0 staging (content/2.0-setup-style); set to the 2.0 commit that ships before publishing
 CONTENT_IN_REPO = "DriveDrill/Resources/Content"
 
 APP_STORE_URL = store_links.STORE_LINKS["car"]
@@ -113,14 +113,14 @@ APP_JSONLD_PAGES = {
 }
 
 # Every state's bank has at least this many questions, in English and in Spanish; the build
-# stops if a pack ever has fewer, so "230+" on the home page cannot go stale silently. (The state
+# stops if a pack ever has fewer, so "440+" on the home page cannot go stale silently. (The state
 # pages print each pack's exact count.)
-QUESTION_FLOOR = 230
+QUESTION_FLOOR = 440
 
-# The home page (hand-written) says "231–245 questions per state" and "1,500+ different questions
-# in all". The build stops if the packs no longer bear that out, so those cannot go stale either.
-HOME_PER_STATE = (231, 245)
-HOME_DISTINCT_FLOOR = 1500
+# The 2.0 packs hold 449-559 questions per state and 5,646 different questions; the home page
+# (hand-written) says "440+" per state and "5,600+" car questions. The build stops if the packs no longer bear that out, so those cannot go stale either.
+HOME_PER_STATE = (449, 559)
+HOME_DISTINCT_FLOOR = 5600
 
 # Search engines show about this much of a meta description; every generated page stays within it.
 DESCRIPTION_MAX = 155
