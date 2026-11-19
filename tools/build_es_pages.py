@@ -35,7 +35,7 @@ PHONE_ES = ("/img/store/2-0/es-05",
             "Mira cada regla en acción: una escena vial animada, sal del camino y detente antes de tomar el teléfono, con Repetir y A media velocidad. Más de 60 escenas animadas.")
 PHONE_ES_BY_STATE = {
     "CA": ("/img/store/2-0/es-03",
-           "Practica como el examen real: el examen de conocimientos de California, 46 preguntas, 38 para aprobar, 58 minutos. Más de 7,950 preguntas entre auto, CDL y motocicleta."),
+           "Practica como el examen real: una pregunta sobre una ambulancia en la práctica, con su escena animada y Repetir y A media velocidad. Más de 7,950 preguntas de práctica y simulacros con el formato real de tu estado."),
 }
 
 # Spanish for the 9 verified states whose pack has notes, keyed by state code, with the English

@@ -140,7 +140,7 @@ PHONE_EN = ("/img/store/2-0/en-05",
             "Watch each rule play out: an animated road scene, pull off and stop before you pick up your phone, with Replay and Half speed. 60+ animated road scenes.")
 PHONE_EN_BY_STATE = {
     "CA": ("/img/store/2-0/en-03",
-           "Practice like the real test: a California knowledge test, 46 questions, 38 to pass, 58 minutes. 7,950+ practice questions across car, CDL and motorcycle."),
+           "Practice like the real test: an ambulance question in practice, its road scene playing with Replay and Half speed. 7,950+ practice questions, and mock exams in your state's real format."),
 }
 
 CHECK_SVG = ('<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'
