@@ -14,25 +14,76 @@
 <link rel="stylesheet" href="/style.css">
 <style>
   /* 2026-11-11 (owner: "a hidden webpage that has a QR code that does all these steps"): not linked from any page,
-     not in the sitemap, noindex. Reached only by its QR code. */
-  .rate { max-width: 28rem; margin: 0 auto; padding-block: 40px 56px; display: grid; gap: 14px; text-align: center; }
+     not in the sitemap, noindex. Reached only by its QR code.
+     2026-11-19 (owner approved): step-by-step, one small picture per step, because a friend tapped "Rate it" three times
+     and could not see how to write a review. On the App Store the app is called "DMV Permit & Driving Test 2026". */
+  .rate { max-width: 28rem; margin: 0 auto; padding-block: 32px 56px; display: grid; gap: 14px; text-align: center; }
   .rate img.app { width: 84px; height: 84px; border-radius: 20px; margin: 0 auto; box-shadow: 0 0 0 1px var(--line); }
   .rate h1 { margin: 0; font: 700 1.9rem/1.2 var(--display); }
-  .rate .btn { display: block; padding: 18px 20px; border-radius: 18px; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+  .rate .btn { display: block; padding: 18px 20px; border-radius: 18px; font-weight: 700; font-size: 1.15rem; text-decoration: none; text-align: center; }
   .rate .one { background: var(--card); color: var(--green); border: 2px solid var(--btn-bot); }
   .rate .two { background: linear-gradient(180deg, var(--btn-top), var(--btn-bot)); color: #fff; }
   .rate p { margin: 0; color: var(--ink-2); font-size: 1rem; line-height: 1.45; }
   .rate .small { font-size: .92rem; }
+  .rate .lead { font-size: 1.02rem; }
+  .rsteps { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; text-align: left; }
+  .rstep { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 14px 14px 16px; display: grid; gap: 10px; }
+  .rstep .head { display: flex; align-items: center; gap: 12px; }
+  .rstep .ico { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 12px; background: var(--green-soft); color: var(--green);
+               display: grid; place-items: center; }
+  .rstep .ico svg { width: 24px; height: 24px; }
+  .rstep h2 { margin: 0; font: 700 1.08rem/1.3 var(--display); color: var(--ink); }
+  .rstep h2 .num { color: var(--green); }
+  .rstep .store { display: flex; align-items: center; gap: 12px; }
+  .rstep .store img { flex: 0 0 56px; width: 56px; height: 56px; border-radius: 13px; box-shadow: 0 0 0 1px var(--line); }
+  .rstep .store .btn { flex: 1 1 auto; text-align: center; }
+  .rstep .store-name { font-weight: 700; color: var(--ink); }
+  .rstep .help { background: var(--surface); border-radius: 12px; padding: 10px 12px; font-size: .92rem; }
+  .rstep .help img { width: 22px; height: 22px; border-radius: 6px; vertical-align: -6px; box-shadow: 0 0 0 1px var(--line); }
+  .stars { color: #F5A400; letter-spacing: 1px; }
 </style>
 </head>
 <body>
 <main class="wrap rate">
   <img class="app" src="/apple-touch-icon.png" alt="DriveDrill app icon" width="84" height="84">
   <h1>Rate DriveDrill</h1>
-  <a class="btn one store-link" data-store="rate-install" href="https://apps.apple.com/us/app/id6813140105">1. Install DriveDrill</a>
-  <p class="small">Tap Get. Apple only lets you rate apps you have downloaded. Then come back to this page.</p>
-  <a class="btn two store-link" data-store="rate-review" href="https://apps.apple.com/us/app/id6813140105?action=write-review">2. Rate it</a>
-  <p class="small">Tap the 5th star (★★★★★), then Send. If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
+  <p class="lead">Four quick steps. It takes about a minute.</p>
+  <ol class="rsteps">
+    <li class="rstep">
+      <div class="head">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 20h14"/></svg></span>
+        <h2><span class="num">1.</span> Download the app</h2>
+      </div>
+      <div class="store">
+        <img src="/apple-touch-icon.png" alt="DriveDrill app icon" width="56" height="56">
+        <a class="btn one store-link" data-store="rate-install" href="https://apps.apple.com/us/app/id6813140105">Install DriveDrill</a>
+      </div>
+      <p class="small">Look for this icon. On the App Store the app is called <span class="store-name">DMV Permit &amp; Driving Test 2026</span>. Tap Get.</p>
+    </li>
+    <li class="rstep">
+      <div class="head">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 8.5a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6.9v.7"/><path d="M12 15.5h.01"/></svg></span>
+        <h2><span class="num">2.</span> Open it once and try a few questions</h2>
+      </div>
+      <p class="small">Apple only counts reviews from people who have the app, so open it at least once. Then come back to this page.</p>
+    </li>
+    <li class="rstep">
+      <div class="head">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.8 5.7 6.3.9-4.6 4.4 1.1 6.2L12 17l-5.6 3 1.1-6.2L2.9 9.4l6.3-.9z"/></svg></span>
+        <h2><span class="num">3.</span> Tap &ldquo;Rate it&rdquo;</h2>
+      </div>
+      <a class="btn two store-link" data-store="rate-review" href="https://apps.apple.com/us/app/id6813140105?action=write-review">Rate it</a>
+      <p class="small">The App Store opens with the review box.</p>
+      <p class="help">Nothing happened? Open the App Store, search <b>DMV Permit &amp; Driving Test 2026</b>, look for this icon <img src="/apple-touch-icon.png" alt="DriveDrill app icon" width="22" height="22">, scroll to Ratings &amp; Reviews and tap &lsquo;Write a Review&rsquo;.</p>
+    </li>
+    <li class="rstep">
+      <div class="head">
+        <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14"/><path d="M21 3l-7 18-4-7-7-4z"/></svg></span>
+        <h2><span class="num">4.</span> Tap the stars, write a line, tap Send</h2>
+      </div>
+      <p class="small">Tap the 5th star (<span class="stars">★★★★★</span>), write a line about the app, then tap Send. If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under &ldquo;Tap to Rate&rdquo;.</p>
+    </li>
+  </ol>
   <p>Thank you!</p>
 </main>
 <script>
@@ -41,13 +92,29 @@
   (function () {
     var base = "https://abacus.jasoncameron.dev/hit/dd-rate-dbc0c5c2/";
     function hit(key) { try { fetch(base + key, { mode: "no-cors", keepalive: true }); } catch (e) {} }
+    // 2026-11-19 (owner approved per-phone counting): a random anonymous ID, made on this phone's first visit and kept in this
+    // browser's localStorage, so the tracker can count people, not just taps. It is random (crypto.randomUUID), holds nothing
+    // about the person, and is never linked to anything else. Without storage it still works (a fresh ID for this page load).
+    var did = "";
+    try { did = localStorage.getItem("dd_rate_id") || ""; } catch (e) {}
+    if (!/^[A-Za-z0-9-]{8,64}$/.test(did)) {
+      did = "";
+      try { if (window.crypto && crypto.randomUUID) did = crypto.randomUUID(); } catch (e) {}
+      if (!did) {
+        try {
+          var b = new Uint8Array(16); crypto.getRandomValues(b);
+          did = Array.prototype.map.call(b, function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
+        } catch (e) { did = "r" + Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
+      }
+      try { localStorage.setItem("dd_rate_id", did); } catch (e) {}
+    }
     // 2026-11-12 (owner: "I just want state data", "city would be great too"): each visit and tap is also logged with the
     // visitor's approximate city and state from get.geojs.io (their IP is looked up there and not kept by us), posted to an
-    // ntfy.sh topic the tracker reads. Only event | city | state | country is sent; no IP, no ID.
+    // ntfy.sh topic the tracker reads. Sent: event | city | state | country | random ID. No IP.
     var geo = fetch("https://get.geojs.io/v1/ip/geo.json").then(function (r) { return r.json(); }).catch(function () { return {}; });
     function log(ev) {
       geo.then(function (g) {
-        var line = [ev, g.city || "?", g.region || "?", g.country_code || "?"].join(" | ");
+        var line = [ev, g.city || "?", g.region || "?", g.country_code || "?", did].join(" | ");
         try { fetch("https://ntfy.sh/dd-rate-geo-2673826459b2", { method: "POST", body: line, keepalive: true }); } catch (e) {}
       });
     }
