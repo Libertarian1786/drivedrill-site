@@ -54,3 +54,5 @@ rewrites every page), check, commit, push.
 `video/` the web versions (480 px, no audio, under 1 MB each, posters beside them) of the store
 videos. Source: `reports/drivedrill_marketing/store_shots_v2/final`. The hero of the home pages
 autoplays the muted knowledge-test loop; the other videos load on scroll.
+
+2026-11-19: the pictures on every page are the CURRENT store design (the light-blue 1.8.19 / 2.0 sets: main page EN + ES, CDL and motorcycle custom product pages), in `img/store/2-0/` (540x1173, jpg q86 + webp q82, LANCZOS from the 1320x2868 App Store files). The old 1.8.17 set (`img/store/1817/`) was removed. `og.png` (1200x630) is rebuilt in the same design. Script: claude-workspace/scripts/dd_site_current_design_pictures.py.
