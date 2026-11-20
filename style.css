@@ -206,6 +206,7 @@ svg.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-widt
 .road-shot { height: 200px; overflow: hidden; display: flex; justify-content: center; padding-top: 24px; }
 @media (min-width: 760px) {
   .lane-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .lane-grid.n2 { grid-template-columns: repeat(2, 1fr); max-width: 760px; margin: 0 auto; }
   .lane-shot { height: 226px; padding-top: 28px; }
   .lane-shot .device { --w: 186px; }
   .road { grid-template-columns: 1fr 1fr; align-items: center; margin-top: 24px; }

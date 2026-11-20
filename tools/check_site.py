@@ -65,12 +65,16 @@ GUARANTEE_LINE = {
     "en": "Pass Guarantee: pass your knowledge test or get your money back.",
     "es": "Garantía de aprobación: apruebas tu examen de conocimientos o te devolvemos tu dinero.",
 }
-SELLING = {"/": "en", "/cdl/": "en", "/motorcycle/": "en", "/parents/": "en",
-           "/es/": "es", "/es/cdl/": "es", "/es/motocicleta/": "es", "/es/padres/": "es"}
+# 2026-11-20 (owner, DriveDrill 2.0): CDL leaves DriveDrill (it becomes its own app later). /cdl/ and /es/cdl/ are
+# noindex redirect stubs to the home pages, linked from nowhere (the old pages are in git history and on branch
+# cdl-pages-archive), so they are not selling pages any more.
+CDL_STUBS = {"/cdl/", "/es/cdl/"}
+SELLING = {"/": "en", "/motorcycle/": "en", "/parents/": "en",
+           "/es/": "es", "/es/motocicleta/": "es", "/es/padres/": "es"}
 PRICE_FREE = set(SELLING) | {"/practice/"} | set(GUARANTEE.values())
 REQUIRED = PRICE_FREE | LEGACY | ES_LEGAL  # hand-written pages that must exist
 STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus NOT_STATE)
-NOT_STATE = PRICE_FREE | ES_LEGAL
+NOT_STATE = PRICE_FREE | ES_LEGAL | CDL_STUBS
 STATE_SLUGS_MIN = 51
 HEAD_MAX = 160                        # characters, for the guarantee pages' title and description
 
@@ -79,7 +83,7 @@ HEAD_MAX = 160                        # characters, for the guarantee pages' tit
 # items must be pages of this site, ending at the page itself); APP_PAGES carry the iOS app as a
 # MobileApplication, which must point at the App Store address in tools/store_links.py and must
 # carry no price (offers) and no rating or review (aggregateRating, review).
-APP_PAGES = {"/", "/practice/", "/cdl/", "/motorcycle/", "/es/", "/es/cdl/", "/es/motocicleta/"}
+APP_PAGES = {"/", "/practice/", "/motorcycle/", "/es/", "/es/motocicleta/"}
 APP_TYPES = {"MobileApplication", "SoftwareApplication"}
 APP_BANNED_KEYS = {"offers", "aggregateRating", "review", "price", "priceCurrency"}
 # Titles and descriptions of the pages tuned for search stay within what results show.
@@ -112,6 +116,10 @@ ALLOWED_COPY = (
     # 2026-10-31 owner ("Set prices and paywall to that", car and moto the same): weekly plans back.
     # 2026-11-11 owner ("Yes" to matching the app): car Full Access is $44.99 (full_access_4499, app and web checkout).
     "Weekly $7.99, 3-day free trial · Full Access $44.99 - Paid Once - No Subscription",
+    # 2026-11-20 owner: the green trial pill of the 2.0 store picture 1 ("3-Day Free Trial · Cancel Anytime", Spanish in
+    # sentence case) + "Also fix the website with the latest marketing": the same line under the hero App Store button.
+    "3-Day Free Trial · Cancel Anytime",
+    "Prueba gratis de 3 días · Cancela cuando quieras",
     "CDL Weekly $9.99, 3-day free trial · CDL Full Access $35.99 - Paid Once - No Subscription",
     # 2026-11-11 owner ("I want moto to be the same as the car pricing wise", "Make everything consistent"): Motorcycle Full Access $44.99.
     "Motorcycle Weekly $7.99, 3-day free trial · Motorcycle Full Access $44.99 - Paid Once - No Subscription",
@@ -475,7 +483,7 @@ def main(argv: list[str] | None = None) -> int:
                 errors.append(f"{path}: line {a['_line']}: store-link {slot} href {a.get('href')} != tools/store_links.py")
         if store_tags:
             sellers += 1
-        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL:
+        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL and path not in CDL_STUBS:
             errors.append(f"{path}: no App Store button (class=store-link)")
         # --- analytics-free
         if p.scripts_external:
@@ -577,7 +585,7 @@ def main(argv: list[str] | None = None) -> int:
                 reachable.add(dst)
                 todo.append(dst)
     # 2026-11-11 (owner: "a hidden webpage"): /rate/ is linked from nowhere on purpose (QR code only, noindex)
-    for path in sorted(set(pages) - reachable - {"/rate/"}):
+    for path in sorted(set(pages) - reachable - {"/rate/"} - {p for p in CDL_STUBS if p in pages and pages[p].noindex}):
         errors.append(f"{path}: cannot be reached from the home page by following links")
 
     # --- sitemap and robots

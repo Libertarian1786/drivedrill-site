@@ -35,7 +35,7 @@ PHONE_ES = ("/img/store/2-0/es-05",
             "Mira cada regla en acción: una escena vial animada, sal del camino y detente antes de tomar el teléfono, con Repetir y A media velocidad. Más de 60 escenas animadas.")
 PHONE_ES_BY_STATE = {
     "CA": ("/img/store/2-0/es-03",
-           "Practica como el examen real: una pregunta sobre una ambulancia en la práctica, con su escena animada y Repetir y A media velocidad. Más de 7,950 preguntas de práctica y simulacros con el formato real de tu estado."),
+           "Practica como el examen real: una pregunta sobre una ambulancia con su escena vial, Repetir y A media velocidad. Más de 6,250 preguntas de práctica y simulacros con el formato real de tu estado."),
 }
 
 # Spanish for the 9 verified states whose pack has notes, keyed by state code, with the English
@@ -314,9 +314,9 @@ def faq_es(state: dict, n: Names) -> list[tuple[str, str]]:
         (f"¿Qué debo estudiar para el examen de permiso {n.de}?",
          f"El {handbook} es la referencia autorizada para las reglas vigentes. Las preguntas {esc(n.de)} "
          f"en DriveDrill cubren {topics}, entre otros temas."),
-        ("¿DriveDrill tiene práctica para la CDL y para motocicleta?",
-         'Sí. La app también tiene práctica para los <a href="/es/cdl/">exámenes de conocimientos de la '
-         'CDL</a> y el <a href="/es/motocicleta/">examen de permiso de motocicleta</a>, en español. Para '
+        ("¿DriveDrill tiene práctica para motocicleta?",
+         'Sí. La app también tiene práctica para el <a href="/es/motocicleta/">examen de permiso de '
+         'motocicleta</a>, de dos o tres ruedas, en español. Para '
          'las familias: <a href="/es/padres/">DriveDrill para padres</a>.'),
     ]
 
@@ -352,7 +352,6 @@ def render_header(en_href: str = "/") -> str:
     <a class="brand" href="/es/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
     <nav class="nav" aria-label="Principal">
       <a class="d-only" href="/es/#estados">Estados</a>
-      <a href="/es/cdl/">CDL</a>
       <a href="/es/motocicleta/">Motocicleta</a>
       <a class="d-only" href="/es/garantia/">Garantía</a>
       <a class="lang" href="{en_href}" hreflang="en" lang="en" aria-label="English"><span class="d-only">English</span><span class="m-only">EN</span></a>
@@ -414,7 +413,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
         [(f"/es/{s['_slug']}/", f"Examen de práctica {names_for(s['stateCode'], es_packs[s['stateCode']]).de}")
          for s in sorted(related, key=lambda s: sort_key(es_packs[s['stateCode']]['stateName']))]
         + [("/es/#estados", "Los 50 estados y DC")])
-    more_html = en.chip_list([("/es/cdl/", "Examen de la CDL"), ("/es/motocicleta/", "Examen de motocicleta"),
+    more_html = en.chip_list([("/es/motocicleta/", "Examen de motocicleta"),
                               ("/es/padres/", "Para padres"), ("/es/garantia/", "Garantía de aprobación")])
 
     hero = en.render_hero(
