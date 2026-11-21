@@ -30,7 +30,8 @@ p { margin: 0; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .nw { white-space: nowrap; }
 svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
-.sec h2, .sec-sub, .close-in h2, .hero h1 { text-wrap: balance; }
+.sec h2, .sec-sub, .close-in h2, .hero h1, .card h3, .g-band h2 { text-wrap: balance; }
+section[id] { scroll-margin-top: 80px; }
 
 /* ---------- header ---------- */
 .top { background: rgba(255, 255, 255, .94); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; -webkit-backdrop-filter: saturate(1.4) blur(10px); backdrop-filter: saturate(1.4) blur(10px); }
@@ -51,7 +52,9 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
   .d-only { display: inline; }
   .m-only { display: none; }
 }
-@media (max-width: 359px) { .nav { gap: 10px; } .nav a { font-size: 14px; } .brand { font-size: 17px; } }
+@media (max-width: 899px) { .nav { gap: 12px; } .nav a { font-size: 14.5px; } }
+@media (max-width: 400px) { .nav { gap: 10px; } .nav a { font-size: 14px; } .brand { font-size: 17px; gap: 7px; } .brand img { width: 28px; height: 28px; } }
+@media (max-width: 359px) { .nav { gap: 8px; } .nav a { font-size: 13px; } .brand { font-size: 16px; } }
 
 /* ---------- small parts ---------- */
 .stars { display: inline-flex; gap: 2px; color: var(--star); }
@@ -76,8 +79,8 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 /* a cut-out of a real screen (whole elements only): rounded card, no phone bezel */
 .shot { background: #DCEBFA; border: 1px solid var(--line); border-radius: 26px; overflow: hidden; box-shadow: 0 30px 60px -28px rgba(11, 37, 64, .42), 0 2px 6px rgba(11, 37, 64, .12); }
 .shot img { width: 100%; height: auto; }
-.photo { background: #fff; padding: 6px; border-radius: 18px; box-shadow: 0 24px 50px -24px rgba(11, 37, 64, .4), 0 2px 6px rgba(11, 37, 64, .14); }
-.photo img { width: 100%; height: auto; border-radius: 13px; }
+.photo { border-radius: 16px; box-shadow: 0 24px 50px -24px rgba(11, 37, 64, .4), 0 2px 6px rgba(11, 37, 64, .14); }
+.photo img { width: 100%; height: auto; border-radius: 16px; }
 .cap { font-size: 13px; color: var(--ink-2); text-align: center; margin-top: 10px; }
 
 /* ---------- hero ---------- */
@@ -93,8 +96,8 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 20px; }
 .cta-row .store-link img { width: 162px; height: auto; }
 .cancel { font-size: 14px; color: var(--ink-2); margin-top: 10px; }
-.hero-proof { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 10px; max-width: 560px; }
-.hero-proof li { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 10px 14px; box-shadow: var(--shadow); font-size: 15px; line-height: 1.35; color: var(--ink-2); }
+.hero-proof { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 10px; max-width: 620px; }
+.hero-proof li { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 10px 14px; box-shadow: var(--shadow); font-size: 14.5px; line-height: 1.35; color: var(--ink-2); }
 .hero-proof li b { color: var(--ink); }
 .hero-proof .shield-s { width: 34px; flex: none; }
 .hero-proof .big { font-size: 24px; font-weight: 850; letter-spacing: -.03em; color: var(--ink); line-height: 1; flex: none; width: 34px; text-align: center; }
@@ -104,11 +107,20 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .hero-links { margin-top: 14px; font-size: 15px; display: flex; flex-wrap: wrap; gap: 6px 18px; }
 .hero-links a { font-weight: 750; text-decoration: none; }
 .hero-links a:hover { text-decoration: underline; }
-.hero-visual { margin: 0; width: 100%; max-width: 290px; justify-self: center; }
+.hero-visual { margin: 0; width: 100%; max-width: 250px; justify-self: center; padding-top: 4px; }
+.hero-more { min-width: 0; }
+.hero-more .cancel { margin-top: 0; }
+@media (min-width: 600px) { .hero-proof { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 999px) { .hero-grid { gap: 26px; } }
 @media (min-width: 1000px) {
-  .hero { padding: 48px 0 68px; }
-  .hero-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: 56px; align-items: center; }
-  .hero-visual { max-width: 350px; }
+  .hero { padding: 56px 0 84px; }
+  .hero-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); grid-template-areas: "copy visual" "more visual"; grid-template-rows: auto 1fr; column-gap: 56px; row-gap: 0; align-items: start; }
+  .hero-copy { grid-area: copy; padding-top: 18px; }
+  .hero-more { grid-area: more; align-self: start; }
+  .hero-more .cancel { margin-top: 12px; }
+  .hero-visual { grid-area: visual; align-self: start; max-width: 330px; }
+  .hero .cta-row .store-link img { width: 180px; }
+  .hero .trial, .close-in .trial { min-height: 52px; padding: 10px 18px 10px 14px; font-size: 16px; }
 }
 
 /* sticky App Store bar, phone only: shown once the hero's own button has scrolled away, hidden over the closing band */
@@ -122,7 +134,9 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 @media (min-width: 900px) { .sbar { display: none; } }
 @media (max-width: 899px) { body { padding-bottom: 72px; } }
 
-/* trial pill: on a phone the Spanish one breaks into two balanced lines on purpose */
+/* trial pill: the Spanish one stays on one line on a phone (approved wording, a little smaller) */
+@media (max-width: 599px) { .trial.es1 { font-size: 13.5px; gap: 5px; padding: 7px 12px 7px 9px; white-space: nowrap; letter-spacing: -.005em; } .trial.es1 svg.i { width: 16px; height: 16px; } }
+@media (max-width: 370px) { .trial.es1 { font-size: 12.5px; } }
 .trial .sep { margin: 0 .25em; }
 @media (max-width: 599px) {
   .trial.two { border-radius: 18px; align-items: center; line-height: 1.25; padding: 8px 14px 8px 10px; }
@@ -158,9 +172,10 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 /* rows that swipe sideways on a phone and sit side by side on a wide screen */
 .rail { list-style: none; padding: 0; margin: 36px 0 0; display: grid; gap: 22px; }
 @media (max-width: 899px) {
-  .rail { display: flex; gap: 40px; overflow-x: auto; scroll-snap-type: x mandatory; margin-left: -16px; margin-right: -16px; padding: 4px 16px 34px; scroll-padding: 0 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .rail { display: flex; gap: 14px; overflow-x: auto; overflow-y: visible; scroll-snap-type: x mandatory; margin-left: -16px; margin-right: -16px; padding: 12px 16px 34px; scroll-padding: 0 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .rail::-webkit-scrollbar { display: none; }
-  .rail > * { flex: 0 0 100%; scroll-snap-align: start; }
+  .rail > * { flex: 0 0 84%; scroll-snap-align: start; }
+  .rail .card .phone { max-width: 230px; }
 }
 @media (min-width: 900px) { .rail { grid-template-columns: repeat(3, 1fr); } }
 .swipe-hint { display: none; font-size: 13px; color: var(--ink-2); margin-top: 2px; text-align: center; }
@@ -190,7 +205,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .parent-row .shot { max-width: none; margin: 0; border-radius: 18px; }
 .who .photo { width: 100%; max-width: 250px; margin: 18px auto 0; }
 .who .photo + .cap, .who .phone + .cap { margin-top: 10px; }
-.who .bottom { margin-top: auto; }
+.who .bottom { margin-top: auto; padding-top: 18px; }
 .trustline { display: flex; gap: 10px; align-items: flex-start; margin: 26px auto 0; max-width: 760px; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px 18px; font-size: 15px; color: var(--ink-2); text-align: left; }
 .trustline svg.i { color: var(--green); margin-top: 1px; }
 @media (min-width: 1000px) { .duo { grid-template-columns: 1fr 1fr; gap: 28px; } .who { padding: 34px 34px 36px; } .who .phone { max-width: 270px; } .who .photo { max-width: 250px; } }
@@ -198,9 +213,9 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 /* features: on a wide screen the three phones share one height (height set, width auto: ratio kept) */
 @media (min-width: 900px) {
   .feat .phone { width: fit-content; max-width: none; }
-  .feat .phone img, .feat .phone video { width: auto; height: 480px; max-width: none; }
+  .feat .phone img, .feat .phone video { width: auto; height: 530px; max-width: none; }
 }
-@media (min-width: 900px) and (max-width: 1099px) { .feat .phone img, .feat .phone video { height: 380px; } }
+@media (min-width: 900px) and (max-width: 1099px) { .feat .phone img, .feat .phone video { height: 400px; } }
 .signs-card { margin-top: 22px; }
 .signs-card .rail { margin-top: 18px; }
 .signs figure { margin: 0; }
@@ -208,12 +223,12 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .signs figcaption { font-size: 14px; font-weight: 750; color: var(--ink-2); margin-top: 8px; text-align: center; }
 /* signs: every photo whole, a 3 x 2 grid on a phone (no sideways scroll) */
 @media (max-width: 899px) {
-  .signs.rail { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; overflow: visible; margin: 16px 0 0; padding: 0; }
+  .signs.rail { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; overflow: visible; margin: 16px 0 0; padding: 0; }
   .signs img { border-radius: 12px; }
-  .signs figcaption { font-size: 12.5px; line-height: 1.25; margin-top: 6px; }
+  .signs figcaption { font-size: 14px; line-height: 1.25; margin-top: 6px; }
   .signs-card { padding-bottom: 20px; }
 }
-@media (min-width: 900px) { .signs.rail { gap: 18px; } }
+@media (min-width: 900px) { .signs.rail { gap: 18px; grid-template-columns: repeat(6, 1fr); } .signs figcaption { font-size: 13.5px; } }
 
 /* states */
 .popular { list-style: none; padding: 0; margin: 28px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 760px; }
@@ -239,7 +254,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .g-band > img { width: 78px; }
 .g-band h2 { font-size: clamp(26px, 3.4vw, 36px); font-weight: 850; }
 .g-band p { color: #E2F5EB; margin-top: 8px; }
-.g-band p.how { font-size: 15px; color: #CDEBDC; }
+.g-band p.how { font-size: 15px; line-height: 1.6; color: #CDEBDC; max-width: 60ch; }
 .g-act { display: grid; gap: 12px; justify-items: start; }
 .g-act .store-link img { width: 162px; height: auto; }
 .g-act .lnk { color: #fff; font-weight: 750; display: inline-flex; align-items: center; gap: 6px; text-underline-offset: 4px; }
@@ -288,3 +303,7 @@ svg.i { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-widt
 .copy { margin-top: 4px; }
 
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .sbar { transition: none; } }
+@media (min-width: 1000px) { .who.teens .phone { max-width: 310px; } }
+.close-in > * { min-width: 0; }
+@media (max-width: 599px) { .close-in { padding: 32px 18px; } .close-in .trial.es1 { font-size: 12.5px; padding: 7px 10px 7px 8px; } }
+@media (max-width: 370px) { .close-in .trial.es1 { font-size: 11.5px; } }
