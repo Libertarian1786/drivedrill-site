@@ -383,3 +383,58 @@ section[id] { scroll-margin-top: 80px; }
   .who.parents .btn-ghost { margin-top: 16px; }
 }
 .g-band > div > p:not(.how) { text-wrap: balance; max-width: 54ch; }
+
+/* ---------- round 5 ---------- */
+/* phones in a row of cards sit at the bottom of every card, so their tops line up whatever the text above them */
+.card p.t { margin-bottom: 24px; }
+.card .phone, .card .shot { margin-top: auto; }
+
+/* hero on a phone: the app screen right after the download button, then the trial note, guarantee and rating */
+@media (max-width: 999px) {
+  .hero-grid { grid-template-areas: "copy" "visual" "more"; }
+  .hero-visual { max-width: 232px; padding-top: 0; }
+}
+@media (min-width: 1000px) {
+  .lede { font-size: 20px; }
+  .hero .trial.plain { font-size: 17px; }
+  .hero .cta-row { align-items: center; }
+}
+
+/* Spanish headline on a phone: a little smaller so it keeps to 4 lines and the button stays on the first screen */
+@media (max-width: 599px) { .hero h1:lang(es) { font-size: clamp(28px, 7.4vw, 34px); } }
+
+/* steps and app screens on a phone: words on top, the whole phone below at a size you can read */
+@media (max-width: 899px) {
+  .steps .card, .feats .card { display: flex; flex-direction: column; padding: 22px 18px 24px; }
+  .steps .card .phone, .feats .card .phone { width: 78%; max-width: 280px; margin: 0 auto; }
+  .steps .card p.t, .feats .card p.t { margin-bottom: 20px; }
+  .steps .card h3, .feats .card h3 { font-size: 22px; }
+  .phone { padding: 6px; border-radius: 30px; } .phone img { border-radius: 24px; }
+  .phone.isl::after { top: 6px; }
+  .who.teens .phone { max-width: 230px; margin-left: auto; margin-right: auto; }
+}
+
+/* signs on a phone: one sideways row (each photo whole), so the section stays short */
+@media (max-width: 899px) {
+  .signs.rail { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 16px -18px 0; padding: 0 18px 6px; scroll-padding: 0 18px; }
+  .signs.rail > li { flex: 0 0 42%; scroll-snap-align: start; }
+  .signs-hint { display: block; font-size: 13px; color: var(--ink-2); margin-top: 8px; text-align: center; }
+}
+@media (min-width: 900px) { .signs-hint { display: none; } }
+
+/* the closing link: the arrow stays with its last word */
+.close-link a { display: inline; }
+.close-link a svg.i { display: inline-block; vertical-align: -3px; margin-left: 2px; }
+.close-link a .nw { white-space: nowrap; }
+
+/* stats band: labels easier to read */
+.proof span { font-size: 15px; color: rgba(255, 255, 255, .86); }
+@media (min-width: 900px) { .proof span { font-size: 15.5px; } }
+
+/* FAQ: the + sits beside the first line of a long question */
+.faq summary { align-items: flex-start; }
+.faq summary::after { margin-top: -1px; }
+
+/* footer on a phone: an even two-column list */
+@media (max-width: 599px) { .foot-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; width: 100%; } }
+.signs-card p.t { margin-bottom: 0; }
