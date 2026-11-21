@@ -735,3 +735,92 @@ p.t, .ticks span, .g-list li, .cap, .lede, .mini-cta p { text-wrap: pretty; }
 /* hero trust row on a phone: the guarantee card a little wider, so each card keeps to two lines */
 @media (max-width: 599px) { .hero-proof { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); } .hero-proof .hp .u { white-space: nowrap; } }
 @media (max-width: 370px) { .hero-proof .hp .u { font-size: 12px; } .hero-proof .shield-s { width: 26px; } }
+
+/* ---------- round 10 ---------- */
+/* phone nav: logo, Download and the language name only (Motorcycle and Parents are in the page and the footer) */
+@media (max-width: 899px) { .nav .nm { display: none; } .nav { gap: 10px; } .nav .lang { padding: 5px 12px; font-size: 13.5px; } .nav .nav-dl { padding: 7px 14px; font-size: 14px; } }
+@media (min-width: 900px) { .nav .lang { padding: 5px 13px; font-size: 14px; } }
+
+/* trial line: never broken at its dot. One line where it fits; stacked as two lines (no dot) where it would wrap */
+.trial .ln { white-space: nowrap; }
+.g-act .trial .sep, .g-act .trial.plain .sep { display: none; }
+.g-act .trial .ln { display: block; }
+@media (max-width: 899px) {
+  .close-in .trial.plain .sep, .close-in .trial.plain.es1 .sep { display: none; }
+  .close-in .trial.plain .ln, .close-in .trial.plain.es1 .ln { display: block; }
+}
+@media (min-width: 900px) { .close-in .trial.plain, .close-in .trial.plain.es1 { white-space: nowrap; } }
+@media (max-width: 359px) { .hero .trial.plain .sep { display: none; } .hero .trial.plain .ln { display: block; } }
+
+/* the rating card says where it goes */
+.hero-proof .rate .u::after { content: " \2192"; color: var(--green); }
+
+/* stats band: all four are links, styled the same */
+.proof a span { text-decoration: underline; text-decoration-color: rgba(255, 255, 255, .45); text-underline-offset: 3px; }
+
+/* hero chips: plain facts, none styled as a link */
+.facts li { white-space: nowrap; }
+
+/* how it works on a wide screen: every description the same height, so the pills and phones line up */
+@media (min-width: 900px) {
+  .steps .card p.t { min-height: calc(3 * 1.55em); margin-bottom: 18px; }
+  .steps .card h3 { min-height: 1.1em; }
+  .step .key { margin: 0 0 6px; white-space: nowrap; }
+  .steps .card .phone { margin-top: auto; }
+  .steps .card .key + .phone { margin-top: 26px; }
+}
+
+/* steps and app screens on a phone: words full width on top, the whole phone centred below, large enough to read */
+@media (max-width: 899px) {
+  .steps .card, .feats .card { display: flex; flex-direction: column; padding: 22px 20px 24px; }
+  .steps .card > *, .feats .card > * { grid-column: auto; grid-row: auto; }
+  .steps .card .phone, .feats .card .phone { width: 74%; max-width: 270px; margin: 22px auto 0; }
+  .steps .card h3, .feats .card h3 { font-size: 22px; }
+  .steps .card p.t, .feats .card p.t { margin-bottom: 0; font-size: 16px; }
+  .step .key { margin: 12px 0 0; align-self: flex-start; border-radius: 999px; }
+  .steps .step .n { margin-bottom: 10px; }
+  .phone { padding: 6px; border-radius: 30px; } .phone img { border-radius: 24px; }
+  .phone.isl::after { top: 6px; }
+}
+
+/* states: the same four shortcuts, search and "see all" on every width */
+@media (min-width: 900px) {
+  .js .popular { display: grid; }
+  .js .all-states > summary { display: inline-flex; }
+  .js .state-list { max-width: 1040px; margin: 22px auto 0; }
+}
+
+/* signs: all six photos; a 2 x 3 grid on a phone, 3 x 2 larger tiles on a tablet, one row of six on a wide screen */
+@media (max-width: 599px) {
+  .signs > li:first-child { grid-column: auto; }
+  .signs > li:nth-child(6) { display: list-item; }
+  .signs > li:first-child figcaption { font-size: 14px; }
+}
+
+/* less empty space between the app screens and the guarantee band */
+@media (min-width: 900px) { #inside, #dentro { padding-bottom: 56px; } .sec-g { padding-top: 0; } }
+@media (max-width: 899px) { #inside, #dentro { padding-bottom: 36px; } .sec-g { padding-top: 0; } }
+
+/* families: the learner card first and wide (words beside the photo), parents a short strip under it */
+.duo { grid-template-columns: 1fr !important; gap: 18px; }
+.who .ticks { margin-bottom: 0; }
+.who.teens { display: grid; gap: 22px; }
+.who.teens .photo-fig { margin: 0 auto; max-width: 480px; width: 100%; }
+.who.parents .who-head { display: grid; justify-items: start; }
+.who.parents .who-head h3 { margin: 10px 0 6px; }
+.who.parents .btn-ghost { margin: 0 0 16px; }
+@media (min-width: 900px) {
+  .who.teens { grid-template-columns: minmax(0, 1fr) minmax(0, 44%); align-items: center; column-gap: 44px; padding: 36px 40px; }
+  .who.teens .photo-fig { max-width: none; }
+  .who.parents { display: grid; grid-template-columns: minmax(0, 34%) minmax(0, 1fr); column-gap: 44px; align-items: center; padding: 30px 40px; }
+  .who.parents .who-head h3 { margin: 12px 0 10px; }
+  .who.parents .btn-ghost { margin: 0; }
+}
+
+/* closing card: one headline; on a phone the rating is not repeated (it is in the hero) */
+.close-in h2 { text-wrap: balance; }
+@media (max-width: 899px) { .close-side { display: none; } }
+@media (min-width: 900px) { .close-side { align-self: center; } }
+/* phone: a shorter page (the language card is covered by the hero chip and the FAQ; slightly smaller phones) */
+@media (max-width: 599px) { .lang-card { display: none !important; } .steps .card .phone, .feats .card .phone { width: 68%; max-width: 250px; } }
+@media (max-width: 899px) { .who.parents { display: flex; flex-direction: column; } .who.parents .who-head { display: contents; } .who.parents .who-head h3 { margin: 12px 0 14px; } .who.parents .btn-ghost { order: 5; margin: 18px 0 0; } }
