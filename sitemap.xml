@@ -58,6 +58,38 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/guarantee/"/>
   </url>
   <url>
+    <loc>https://drivedrill.app/cdl-prep/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/es/cdl-prep/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/cdl-prep/guarantee/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/guarantee/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/garantia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/guarantee/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/es/cdl-prep/garantia/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/guarantee/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/garantia/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/guarantee/"/>
+  </url>
+  <url>
     <loc>https://drivedrill.app/practice/alabama/</loc>
     <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
@@ -614,5 +646,53 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/support.html"/>
     <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/soporte/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/support.html"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/cdl-prep/privacy/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/privacy/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/cdl-prep/terms/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/terminos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/terms/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/cdl-prep/support/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/support/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/soporte/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/support/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/es/cdl-prep/privacidad/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/privacidad/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/privacy/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/es/cdl-prep/terminos/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/terms/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/terminos/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/terms/"/>
+  </url>
+  <url>
+    <loc>https://drivedrill.app/es/cdl-prep/soporte/</loc>
+    <lastmod>2026-11-21</lastmod>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://drivedrill.app/cdl-prep/support/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://drivedrill.app/es/cdl-prep/soporte/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://drivedrill.app/cdl-prep/support/"/>
   </url>
 </urlset>

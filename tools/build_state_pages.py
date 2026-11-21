@@ -1062,12 +1062,18 @@ STATIC_PAGES = [
     ("/es/padres/", "0.8"),
     ("/guarantee/", "0.5"),
     ("/es/garantia/", "0.5"),
+    ("/cdl-prep/", "0.7"),           # 2026-11-21: the separate app CDL Prep (see tools/check_site.py CDL_PREP)
+    ("/es/cdl-prep/", "0.7"),
+    ("/cdl-prep/guarantee/", "0.5"),
+    ("/es/cdl-prep/garantia/", "0.5"),
 ]
 # /unlock.html and /es/desbloquear/ are not listed: they are noindex (the web-purchase unlock step), and a
 # sitemap should only list pages meant for search results. tools/check_site.py fails on a noindex page in it.
 # 2026-11-11 (owner: "Make everything consistent"): the Spanish twins of the legal pages.
 LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html",
-               "/es/privacidad/", "/es/terminos/", "/es/soporte/"]
+               "/es/privacidad/", "/es/terminos/", "/es/soporte/",
+               "/cdl-prep/privacy/", "/cdl-prep/terms/", "/cdl-prep/support/",
+               "/es/cdl-prep/privacidad/", "/es/cdl-prep/terminos/", "/es/cdl-prep/soporte/"]
 
 # Pages whose sitemap entry also lists its hreflang pair (en, es, x-default = en): the same
 # set the page's own <head> declares. tools/check_site.py fails if the two ever disagree.
@@ -1082,6 +1088,10 @@ SITEMAP_HREFLANG = {
     "/es/terminos/": alternates("/terms.html", "/es/terminos/"),
     "/support.html": alternates("/support.html", "/es/soporte/"),
     "/es/soporte/": alternates("/support.html", "/es/soporte/"),
+    **{page: alternates(en, es) for en, es in (
+        ("/cdl-prep/", "/es/cdl-prep/"), ("/cdl-prep/guarantee/", "/es/cdl-prep/garantia/"),
+        ("/cdl-prep/privacy/", "/es/cdl-prep/privacidad/"), ("/cdl-prep/terms/", "/es/cdl-prep/terminos/"),
+        ("/cdl-prep/support/", "/es/cdl-prep/soporte/")) for page in (en, es)},
 }
 
 
