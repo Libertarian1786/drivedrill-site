@@ -535,3 +535,90 @@ p.t, .ticks span, .g-list li, .cap, .lede, .mini-cta p { text-wrap: pretty; }
 }
 @media (max-width: 389px) { .nav { gap: 7px; } .nav .nav-dl { padding: 5px 10px; font-size: 13px; } .nav .lang { padding: 3px 8px; } .top-in { gap: 6px; } .brand { font-size: 16px; gap: 6px; } }
 @media (max-width: 349px) { .nav a[href*="moto"] { display: none; } }
+
+/* ---------- round 8 ---------- */
+/* hero on a phone: headline, button, then the real result screen on the first screen; trust and links after it */
+@media (max-width: 999px) {
+  .hero-grid { grid-template-areas: "copy" "visual" "more"; gap: 18px; }
+  .hero-visual { max-width: 218px; }
+}
+@media (max-width: 599px) {
+  .hero { padding-top: 18px; }
+  .hero h1:lang(en) { font-size: 34px; }
+  .lede { font-size: 16.5px; line-height: 1.5; margin-top: 12px; }
+  .hero .cta-row { margin-top: 16px; gap: 10px 14px; }
+}
+/* one compact proof row: guarantee | rating */
+.hero-proof { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0; max-width: 560px; }
+.hero-proof .hp { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 10px 12px; box-shadow: var(--shadow); color: var(--ink); text-decoration: none; font-size: 14.5px; line-height: 1.25; min-width: 0; }
+.hero-proof .hp b { display: block; font-weight: 800; }
+.hero-proof .hp .u { display: block; font-size: 13px; color: var(--ink-2); margin-top: 2px; text-decoration: underline; text-decoration-color: rgba(58, 79, 102, .35); text-underline-offset: 2px; }
+.hero-proof .hp:hover { border-color: var(--green); }
+.hero-proof .shield-s { width: 32px; flex: none; }
+.hero-proof .big { font-size: 26px; font-weight: 850; letter-spacing: -.03em; line-height: 1; width: auto; }
+.hero-proof .stars { display: flex; }
+.hero-proof .stars svg { width: 14px; height: 14px; }
+@media (min-width: 1000px) { .hero-more { padding-top: 22px; } .hero-more .hero-proof { margin-top: 0; } }
+/* state picker + small link chips */
+.hero-pick { margin-top: 14px; display: grid; gap: 10px; max-width: 560px; }
+.pick select { width: 100%; font: 750 15.5px/1.2 var(--font); color: var(--green-deep); background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230E7A53' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px; border: 1.5px solid var(--green); border-radius: 999px; padding: 12px 44px 12px 18px; -webkit-appearance: none; appearance: none; cursor: pointer; }
+.pick select:focus { outline: 0; box-shadow: 0 0 0 4px rgba(14, 122, 83, .16); }
+.js .hero-links .nojs { display: none; }
+.hero-links { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; }
+.hero-links a { display: inline-flex; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; color: var(--ink); font-weight: 700; text-decoration: none; }
+.hero-links a::after { content: "\2192"; margin-left: 6px; color: var(--green); }
+.hero-links a:hover { border-color: var(--green); color: var(--green); text-decoration: none; }
+/* QR code for visitors on a computer (wide screens only) */
+.qr { display: none; }
+@media (min-width: 1000px) {
+  .qr { display: flex; align-items: center; gap: 14px; margin-top: 18px; font-size: 14.5px; color: var(--ink-2); max-width: 440px; }
+  .qr img { width: 84px; height: 84px; flex: none; border: 1px solid var(--line); border-radius: 12px; padding: 6px; background: #fff; image-rendering: pixelated; }
+  .qr b { color: var(--ink); }
+}
+/* swipe hint under the sideways rows on a phone */
+.rail-hint { display: none; }
+@media (max-width: 899px) { .rail-hint { display: block; font-size: 13px; color: var(--ink-2); text-align: center; margin-top: 0; } }
+/* one CTA pattern: badge + trial line; a small note line where needed */
+.mini-cta p.small { font-weight: 600; font-size: 15px; color: var(--ink-2); }
+/* families: two-line headline, a photo in the learners card, the pay screen in the parents card */
+#fam-title .nl { display: block; }
+.who .bottom { text-align: center; }
+.who .photo-fig { margin: 4px auto 0; max-width: 480px; }
+.who.parents .parent-phone { margin: 4px auto 0; }
+.who.parents .parent-phone .shot { max-width: 290px; }
+.who.parents .btn-ghost { margin-top: 16px; }
+@media (min-width: 1000px) { .who.parents .bottom { margin-top: auto; } .who.teens .bottom { margin-top: auto; } }
+/* closing: app icon, the 5.0 rating, and the QR code (no second guarantee shield) */
+.close-side { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.close-icon { width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 12px 28px -10px rgba(0, 0, 0, .55); flex: none; }
+.close-rate { display: grid; justify-items: start; gap: 2px; color: #fff; text-decoration: none; }
+.close-rate .big { font-size: 30px; font-weight: 850; line-height: 1; letter-spacing: -.02em; }
+.close-rate .stars svg { width: 17px; height: 17px; }
+.close-rate .u { font-size: 13.5px; color: #C7D6E6; }
+.close-rate:hover .u { text-decoration: underline; }
+.close-side .qr { display: none; }
+@media (max-width: 899px) { .close-in { gap: 24px; } .close-side { justify-content: flex-start; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .14); } }
+@media (min-width: 900px) {
+  .close-side { flex-direction: column; gap: 18px; text-align: center; }
+  .close-icon { width: 120px; height: 120px; border-radius: 27px; }
+  .close-rate { justify-items: center; }
+  .close-rate .big { font-size: 44px; }
+  .close-rate .stars svg { width: 22px; height: 22px; }
+  .close-side .qr { display: flex; flex-direction: column; gap: 8px; margin: 4px 0 0; color: #C7D6E6; font-size: 14px; }
+  .close-side .qr img { width: 112px; height: 112px; border: 0; border-radius: 14px; padding: 8px; background: #fff; image-rendering: pixelated; }
+}
+/* Spanish trial line: one line everywhere, separator kept */
+@media (max-width: 599px) {
+  .close-in .trial.plain.es1 { white-space: nowrap; font-size: 13.5px; align-items: center; }
+  .close-in .trial.plain.es1 .sep { display: inline; }
+  .close-in .trial.plain.es1 .ln { display: inline; }
+}
+@media (max-width: 370px) { .close-in .trial.plain.es1 { font-size: 12.5px; } }
+@media (min-width: 1000px) { .close-in .cta-row:has(.es1) { flex-wrap: nowrap; } .close-in .trial.plain.es1 { font-size: 15px; } }
+/* phone nav: States, Moto, Download, language */
+@media (max-width: 899px) { .nav .nav-dl { padding: 6px 12px; } }
+@media (max-width: 430px) { .top-in { gap: 8px; } .nav { gap: 9px; } .nav a { font-size: 13.5px; } .nav .nav-dl { padding: 5px 10px; font-size: 13.5px; } .nav .lang { padding: 3px 8px; font-size: 12.5px; } .brand { font-size: 16px; gap: 6px; } .brand img { width: 26px; height: 26px; } }
+@media (max-width: 379px) { .nav a[href*="moto"] { display: none; } }
+.mini-cta p { text-align: center; }
+@media (min-width: 1000px) { .who.teens .photo-fig { max-width: none; } }
+@media (max-width: 599px) { .hero-proof .hp { gap: 8px; padding: 10px; font-size: 14px; } .hero-proof .shield-s { width: 32px; } }

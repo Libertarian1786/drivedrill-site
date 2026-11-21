@@ -63,11 +63,11 @@
   <div class="wrap top-in">
     <a class="brand" href="/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
     <nav class="nav" aria-label="Main">
-      <a class="d-only" href="/#states">States</a>
+      <a href="/#states">States</a>
       <a href="/motorcycle/"><span class="d-only">Motorcycle</span><span class="m-only">Moto</span></a>
-      <a href="/parents/">Parents</a>
+      <a class="d-only" href="/parents/">Parents</a>
       <a class="d-only" href="/guarantee/">Pass Guarantee</a>
-      <a class="nav-dl store-link" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><span class="d-only">Download</span><span class="m-only">Get</span></a>
+      <a class="nav-dl store-link" data-store="car" href="https://apps.apple.com/us/app/id6813140105">Download</a>
       <a class="lang" href="/es/" hreflang="es" lang="es" aria-label="Español"><span class="d-only">Español</span><span class="m-only">ES</span></a>
     </nav>
   </div>
@@ -90,12 +90,15 @@
         <figcaption class="cap">A real DriveDrill mock exam result</figcaption>
       </figure>
       <div class="hero-more">
-        <p class="cancel">Cancel in your iPhone Settings before the 3 days end and you pay nothing.</p>
-        <ul class="hero-proof">
-          <li><img class="shield-s" src="/concept-c/img/shield.webp" width="192" height="216" alt=""><span><b>Pass Guarantee:</b> pass your knowledge test or get your money back. <a href="/guarantee/">Conditions apply.</a></span></li>
-          <li><a class="store-link rate" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><span class="big">5.0</span><span><span class="stars" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></span><br><span class="u">on the App Store</span></span></a></li>
-        </ul>
-        <p class="hero-links"><a href="#states">Find your state's sample questions →</a><a href="#families">Parent paying? See how →</a><a href="/motorcycle/">Getting a motorcycle permit? →</a></p>
+        <div class="hero-proof">
+          <a class="hp g" href="/guarantee/"><img class="shield-s" src="/concept-c/img/shield.webp" width="192" height="216" alt=""><span><b>Pass Guarantee</b><span class="u">Conditions apply</span></span></a>
+          <a class="hp store-link rate" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><span class="big">5.0</span><span><span class="stars" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></span><span class="u">on the App Store</span></span></a>
+        </div>
+        <div class="hero-pick">
+          <label class="pick js-only" hidden><span class="sr">Your state's sample questions</span><select id="state-pick"><option value="">Your state's sample questions</option></select></label>
+          <p class="hero-links"><a class="nojs" href="#states">Your state's sample questions</a><a href="/motorcycle/">Motorcycle permit</a><a href="#families">Parent paying?</a></p>
+        </div>
+        <p class="qr"><img src="/concept-c/img/qr-appstore.svg" width="33" height="33" alt="QR code for DriveDrill on the App Store"><span><b>On a computer?</b> Scan with your iPhone camera to get the app.</span></p>
       </div>
     </div>
   </section>
@@ -103,7 +106,7 @@
   <section class="proof" aria-label="What you get">
     <ul>
       <li><b>6,250+</b><span>practice questions</span></li>
-      <li><b>50 + DC</b><span>states, each in its real test format</span></li>
+      <li><b>50 + DC</b><span>states, real test format</span></li>
       <li><b>60+</b><span>animated road scenes</span></li>
       <li><b>90</b><span>signs from the driver's seat</span></li>
     </ul>
@@ -119,9 +122,10 @@
         <li class="card step"><span class="n">2</span><h3>Get your plan</h3><p class="t">See your ready-by date, a daily goal and a mock exam every few days.</p><div class="phone isl"><img src="/concept-c/img/v2-en-plan.webp" width="660" height="1434" alt="DriveDrill screen: Your California plan is ready. Ready by Sunday, November 29 for a test on Monday, November 30, with 30 minutes a day, 45 questions a day and a mock exam every 2 days." loading="lazy" decoding="async"></div></li>
         <li class="card step"><span class="n">3</span><h3>Pass the mock exam</h3><p class="t">Full mock exams in your state's real format. Every answer explained.</p><div class="phone isl"><img src="/concept-c/img/v2-en-mock-q.webp" width="660" height="1434" alt="DriveDrill screen: CA Mock Exam, question 20 of 46: Driving on the shoulder to get around slow traffic is, with an animated road scene and answer choices." loading="lazy" decoding="async"></div></li>
       </ol>
+      <p class="rail-hint" aria-hidden="true">Swipe for more →</p>
       <div class="mini-cta">
         <a class="store-link appstore" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="162" height="54"></a>
-        <p>Start with the free 3&#8209;minute check.</p>
+        <p class="trial plain"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>3-Day Free Trial · Cancel Anytime</p>
       </div>
     </div>
   </section>
@@ -136,6 +140,7 @@
         <li><figure class="vid-c"><video muted loop playsinline preload="none" poster="/video/road-scenes-poster.webp" width="480" height="1040" aria-label="Animated road scenes in DriveDrill"><source src="/video/road-scenes.mp4" type="video/mp4"></video><figcaption class="cap"><span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>Animated road scenes</figcaption></figure></li>
         <li><figure class="vid-c"><video muted loop playsinline preload="none" poster="/video/guarantee-poster.webp" width="480" height="1040" aria-label="A daily streak, mock exam results and the Pass Guarantee in DriveDrill"><source src="/video/guarantee.mp4" type="video/mp4"></video><figcaption class="cap"><span class="play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg></span>Streaks, mock exams and the Pass Guarantee</figcaption></figure></li>
       </ul>
+      <p class="rail-hint" aria-hidden="true">Swipe for more →</p>
     </div>
   </section>
 
@@ -156,10 +161,11 @@
           <div class="phone isl"><img src="/concept-c/img/v2-en-scene.webp" width="660" height="1434" alt="DriveDrill question 3 of 6: White lines between lanes tell you that, with an animated road scene of your car between white lane lines and four answers." loading="lazy" decoding="async"></div>
         </article>
         <article class="card feat">
-          <h3>En español también</h3><p class="t">Every question, lesson and screen in English or Spanish. Pick one on the first screen.</p>
+          <h3>Also in Spanish: <span lang="es">en español</span></h3><p class="t">Every question, lesson and screen in English or Spanish. Pick one on the first screen.</p>
           <div class="phone isl"><img src="/concept-c/img/v2-en-setup.webp" width="660" height="1434" alt="DriveDrill's first screen, with an English and Español switch at the top: Get ready to pass your permit test, car or motorcycle, and the list of states." loading="lazy" decoding="async"></div>
         </article>
       </div>
+      <p class="rail-hint" aria-hidden="true">Swipe for more →</p>
       <article class="card signs-card">
         <h3>Signs from the driver's seat</h3><p class="t">90 road signs the way you see them behind the wheel. Spot the sign, then answer.</p>
         <ul class="rail signs">
@@ -174,7 +180,6 @@
       </article>
       <div class="mini-cta">
         <a class="store-link appstore" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="162" height="54"></a>
-        <p class="trial plain"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>3-Day Free Trial · Cancel Anytime</p>
       </div>
     </div>
   </section>
@@ -183,41 +188,42 @@
     <div class="wrap">
       <div class="center">
         <p class="kicker">Made for families</p>
-        <h2 id="fam-title">Study in minutes. Your parent can pay.</h2>
-        <p class="sec-sub">Short lessons you will actually open, and a simple way for a parent to pay. Learning on your own as an adult? It works the same at any age.</p>
+        <h2 id="fam-title">Short lessons. <span class="nl">Easy for a parent to pay.</span></h2>
+        <p class="sec-sub">Studying on your own, at any age? It works the same for you. Paying for a teen? You get their score and a link to pay.</p>
       </div>
       <div class="duo">
         <article class="card who teens" aria-labelledby="teens-title">
-          <span class="tag">For teens</span>
+          <span class="tag">For learners</span>
           <h3 id="teens-title">Short sessions that stick.</h3>
           <ul class="ticks">
             <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>A daily streak</b> <span>with milestones at 3, 7, 14 and 30 days.</span></div></li>
             <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Watch it play out.</b> <span>60+ animated road scenes show why the answer is right.</span></div></li>
-            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Car or motorcycle,</b> <span>in English or Spanish.</span></div></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Car or motorcycle,</b> <span>in English or Spanish, at any age.</span></div></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>A plan built from your answers.</b> <span>Start with the 3-minute readiness check.</span></div></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Mock exams in your state's real format,</b> <span>every answer explained.</span></div></li>
           </ul>
           <div class="bottom">
-            <div class="phone isl"><img src="/concept-c/img/v2-en-lesson.webp" width="660" height="1434" alt="DriveDrill screen: Lesson passed, Great job! 7 of 8 correct, with the daily streak at 7 days." loading="lazy" decoding="async"></div>
-            <p class="cap">Every lesson ends with your streak</p>
+            <figure class="photo-fig"><div class="photo"><img src="/concept-c/img/photo-parent-teen-43.webp" width="720" height="540" alt="A smiling teen in the driver's seat holds up her new card while her mother looks on from the open car door." loading="lazy" decoding="async"></div><figcaption class="cap">Permit day, sorted.</figcaption></figure>
           </div>
         </article>
         <article class="card who parents" aria-labelledby="parents-title">
           <span class="tag">For parents</span>
-          <h3 id="parents-title">Parents: get their score and a link to pay.</h3>
+          <h3 id="parents-title">Get their score and a link to pay.</h3>
           <ul class="ticks">
             <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>“Want a parent to pay?”</b> <span>Your teen taps <b>“Send to my parent”</b> and you get a message with their score and a secure link to pay online. It unlocks on their phone.</span></div></li>
             <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Works with Apple's Ask to Buy:</b> <span>you approve the purchase from your own iPhone.</span></div></li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>See the price before you pay.</b> <span>It's shown before you confirm, and you can cancel anytime.</span></div></li>
           </ul>
-          <div class="par-duo"><div class="parent-phone"><div class="shot"><img src="/concept-c/img/v2-en-parent-top.webp" width="660" height="772" alt="The top of the DriveDrill screen: Want a parent to pay? Send them a message with your score and a link to DriveDrill, with a Send to my parent button and Not now." loading="lazy" decoding="async"></div><p class="cap">What your teen sees in the app</p></div>
           <div class="bottom">
-            <figure class="photo-fig"><div class="photo"><img src="/concept-c/img/photo-parent-teen-43.webp" width="720" height="540" alt="A smiling teen in the driver's seat holds up her new card while her mother looks on from the open car door." loading="lazy" decoding="async"></div><figcaption class="cap">Permit day, sorted.</figcaption></figure>
-            <a class="btn-ghost" href="/parents/">The three ways a parent can pay <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          </div></div>
+            <div class="parent-phone"><div class="shot"><img src="/concept-c/img/v2-en-parent-top.webp" width="660" height="772" alt="The top of the DriveDrill screen: Want a parent to pay? Send them a message with your score and a link to DriveDrill, with a Send to my parent button and Not now." loading="lazy" decoding="async"></div><p class="cap">What your teen sees in the app</p></div>
+            <a class="btn-ghost" href="/parents/">How parents can pay <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
         </article>
       </div>
       <p class="trustline"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></svg><span>Questions written from each state's official driver handbook. Not affiliated with any DMV.</span></p>
       <div class="mini-cta">
         <a class="store-link appstore" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="162" height="54"></a>
-        <p>Paying for your teen? Start the free trial on their iPhone.</p>
+        <p class="small">Paying for your teen? Start the free trial on their iPhone.</p>
       </div>
     </div>
   </section>
@@ -304,7 +310,7 @@
           <p>If you study with DriveDrill and don't pass your state's knowledge test, we refund what you paid.</p>
           <p class="how">In short:</p>
           <ul class="g-list">
-            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Pass at least 5 full mock exams in the app, the last one within 30 days of your test.</li>
+            <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Pass at least 5 full mock exams in the app, the last one within the 30 days before your test.</li>
             <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Take your test within 45 days of buying.</li>
             <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Claim within 30 days of a failed test.</li>
           </ul>
@@ -324,7 +330,8 @@
       </div>
       <div class="faq">
         <details open><summary>Does it cover my state?</summary><p>Yes. DriveDrill covers all 50 states and DC, with full mock exams in your state's real format, whether your test is at the DMV, the DPS or another state office. <a href="#states">Find your state</a>.</p></details>
-        <details><summary>Is there a motorcycle test? Is it only for teens?</summary><p>The motorcycle permit test is in the same app, with its own lessons and practice exams. And it isn't only for teens: anyone getting a car or motorcycle permit can use it, at any age. <a href="/motorcycle/">Motorcycle prep</a>.</p></details>
+        <details><summary>Is there a motorcycle permit test?</summary><p>Yes. The motorcycle permit test is in the same app, with its own plan, lessons and practice exams. <a href="/motorcycle/">Motorcycle prep</a>.</p></details>
+        <details><summary>Is it only for teens?</summary><p>No. Anyone getting a car or motorcycle permit can use it, at any age, whether you study on your own or a parent pays.</p></details>
         <details><summary>Can I try it first?</summary><p>Yes: 3-Day Free Trial · Cancel Anytime. Cancel in your iPhone Settings before the 3 days end and you pay nothing.</p></details>
         <details><summary>How does the Pass Guarantee work?</summary><p>Pass your knowledge test or get your money back. Conditions apply: <a href="/guarantee/">read the Pass Guarantee</a>.</p></details>
         <details><summary>Can a parent or guardian pay?</summary><p>Yes. Your teen taps “Send to my parent” in the app and you get a link to pay online, or use Apple's Ask to Buy. You can also <a href="https://pay.rev.cat/yuwstwhwjikdjbuz/">buy on the web</a>, then open the link on the iPhone with DriveDrill to unlock it. <a href="/parents/">How parents can pay</a>.</p></details>
@@ -350,13 +357,14 @@
             <a class="store-link appstore" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><img src="/img/app-store-badge.svg" alt="Download on the App Store" width="162" height="54"></a>
             <p class="trial plain"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>3-Day Free Trial · Cancel Anytime</p>
           </div>
-          <p class="cancel">Cancel before the 3 days end and you pay nothing. Pass Guarantee <a href="/guarantee/">conditions apply</a>.</p>
+          <p class="cancel">Cancel before the 3 days end and you pay nothing. Pass Guarantee: pass your knowledge test or get your money back. <a href="/guarantee/">Conditions&nbsp;apply</a>.</p>
           <p class="close-link"><a href="#states">Or try your state's sample questions <span class="nw">first <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></p>
         </div>
-        <figure class="close-fig close-g">
-          <img src="/concept-c/img/shield.webp" width="192" height="216" alt="The DriveDrill Pass Guarantee shield" loading="lazy" decoding="async">
-          <figcaption><b>Pass Guarantee</b><span>Pass your knowledge test or get your money back.</span><a href="/guarantee/">Conditions apply</a></figcaption>
-        </figure>
+        <div class="close-side">
+          <img class="close-icon" src="/img/icon-192.png" width="192" height="192" alt="DriveDrill app icon" loading="lazy" decoding="async">
+          <a class="store-link close-rate" data-store="car" href="https://apps.apple.com/us/app/id6813140105"><span class="big">5.0</span><span class="stars" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg><svg class="i" viewBox="0 0 24 24"><path d="M12 3.2l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.6l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/></svg></span><span class="u">Rated 5.0 on the App Store</span></a>
+          <p class="qr qr-dark"><img src="/concept-c/img/qr-appstore.svg" width="33" height="33" alt="QR code for DriveDrill on the App Store"><span>Scan to get it on your iPhone</span></p>
+        </div>
       </div>
     </div>
   </section>
@@ -419,6 +427,17 @@
     });
   }
   wire(document.getElementById('state-q'), document.getElementById('no-match'), true);
+})();
+</script>
+<script>
+(function () {
+  var sel = document.getElementById('state-pick'), list = document.getElementById('state-list');
+  if (!sel || !list) return;
+  var a = list.getElementsByTagName('a');
+  for (var i = 0; i < a.length; i++) { var o = document.createElement('option'); o.value = a[i].getAttribute('href'); o.textContent = a[i].textContent; sel.appendChild(o); }
+  sel.addEventListener('change', function () { if (sel.value) window.location.href = sel.value; });
+  sel.parentNode.hidden = false;
+  document.documentElement.className += ' js';
 })();
 </script>
 <script>
