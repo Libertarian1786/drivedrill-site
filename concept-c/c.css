@@ -622,3 +622,116 @@ p.t, .ticks span, .g-list li, .cap, .lede, .mini-cta p { text-wrap: pretty; }
 .mini-cta p { text-align: center; }
 @media (min-width: 1000px) { .who.teens .photo-fig { max-width: none; } }
 @media (max-width: 599px) { .hero-proof .hp { gap: 8px; padding: 10px; font-size: 14px; } .hero-proof .shield-s { width: 32px; } }
+
+/* ---------- round 9 ---------- */
+/* body text a step darker, so it holds up next to the heavy headlines */
+:root { --ink-2: #2F4258; }
+.lede, .sec-sub, .card p.t, .ticks span, .faq details p { color: var(--ink-2); font-weight: 450; }
+
+/* hero: three short facts as pills, then the button and trial line, then ONE trust row (on a phone too, above the app screen) */
+.facts { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.facts li { font-size: 14px; font-weight: 750; color: var(--green-deep); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; line-height: 1.3; }
+.facts a { color: inherit; text-decoration: underline; text-decoration-color: rgba(8, 88, 59, .35); text-underline-offset: 3px; }
+.hero-copy .hero-proof { margin-top: 18px; }
+.hero-proof .hp { min-height: 62px; }
+.hero-proof .rt { display: flex; align-items: center; gap: 8px; }
+.hero-proof .rt b { font-size: 22px; font-weight: 850; letter-spacing: -.02em; line-height: 1; }
+.hero-proof .rate .stars svg { width: 16px; height: 16px; }
+.gx { display: none; }
+@media (min-width: 600px) { .gx { display: inline; } }
+.hero-link { margin: 0; font-size: 15.5px; }
+.hero-link a { display: inline-flex; align-items: center; gap: 6px; font-weight: 750; text-decoration: none; }
+.hero-link a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.hero-link svg.i { width: 18px; height: 18px; }
+@media (max-width: 999px) {
+  .hero-visual { max-width: 196px; }
+  .hero-more { text-align: center; }
+}
+@media (max-width: 599px) { .lede { font-size: 16px; } .facts { margin-top: 12px; gap: 6px; } .facts li { font-size: 13px; padding: 4px 10px; } .hero-copy .hero-proof { margin-top: 14px; } }
+@media (min-width: 1000px) {
+  .hero-more { padding-top: 20px; }
+  .hero-more .qr { margin-top: 16px; gap: 12px; font-size: 14px; }
+  .hero-more .qr img { width: 64px; height: 64px; padding: 5px; border-radius: 10px; }
+}
+
+/* stats band: one-line labels; states and signs are links to their sections */
+.proof a { display: block; color: inherit; text-decoration: none; border-radius: 14px; }
+.proof a span { text-decoration: underline; text-decoration-color: rgba(255, 255, 255, .45); text-underline-offset: 3px; }
+.proof a:hover span { text-decoration-color: #fff; }
+.proof span { white-space: nowrap; }
+@media (max-width: 380px) { .proof span { font-size: 14px; } }
+
+/* steps: a short key line under each step, so the screen's point reads at any size */
+.step .key { align-self: flex-start; margin: -10px 0 0; font-size: 13.5px; font-weight: 800; color: var(--green-deep); background: var(--mint-2); border-radius: 999px; padding: 5px 12px; line-height: 1.3; }
+@media (min-width: 900px) { .steps .card .phone { max-width: 300px; } }
+
+/* steps and app screens on a phone: stacked (no sideways swipe), words left and the whole phone right */
+@media (max-width: 899px) {
+  .rail.steps, .rail.feats { display: grid; grid-template-columns: 1fr; gap: 14px; overflow: visible; scroll-snap-type: none; margin: 28px 0 0; padding: 0; }
+  .rail.steps > *, .rail.feats > * { flex: none; max-width: none; }
+  .steps .card, .feats .card { display: grid; grid-template-columns: minmax(0, 1fr) 44%; grid-auto-rows: min-content; column-gap: 16px; align-items: start; padding: 20px 16px 20px 18px; }
+  .steps .card > :not(.phone), .feats .card > :not(.phone) { grid-column: 1; }
+  .steps .card .phone, .feats .card .phone { grid-column: 2; grid-row: 1 / span 6; width: 100%; max-width: none; margin: 0; }
+  .steps .card h3, .feats .card h3 { font-size: 20px; }
+  .steps .card p.t, .feats .card p.t { margin-bottom: 0; font-size: 15.5px; line-height: 1.45; }
+  .step .key { margin: 12px 0 0; justify-self: start; font-size: 13px; }
+  .phone { padding: 5px; border-radius: 24px; } .phone img { border-radius: 19px; }
+  .phone.isl::after { top: 5px; }
+  .hero-visual .phone { padding: 6px; border-radius: 30px; } .hero-visual .phone img { border-radius: 24px; }
+}
+@media (max-width: 899px) and (min-width: 600px) { .steps .card, .feats .card { grid-template-columns: minmax(0, 1fr) 260px; } }
+
+/* states: on a wide screen the whole list shows (the four shortcuts and the toggle are for a phone) */
+@media (min-width: 900px) {
+  .js .popular { display: none; }
+  .js .all-states > summary { display: none; }
+  .js .state-list { max-width: 1040px; margin: 22px auto 0; }
+}
+
+/* app screens: bigger phones on a wide screen */
+@media (min-width: 1100px) and (max-width: 1199px) { .feat .phone img { height: 560px; } }
+@media (min-width: 1200px) { .feat .phone img { height: 610px; } }
+
+/* signs: a grid of whole photos (one big photo first on a phone), no sideways scroll */
+.signs { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.signs figcaption { font-size: 14px; }
+@media (max-width: 599px) {
+  .signs > li:first-child { grid-column: 1 / -1; }
+  .signs > li:nth-child(6) { display: none; }
+  .signs > li:first-child figcaption { font-size: 15px; }
+}
+@media (min-width: 600px) { .signs { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 900px) { .signs { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 18px; } }
+
+/* Pass Guarantee: conditions link under the list; its own download button */
+.g-more { margin-top: 14px; }
+.g-act { gap: 12px; }
+.g-act .store-link img { width: 162px; height: auto; }
+.g-act .trial.plain { color: #fff; font-size: 15px; white-space: normal; align-items: flex-start; }
+.g-act .trial.plain svg.i { background: #1FA572; }
+.g-act .trial .ln { white-space: nowrap; }
+@media (min-width: 860px) { .g-act { max-width: 230px; justify-items: center; text-align: left; } .g-band { grid-template-columns: 104px minmax(0, 1fr) auto; } }
+@media (max-width: 599px) { .g-act .trial .sep { display: none; } .g-act .trial .ln { display: block; } }
+
+/* closing card: trial line under the button, wrapping only between its two halves; a clean gradient; brand under the icon */
+.close-in { background: linear-gradient(150deg, #123E62 0%, var(--ink) 55%); }
+.close-in .cta-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+.close-in .trial.plain, .close-in .trial.plain.es1 { white-space: normal; font-size: 16px; align-items: flex-start; line-height: 1.35; }
+.close-in .trial.plain .ln, .close-in .trial.plain.es1 .ln { display: inline; white-space: nowrap; }
+.close-in .trial.plain .sep, .close-in .trial.plain.es1 .sep { display: inline; }
+.close-app { margin: 0; display: grid; justify-items: center; gap: 8px; }
+.close-app figcaption { color: #fff; font-weight: 800; font-size: 15px; letter-spacing: -.01em; }
+@media (min-width: 900px) { .close-app figcaption { font-size: 18px; } }
+
+/* sticky bar: the two halves on two lines, no dangling dot */
+@media (max-width: 599px) { .sbar .trial-txt .sep { display: none; } }
+
+/* phone nav: Moto, Parents / Padres, Download, language */
+@media (max-width: 430px) { .nav { gap: 8px; } }
+@media (max-width: 379px) { .nav a[href*="moto"] { display: none; } }
+.g-more .lnk { color: #fff; font-weight: 750; display: inline-flex; align-items: center; gap: 6px; text-underline-offset: 4px; }
+.g-more .lnk svg.i { width: 18px; height: 18px; }
+@media (max-width: 899px) { .step .key { border-radius: 12px; } }
+/* hero trust row on a phone: the guarantee card a little wider, so each card keeps to two lines */
+@media (max-width: 599px) { .hero-proof { grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); } .hero-proof .hp .u { white-space: nowrap; } }
+@media (max-width: 370px) { .hero-proof .hp .u { font-size: 12px; } .hero-proof .shield-s { width: 26px; } }
