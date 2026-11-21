@@ -307,3 +307,79 @@ section[id] { scroll-margin-top: 80px; }
 .close-in > * { min-width: 0; }
 @media (max-width: 599px) { .close-in { padding: 32px 18px; } .close-in .trial.es1 { font-size: 12.5px; padding: 7px 10px 7px 8px; } }
 @media (max-width: 370px) { .close-in .trial.es1 { font-size: 11.5px; } }
+
+/* ---------- round 4 ---------- */
+/* the trial line reads as plain text with a check, never as a second button */
+.trial.plain { background: none; padding: 0; border-radius: 0; min-height: 0; color: var(--green-deep); font-weight: 750; font-size: 15px; }
+.trial.plain svg.i { color: #fff; background: var(--green); border-radius: 50%; padding: 3px; width: 20px; height: 20px; stroke-width: 3; }
+@media (min-width: 1000px) { .hero .trial.plain, .close-in .trial.plain { min-height: 0; padding: 0; font-size: 16px; } }
+.close-in .trial.plain { background: none; color: #fff; }
+.close-in .trial.plain svg.i { background: #1FA572; }
+@media (max-width: 599px) { .trial.plain.es1, .close-in .trial.plain.es1 { padding: 0; font-size: 13.5px; } }
+@media (max-width: 370px) { .trial.plain.es1, .close-in .trial.plain.es1 { font-size: 12.5px; } }
+
+/* desktop nav: a small download button */
+.nav .nav-dl { background: var(--green); color: #fff; border-radius: 999px; padding: 8px 16px; font-size: 15px; }
+.nav .nav-dl:hover { background: var(--green-deep); color: #fff; }
+@media (max-width: 899px) { .nav .nav-dl { display: none; } }
+
+/* hero on a phone: the proof (guarantee, rating) comes before the phone, and the phone is smaller */
+@media (max-width: 999px) {
+  .hero-grid { grid-template-areas: "copy" "more" "visual"; }
+  .hero-copy { grid-area: copy; } .hero-more { grid-area: more; } .hero-visual { grid-area: visual; max-width: 230px; }
+  .hero-grid { gap: 20px; }
+}
+.hero-more .cancel { margin-top: 0; }
+@media (min-width: 1000px) { .hero-more .cancel { margin-top: 14px; } .hero-proof { margin-top: 14px; } }
+
+/* every phone keeps clear room above its frame inside its card */
+.card .phone { margin-top: 24px; }
+
+/* steps and app screens on a phone: stacked cards, words left and the whole phone right (no sideways swipe) */
+@media (max-width: 899px) {
+  .rail.steps, .rail.feats { display: grid; grid-template-columns: 1fr; gap: 14px; overflow: visible; margin: 28px 0 0; padding: 0; }
+  .rail.steps > *, .rail.feats > * { flex: none; }
+  .steps .card, .feats .card { display: grid; grid-template-columns: minmax(0, 1fr) 44%; column-gap: 16px; align-content: start; align-items: start; padding: 20px 16px 20px 18px; }
+  .steps .card > :not(.phone), .feats .card > :not(.phone) { grid-column: 1; }
+  .steps .card .phone, .feats .card .phone { grid-column: 2; grid-row: 1 / span 4; width: 100%; max-width: none; margin: 0; }
+  .steps .card h3, .feats .card h3 { font-size: 20px; }
+  .steps .card p.t, .feats .card p.t { margin-bottom: 0; font-size: 15.5px; line-height: 1.45; }
+  .steps .step .n { width: 34px; height: 34px; font-size: 17px; margin-bottom: 10px; }
+  .phone { padding: 5px; border-radius: 24px; } .phone img { border-radius: 19px; }
+  .phone.isl::after { top: 5px; }
+  .hero-visual .phone { padding: 6px; border-radius: 30px; } .hero-visual .phone img { border-radius: 24px; }
+}
+.swipe-hint { display: none !important; }
+
+/* the download button after the signs */
+#inside .mini-cta, #dentro .mini-cta { margin-top: 26px; }
+
+/* parents: the 4:3 photo, full width of the card */
+.who .photo-fig { margin: 18px auto 0; width: 100%; max-width: 460px; }
+.who .photo-fig .photo { max-width: none; margin: 0; }
+@media (min-width: 1000px) { .who.parents .parent-row { margin-top: 4px; } }
+
+/* guarantee band: three ticked lines, no orphan words, link centred */
+.g-band p, .g-band h2 { text-wrap: pretty; }
+.g-band p.how { margin-top: 14px; font-weight: 750; color: #fff; }
+.g-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.g-list li { display: flex; gap: 9px; align-items: flex-start; color: #E2F5EB; font-size: 15.5px; line-height: 1.45; }
+.g-list svg.i { width: 18px; height: 18px; stroke-width: 3; color: #9BE3BF; margin-top: 2px; }
+.g-act { align-self: center; }
+@media (min-width: 860px) { .g-band { grid-template-columns: 104px minmax(0, 1fr) auto; } .g-band > img { align-self: start; margin-top: 6px; } }
+
+/* closing: the App Store button is the one action; state samples are a small link */
+.close-link { margin-top: 16px; font-size: 15px; }
+.close-link a { color: #9BE3BF; font-weight: 700; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+.close-link a:hover { text-decoration: underline; }
+.close-link svg.i { width: 18px; height: 18px; }
+.close-in .cta-row .store-link img { width: 192px; }
+/* families: the two cards end level without padding (smaller teen phone on wide screens, photo right under the button) */
+.who .bottom { padding-top: 0; }
+@media (min-width: 1000px) {
+  .who.teens .phone { max-width: 272px; }
+  .who.parents .bottom { margin-top: 22px; }
+  .who.parents .photo-fig { max-width: none; }
+  .who.parents .btn-ghost { margin-top: 16px; }
+}
+.g-band > div > p:not(.how) { text-wrap: balance; max-width: 54ch; }
