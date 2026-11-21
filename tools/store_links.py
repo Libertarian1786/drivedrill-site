@@ -28,6 +28,8 @@ from pathlib import Path
 SITE_ROOT = Path(__file__).resolve().parent.parent
 
 APP_STORE = "https://apps.apple.com/us/app/id6813140105"
+# 2026-11-21: the separate app CDL Prep: Permit Practice 2026, for the /cdl-prep/ and /es/cdl-prep/ pages only
+CDL_PREP_APP_STORE = "https://apps.apple.com/app/id6837504063"
 
 STORE_LINKS = {
     "car": APP_STORE,            # home page, /practice/, /practice/<state>/, /guarantee/
@@ -39,6 +41,8 @@ STORE_LINKS = {
     # 2026-11-11 (owner): the hidden /rate/ page, reached only by its QR code: install, then Apple's review screen
     "rate-install": APP_STORE,
     "rate-review": APP_STORE + "?action=write-review",
+    "cdl-prep": CDL_PREP_APP_STORE,     # /cdl-prep/, /cdl-prep/guarantee/
+    "es-cdl-prep": CDL_PREP_APP_STORE,  # /es/cdl-prep/, /es/cdl-prep/garantia/
 }
 
 A_TAG = re.compile(r"<a\b[^>]*>", re.IGNORECASE)

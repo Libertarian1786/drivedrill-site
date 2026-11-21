@@ -58,6 +58,16 @@ LEGACY = {"/privacy.html", "/terms.html", "/support.html", "/unlock.html"}  # ol
 # Their Spanish twins (2026-11-11, owner: "Make everything consistent"): canonical and hreflang like every
 # new page, but, like the English ones, no App Store button and not quiz pages. /es/desbloquear/ is noindex.
 ES_LEGAL = {"/es/privacidad/", "/es/terminos/", "/es/soporte/", "/es/desbloquear/"}
+# 2026-11-21 (owner: "Yes" to hosting them here): the pages of the separate app CDL Prep: Permit Practice 2026
+# (App Store id 6837504063), English under /cdl-prep/ and Spanish under /es/cdl-prep/. No DriveDrill page links to
+# them (the owner approved adding these pages and nothing else), so their reach check starts from the two CDL Prep
+# landing pages instead of the home page. Their legal pages, like DriveDrill's, carry no App Store button, and none
+# of the ten may say "DriveDrill" in its visible text, title or meta tags (the domain in addresses is fine).
+CDL_PREP = {"en": "/cdl-prep/", "es": "/es/cdl-prep/"}
+CDL_PREP_GUARANTEE = {"en": "/cdl-prep/guarantee/", "es": "/es/cdl-prep/garantia/"}
+CDL_PREP_LEGAL = {"/cdl-prep/privacy/", "/cdl-prep/terms/", "/cdl-prep/support/",
+                  "/es/cdl-prep/privacidad/", "/es/cdl-prep/terminos/", "/es/cdl-prep/soporte/"}
+CDL_PREP_PAGES = set(CDL_PREP.values()) | set(CDL_PREP_GUARANTEE.values()) | CDL_PREP_LEGAL
 # The Pass Guarantee page in each language, and the one-line note every selling page carries
 # under its first App Store button.
 GUARANTEE = {"en": "/guarantee/", "es": "/es/garantia/"}
@@ -68,9 +78,9 @@ GUARANTEE_LINE = {
 SELLING = {"/": "en", "/cdl/": "en", "/motorcycle/": "en", "/parents/": "en",
            "/es/": "es", "/es/cdl/": "es", "/es/motocicleta/": "es", "/es/padres/": "es"}
 PRICE_FREE = set(SELLING) | {"/practice/"} | set(GUARANTEE.values())
-REQUIRED = PRICE_FREE | LEGACY | ES_LEGAL  # hand-written pages that must exist
+REQUIRED = PRICE_FREE | LEGACY | ES_LEGAL | CDL_PREP_PAGES  # hand-written pages that must exist
 STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus NOT_STATE)
-NOT_STATE = PRICE_FREE | ES_LEGAL
+NOT_STATE = PRICE_FREE | ES_LEGAL | CDL_PREP_PAGES
 STATE_SLUGS_MIN = 51
 HEAD_MAX = 160                        # characters, for the guarantee pages' title and description
 
@@ -118,6 +128,9 @@ ALLOWED_COPY = (
     "Semanal $7.99, 3 días gratis · Acceso total $44.99 - Pago único - Sin suscripción",
     "CDL semanal $9.99, 3 días gratis · Acceso total de CDL $35.99 - Pago único - Sin suscripción",
     "Motocicleta semanal $7.99, 3 días gratis · Acceso total de motocicleta $44.99 - Pago único - Sin suscripción",
+    # 2026-11-21 (owner approved the CDL Prep pages with these plans): CDL Prep's terms (/cdl-prep/terms/, /es/cdl-prep/terminos/).
+    "CDL Prep Weekly: $9.99 per week after a 3-day free trial",
+    "CDL Prep semanal: $9.99 por semana después de 3 días gratis",
 )
 PRICE_RE = re.compile(r"\$\s?\d|\bUSD\b|\bdollars?\b|\bd[óo]lar(?:es)?\b", re.I)
 TRIAL_RE = re.compile(
@@ -475,7 +488,7 @@ def main(argv: list[str] | None = None) -> int:
                 errors.append(f"{path}: line {a['_line']}: store-link {slot} href {a.get('href')} != tools/store_links.py")
         if store_tags:
             sellers += 1
-        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL:
+        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL and path not in CDL_PREP_LEGAL:
             errors.append(f"{path}: no App Store button (class=store-link)")
         # --- analytics-free
         if p.scripts_external:
@@ -519,6 +532,11 @@ def main(argv: list[str] | None = None) -> int:
             if m:
                 errors.append(f"{path}: a trial length in the copy ({around(where, m)!r}); only the exact "
                               f"trial strings in ALLOWED_COPY may state a trial length")
+        if path in CDL_PREP_PAGES:
+            for where in (p.visible_text, " ".join(p.titles), meta_text):
+                if re.search(r"drive\s*drill", where.replace("drivedrill.app", ""), re.I):
+                    errors.append(f"{path}: a CDL Prep page says DriveDrill (visible text, title or meta)")
+                    break
         errors += check_structured_data(path, p, pages)
         if new_or_twin:
             if p.html_lang == "es":
@@ -562,9 +580,17 @@ def main(argv: list[str] | None = None) -> int:
     for path, lang in (("/terms.html", "en"), ("/support.html", "en"), ("/es/terminos/", "es"), ("/es/soporte/", "es")):
         if path in pages and not links_to(path, GUARANTEE[lang]):
             errors.append(f"{path}: no link to the Pass Guarantee page {GUARANTEE[lang]}")
+    for path, lang in ((CDL_PREP["en"], "en"), ("/cdl-prep/terms/", "en"), ("/cdl-prep/support/", "en"),
+                       (CDL_PREP["es"], "es"), ("/es/cdl-prep/terminos/", "es"), ("/es/cdl-prep/soporte/", "es")):
+        if path in pages and not links_to(path, CDL_PREP_GUARANTEE[lang]):
+            errors.append(f"{path}: no link to the CDL Prep Pass Guarantee page {CDL_PREP_GUARANTEE[lang]}")
 
     # --- every page can be reached from the home page by following links
     reachable, todo = ({"/"}, ["/"]) if "/" in pages else (set(), [])
+    for start in CDL_PREP.values():  # CDL Prep's pages: reached from its own landing pages (see CDL_PREP)
+        if start in pages and start not in reachable:
+            reachable.add(start)
+            todo.append(start)
     while todo:
         src = todo.pop()
         for tag, attr, value, _ in pages[src].links:
