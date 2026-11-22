@@ -497,3 +497,19 @@ code { background: var(--surface); border: 1px solid var(--line); border-radius:
 .lede.notice { border-left-color: var(--warn); }
 .explain { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
 .explain .verdict { color: var(--ink); }
+
+/* 2026-11-21 (owner: "half cut off and stretched photos"): store pictures in the Car & Motorcycle cards and the
+   road-scene card are shown WHOLE at their true 540x1173 shape, framed on the card - never cropped, no navy bars. */
+.lane-art-wrap, .road-art { height: auto; max-height: none; overflow: visible; background: none; display: flex; justify-content: center; }
+.lane-art-wrap { padding: 22px 22px 0; }
+.road-art { padding: 8px 24px 28px; }
+.lane-art-wrap picture, .road-art picture { display: block; width: min(100%, 260px); }
+.lane-art-wrap img, .road-art img { display: block; width: 100%; max-width: none; height: auto; margin: 0; border-radius: 18px; box-shadow: 0 0 0 1px var(--line), 0 16px 32px -20px rgba(13, 30, 80, .45); }
+@media (min-width: 760px) { .road-art { padding: 28px 32px; } .road-art picture { width: min(100%, 280px); } }
+/* a driver's-seat picture that has not loaded yet shows a grey road-tone box, never a blank white tile */
+.pov img { background: #8A929C; }
+/* 2026-11-21: the store-picture strip is a grid at every width (no sideways strip with half-cut pictures on phones) */
+.shots-wrap { margin: 0; }
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; overflow: visible; padding: 4px 0 18px; scroll-snap-type: none; }
+.shots li { width: auto; }
+@media (min-width: 760px) { .shots { grid-template-columns: repeat(3, minmax(0, 300px)); justify-content: center; gap: 28px 32px; } }
