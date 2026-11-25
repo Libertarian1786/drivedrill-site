@@ -54,6 +54,11 @@
     hit("visits"); log("visit");
     var one = document.querySelector('[data-store="rate-install"]');
     var two = document.querySelector('[data-store="rate-review"]');
+    // 2026-11-24 (owner: "yes"): on iPhone and iPad the https link opened the normal store page; itms-apps opens Write a Review.
+    // The https href stays as the fallback everywhere else. iPadOS can report "Macintosh", so touch points tell it apart.
+    var ua = navigator.userAgent || "";
+    var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    if (two && ios) two.href = "itms-apps://apps.apple.com/app/id6813140105?action=write-review";
     if (one) one.addEventListener("click", function () { hit("install_taps"); log("install_tap"); });
     if (two) two.addEventListener("click", function () { hit("rate_taps"); log("rate_tap"); });
   })();
