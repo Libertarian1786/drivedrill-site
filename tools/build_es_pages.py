@@ -21,7 +21,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import build_state_pages as en
-from build_state_pages import CHECK_SVG, QUESTION_FLOOR, SITE_URL, esc
+from build_state_pages import CHECK_SVG, QUESTION_FLOOR, SITE_URL, esc, trial_html
 
 # The Spanish store wording (owner's decision 2026-10-05), not a translation of the English.
 PILL_ES = "EDICIÓN 2026"
@@ -423,7 +423,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
         h1=f'Examen de práctica del permiso {esc(n.de)} <span class="hl">2026</span>',
         facts=en.facts_line(*facts_es(state)),
         cta=(f'{en.store_button("es-car", "es")}\n'
-             f'          <p class="trial-note">{CHECK_SVG}{TRIAL_ES}</p>\n'
+             f'          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_ES)}</p>\n'
              f'          <p class="g-note">{GUARANTEE_NOTE_ES}</p>'),
         phone=PHONE_ES_BY_STATE.get(code, PHONE_ES),
     )

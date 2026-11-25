@@ -143,6 +143,13 @@ PHONE_EN_BY_STATE = {
 
 CHECK_SVG = ('<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'
              '<path d="M5 12.5l4.2 4.2L19 7"/></svg>')
+def trial_html(trial: str) -> str:
+    """The trial line as two halves that never break inside: a line break can only fall after the
+    dot, so a second line never starts with it (style.css .trial-note .tn)."""
+    first, second = trial.split(" · ")
+    return f'<span class="tn">{first} ·</span> <span class="tn">{second}</span>'
+
+
 SEARCH_SVG = ('<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/>'
               '<path d="M20 20l-4.2-4.2"/></svg>')
 
@@ -895,7 +902,7 @@ def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dic
         h1=f'{esc(short_name(state))} permit practice test <span class="hl">2026</span>',
         facts=facts_line(*facts_en(state)),
         cta=(f'{store_button("car")}\n'
-             f'          <p class="trial-note">{CHECK_SVG}{TRIAL_EN}</p>\n'
+             f'          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_EN)}</p>\n'
              f'          <p class="g-note">{GUARANTEE_NOTE_EN}</p>'),
         phone=PHONE_EN_BY_STATE.get(state["stateCode"], PHONE_EN),
     )
@@ -924,7 +931,7 @@ def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dic
         <h2>Practice all {n} {esc(name)} questions in the app.</h2>
         <p>{then}</p>
         <p class="cta">{store_button("car")}</p>
-        <p class="trial-note">{CHECK_SVG}{TRIAL_EN}</p>
+        <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_EN)}</p>
       </div>
     </div>
   </section>
@@ -1009,7 +1016,7 @@ def render_index_page(all_states: list[dict]) -> str:
         <p class="sub">Pick your state for a free {k}-question permit practice test, with every answer explained.</p>
         <div class="cta">
           {store_button("car")}
-          <p class="trial-note">{CHECK_SVG}{TRIAL_EN}</p>
+          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_EN)}</p>
         </div>
       </div>
     </div>
