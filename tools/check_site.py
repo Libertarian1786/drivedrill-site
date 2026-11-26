@@ -16,10 +16,8 @@ Checks every published page of drivedrill.app before it is pushed. Standard libr
     pass-rate claim ("pass rate", "95% pass", "95 percent pass", "tasa de aprobación") on any
     page, the legal pages included; and no "gratis" in a Spanish title or description. The one
     exception: the approved price and trial strings in ALLOWED_COPY, in exactly that form
-  * the Pass Guarantee: /guarantee/ and /es/garantia/ exist, link to each other, keep their
-    title and description under 160 characters; every selling page carries the one-line
-    guarantee note linking to the guarantee page in its own language, and the terms and
-    support pages link to it
+  * the old Pass Guarantee addresses (/guarantee/, /es/garantia/ and the two CDL Prep ones) are
+    noindex redirect stubs, like /cdl/ (2026-11-26: the guarantee is gone)
   * every page can be reached from the home page by following links (no orphan pages)
   * structured data: every JSON-LD block parses; state pages carry FAQPage (questions and answers
     visible on the page) and BreadcrumbList (items are pages of this site); the app pages carry a
@@ -64,29 +62,25 @@ ES_LEGAL = {"/es/privacidad/", "/es/terminos/", "/es/soporte/", "/es/desbloquear
 # landing pages instead of the home page. Their legal pages, like DriveDrill's, carry no App Store button, and none
 # of the ten may say "DriveDrill" in its visible text, title or meta tags (the domain in addresses is fine).
 CDL_PREP = {"en": "/cdl-prep/", "es": "/es/cdl-prep/"}
-CDL_PREP_GUARANTEE = {"en": "/cdl-prep/guarantee/", "es": "/es/cdl-prep/garantia/"}
 CDL_PREP_LEGAL = {"/cdl-prep/privacy/", "/cdl-prep/terms/", "/cdl-prep/support/",
                   "/es/cdl-prep/privacidad/", "/es/cdl-prep/terminos/", "/es/cdl-prep/soporte/"}
-CDL_PREP_PAGES = set(CDL_PREP.values()) | set(CDL_PREP_GUARANTEE.values()) | CDL_PREP_LEGAL
-# The Pass Guarantee page in each language, and the one-line note every selling page carries
-# under its first App Store button.
-GUARANTEE = {"en": "/guarantee/", "es": "/es/garantia/"}
-GUARANTEE_LINE = {
-    "en": "Pass Guarantee: pass your knowledge test or get your money back.",
-    "es": "Garantía de aprobación: apruebas tu examen de conocimientos o te devolvemos tu dinero.",
-}
+CDL_PREP_PAGES = set(CDL_PREP.values()) | CDL_PREP_LEGAL
+# 2026-11-26 (owner: "Remove the pass guarantee"): the app is free, so there is no Pass Guarantee. Its four
+# old addresses are noindex redirect stubs to the matching home page, linked from nowhere.
+GUARANTEE_STUBS = {"/guarantee/": "/", "/es/garantia/": "/es/", "/cdl-prep/guarantee/": "/cdl-prep/",
+                   "/es/cdl-prep/garantia/": "/es/cdl-prep/"}  # stub -> the page its canonical names
 # 2026-11-20 (owner, DriveDrill 2.0): CDL leaves DriveDrill (it becomes its own app later). /cdl/ and /es/cdl/ are
 # noindex redirect stubs to the home pages, linked from nowhere (the old pages are in git history and on branch
 # cdl-pages-archive), so they are not selling pages any more.
 CDL_STUBS = {"/cdl/", "/es/cdl/"}
+STUBS = CDL_STUBS | set(GUARANTEE_STUBS)
 SELLING = {"/": "en", "/motorcycle/": "en", "/parents/": "en",
            "/es/": "es", "/es/motocicleta/": "es", "/es/padres/": "es"}
-PRICE_FREE = set(SELLING) | {"/practice/"} | set(GUARANTEE.values())
+PRICE_FREE = set(SELLING) | {"/practice/"}
 REQUIRED = PRICE_FREE | LEGACY | ES_LEGAL | CDL_PREP_PAGES  # hand-written pages that must exist
 STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus NOT_STATE)
-NOT_STATE = PRICE_FREE | ES_LEGAL | CDL_STUBS | CDL_PREP_PAGES
+NOT_STATE = PRICE_FREE | ES_LEGAL | STUBS | CDL_PREP_PAGES
 STATE_SLUGS_MIN = 51
-HEAD_MAX = 160                        # characters, for the guarantee pages' title and description
 
 # Structured data (JSON-LD). Every block must parse and name schema.org and a @type. The state
 # pages carry FAQPage (whose questions must be on the page, visibly) and BreadcrumbList (whose
@@ -461,8 +455,8 @@ def main(argv: list[str] | None = None) -> int:
         if new_or_twin:
             if len(p.canonical) != 1:
                 errors.append(f"{path}: needs exactly one canonical link")
-            elif p.canonical[0] != SITE + path:
-                errors.append(f"{path}: canonical {p.canonical[0]} is not {SITE + path}")
+            elif p.canonical[0] != SITE + GUARANTEE_STUBS.get(path, path):
+                errors.append(f"{path}: canonical {p.canonical[0]} is not {SITE + GUARANTEE_STUBS.get(path, path)}")
         # --- hreflang pairs
         if p.hreflang:
             if set(p.hreflang) != {"en", "es", "x-default"}:
@@ -496,7 +490,7 @@ def main(argv: list[str] | None = None) -> int:
                 errors.append(f"{path}: line {a['_line']}: store-link {slot} href {a.get('href')} != tools/store_links.py")
         if store_tags:
             sellers += 1
-        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL and path not in CDL_STUBS and path not in CDL_PREP_LEGAL:
+        elif new_or_twin and path != "/practice/" and path not in ES_LEGAL and path not in STUBS and path not in CDL_PREP_LEGAL:
             errors.append(f"{path}: no App Store button (class=store-link)")
         # --- analytics-free
         if p.scripts_external:
@@ -552,46 +546,11 @@ def main(argv: list[str] | None = None) -> int:
                 if re.search(r"\bgratis\b", head_text, re.I):
                     errors.append(f"{path}: 'gratis' in the title or description")
 
-    # --- the Pass Guarantee pages, and the links that lead to them
-    def links_to(src: str, dst: str) -> bool:
-        page = pages.get(src)
-        for tag, attr, value, _ in (page.links if page else []):
-            if tag == "a" and attr == "href":
-                r = resolve(src, value)
-                if r and r[0] == dst:
-                    return True
-        return False
-
     for path in sorted(REQUIRED - set(pages)):
         errors.append(f"{path}: this page is missing")
-    for lang, path in GUARANTEE.items():
-        p = pages.get(path)
-        if p is None:
-            continue
-        if p.html_lang != lang:
-            errors.append(f"{path}: <html lang> is {p.html_lang!r}, want {lang!r}")
-        for what, value in (("title", p.titles[0] if p.titles else ""),
-                            ("description", p.meta.get("description", ""))):
-            if len(value) >= HEAD_MAX:
-                errors.append(f"{path}: {what} is {len(value)} characters (keep it under {HEAD_MAX})")
-        twin = GUARANTEE["es" if lang == "en" else "en"]
-        if not links_to(path, twin):
-            errors.append(f"{path}: no link to its twin {twin}")
-    for path, lang in SELLING.items():
-        if path not in pages:
-            continue
-        if not links_to(path, GUARANTEE[lang]):
-            errors.append(f"{path}: no link to the Pass Guarantee page {GUARANTEE[lang]}")
-        if GUARANTEE_LINE[lang] not in re.sub(r"\s+", " ", pages[path].text):
-            errors.append(f"{path}: the one-line Pass Guarantee note is missing or reworded "
-                          f"(want {GUARANTEE_LINE[lang]!r})")
-    for path, lang in (("/terms.html", "en"), ("/support.html", "en"), ("/es/terminos/", "es"), ("/es/soporte/", "es")):
-        if path in pages and not links_to(path, GUARANTEE[lang]):
-            errors.append(f"{path}: no link to the Pass Guarantee page {GUARANTEE[lang]}")
-    for path, lang in ((CDL_PREP["en"], "en"), ("/cdl-prep/terms/", "en"), ("/cdl-prep/support/", "en"),
-                       (CDL_PREP["es"], "es"), ("/es/cdl-prep/terminos/", "es"), ("/es/cdl-prep/soporte/", "es")):
-        if path in pages and not links_to(path, CDL_PREP_GUARANTEE[lang]):
-            errors.append(f"{path}: no link to the CDL Prep Pass Guarantee page {CDL_PREP_GUARANTEE[lang]}")
+    for path in sorted(GUARANTEE_STUBS):
+        if path in pages and not pages[path].noindex:
+            errors.append(f"{path}: the old Pass Guarantee address must stay a noindex redirect stub")
 
     # --- every page can be reached from the home page by following links
     reachable, todo = ({"/"}, ["/"]) if "/" in pages else (set(), [])
@@ -611,7 +570,7 @@ def main(argv: list[str] | None = None) -> int:
                 reachable.add(dst)
                 todo.append(dst)
     # 2026-11-11 (owner: "a hidden webpage"): /rate/ is linked from nowhere on purpose (QR code only, noindex)
-    for path in sorted(set(pages) - reachable - {"/rate/"} - {p for p in CDL_STUBS if p in pages and pages[p].noindex}):
+    for path in sorted(set(pages) - reachable - {"/rate/"} - {p for p in STUBS if p in pages and pages[p].noindex}):
         errors.append(f"{path}: cannot be reached from the home page by following links")
 
     # --- sitemap and robots
@@ -653,9 +612,6 @@ def main(argv: list[str] | None = None) -> int:
         elif sitemap_hreflang.get(loc) and sitemap_hreflang[loc] != pages[r[0]].hreflang:
             errors.append(f"sitemap.xml: {loc} hreflang {sitemap_hreflang[loc]} does not match "
                           f"the page's own {pages[r[0]].hreflang}")
-    for path in GUARANTEE.values():
-        if not sitemap_hreflang.get(SITE + path):
-            errors.append(f"sitemap.xml: {SITE + path} has no hreflang pair")
     want = {SITE + path for path, p in pages.items() if p.canonical and not p.noindex} | {
         SITE + x for x in LEGACY if x in pages and not pages[x].noindex}
     for missing in sorted(want - set(locs)):
@@ -675,8 +631,7 @@ def main(argv: list[str] | None = None) -> int:
     links = sum(len(p.links) for p in pages.values())
     print(f"check_site: {len(pages)} pages parsed ({len(reachable)} reachable from the home page), "
           f"{links} links checked, {len(locs)} sitemap URLs, "
-          f"{len(en_states)} English + {len(es_states)} Spanish state pages, {sellers} pages with a store button, "
-          f"Pass Guarantee pages {' + '.join(GUARANTEE.values())}")
+          f"{len(en_states)} English + {len(es_states)} Spanish state pages, {sellers} pages with a store button")
     if errors:
         print(f"check_site: {len(errors)} problem(s):")
         for e in errors:

@@ -32,17 +32,17 @@ APP_STORE = "https://apps.apple.com/us/app/id6813140105"
 CDL_PREP_APP_STORE = "https://apps.apple.com/app/id6837504063"
 
 STORE_LINKS = {
-    "car": APP_STORE,            # home page, /practice/, /practice/<state>/, /guarantee/
+    "car": APP_STORE,            # home page, /practice/, /practice/<state>/
     "cdl": APP_STORE,            # /cdl/
     "motorcycle": APP_STORE,     # /motorcycle/
-    "es-car": APP_STORE,         # /es/, /es/<state>/, /es/garantia/
+    "es-car": APP_STORE,         # /es/, /es/<state>/
     "es-cdl": APP_STORE,         # /es/cdl/
     "es-motorcycle": APP_STORE,  # /es/motocicleta/
     # 2026-11-11 (owner): the hidden /rate/ page, reached only by its QR code: install, then Apple's review screen
     "rate-install": APP_STORE,
     "rate-review": APP_STORE + "?action=write-review",
-    "cdl-prep": CDL_PREP_APP_STORE,     # /cdl-prep/, /cdl-prep/guarantee/
-    "es-cdl-prep": CDL_PREP_APP_STORE,  # /es/cdl-prep/, /es/cdl-prep/garantia/
+    "cdl-prep": CDL_PREP_APP_STORE,     # /cdl-prep/
+    "es-cdl-prep": CDL_PREP_APP_STORE,  # /es/cdl-prep/
 }
 
 A_TAG = re.compile(r"<a\b[^>]*>", re.IGNORECASE)

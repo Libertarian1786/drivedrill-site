@@ -129,8 +129,6 @@ CHOICE_LETTERS = ["A", "B", "C", "D"]
 # tools/check_site.py allows the trial and price strings only in exactly this form.
 PILL_EN = "2026 EDITION"
 TRIAL_EN = "3-Day Free Trial · Cancel Anytime"  # 2026-11-20: the 2.0 store trial pill (was "Weekly plan or pay once")
-GUARANTEE_NOTE_EN = ('Pass Guarantee: pass your knowledge test or get your money back. '
-                     '<a href="/guarantee/">Conditions apply.</a>')
 FOOTER_LINE_EN = "DriveDrill is an independent study app and is not affiliated with any state agency."
 
 # The hero phone of a state page: a capture that names no state, except on California's own page.
@@ -598,7 +596,6 @@ def render_header(es_href: str = "/es/") -> str:
     <nav class="nav" aria-label="Main">
       <a class="d-only" href="/#states">States</a>
       <a href="/motorcycle/">Motorcycle</a>
-      <a class="d-only" href="/guarantee/">Pass Guarantee</a>
       <a class="lang" href="{es_href}" hreflang="es" lang="es" aria-label="Español"><span class="d-only">Español</span><span class="m-only">ES</span></a>
     </nav>
   </div>
@@ -612,7 +609,6 @@ def render_footer(es_href: str = "/es/") -> str:
       <a class="brand" href="/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
       <nav class="foot-nav" aria-label="Footer">
         <a href="/practice/">Practice tests</a>
-        <a href="/guarantee/">Pass Guarantee</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/terms.html">Terms</a>
         <a href="/support.html">Support</a>
@@ -885,7 +881,7 @@ def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dic
     related_html = chip_list([(f"/practice/{s['_slug']}/", f"{s['stateName']} permit practice test")
                               for s in related] + [("/practice/", "All 50 states + DC")])
     more_html = chip_list([("/motorcycle/", "Motorcycle permit practice test"),
-                           ("/parents/", "For parents"), ("/guarantee/", "Pass Guarantee")])
+                           ("/parents/", "For parents")])
 
     question_blocks = "\n".join(
         render_question_block(q, i + 1) for i, q in enumerate(questions)
@@ -902,8 +898,7 @@ def render_state_page(state: dict, questions: list[dict], by_code: dict[str, dic
         h1=f'{esc(short_name(state))} permit practice test <span class="hl">2026</span>',
         facts=facts_line(*facts_en(state)),
         cta=(f'{store_button("car")}\n'
-             f'          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_EN)}</p>\n'
-             f'          <p class="g-note">{GUARANTEE_NOTE_EN}</p>'),
+             f'          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_EN)}</p>'),
         phone=PHONE_EN_BY_STATE.get(state["stateCode"], PHONE_EN),
     )
 
@@ -1067,12 +1062,8 @@ STATIC_PAGES = [
     ("/es/motocicleta/", "0.8"),
     ("/parents/", "0.8"),            # 2026-10-27: the parents page and its Spanish twin
     ("/es/padres/", "0.8"),
-    ("/guarantee/", "0.5"),
-    ("/es/garantia/", "0.5"),
     ("/cdl-prep/", "0.7"),           # 2026-11-21: the separate app CDL Prep (see tools/check_site.py CDL_PREP)
     ("/es/cdl-prep/", "0.7"),
-    ("/cdl-prep/guarantee/", "0.5"),
-    ("/es/cdl-prep/garantia/", "0.5"),
 ]
 # /unlock.html and /es/desbloquear/ are not listed: they are noindex (the web-purchase unlock step), and a
 # sitemap should only list pages meant for search results. tools/check_site.py fails on a noindex page in it.
@@ -1085,8 +1076,6 @@ LEGAL_PAGES = ["/privacy.html", "/terms.html", "/support.html",
 # Pages whose sitemap entry also lists its hreflang pair (en, es, x-default = en): the same
 # set the page's own <head> declares. tools/check_site.py fails if the two ever disagree.
 SITEMAP_HREFLANG = {
-    "/guarantee/": alternates("/guarantee/", "/es/garantia/"),
-    "/es/garantia/": alternates("/guarantee/", "/es/garantia/"),
     "/parents/": alternates("/parents/", "/es/padres/"),
     "/es/padres/": alternates("/parents/", "/es/padres/"),
     "/privacy.html": alternates("/privacy.html", "/es/privacidad/"),
@@ -1096,7 +1085,7 @@ SITEMAP_HREFLANG = {
     "/support.html": alternates("/support.html", "/es/soporte/"),
     "/es/soporte/": alternates("/support.html", "/es/soporte/"),
     **{page: alternates(en, es) for en, es in (
-        ("/cdl-prep/", "/es/cdl-prep/"), ("/cdl-prep/guarantee/", "/es/cdl-prep/garantia/"),
+        ("/cdl-prep/", "/es/cdl-prep/"),
         ("/cdl-prep/privacy/", "/es/cdl-prep/privacidad/"), ("/cdl-prep/terms/", "/es/cdl-prep/terminos/"),
         ("/cdl-prep/support/", "/es/cdl-prep/soporte/")) for page in (en, es)},
 }

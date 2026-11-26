@@ -13,9 +13,8 @@ site never disagree about the terms they both reference.
 - `/cdl/`, `/motorcycle/` — CDL and motorcycle prep (hand-written)
 - `/es/`, `/es/cdl/`, `/es/motocicleta/` — the Spanish twins (hand-written; the state list on
   `/es/` is generated)
-- `/guarantee/`, `/es/garantia/` — the Pass Guarantee and its Spanish twin (hand-written). The
-  same terms are a section of terms.html; support.html says what to send for a claim; each
-  selling page carries one line about it under its first App Store button
+- `/guarantee/`, `/es/garantia/` (and the two CDL Prep ones) — 2026-11-26: the Pass Guarantee is gone (the app is
+  free); these are noindex redirect stubs to the matching home page, linked from nowhere
 - `/practice/<state>/` and `/es/<state>/` — 51 English and 51 Spanish sample-quiz pages
   (generated)
 
@@ -37,7 +36,7 @@ noindex pages are left out), then runs
 `tools/check_site.py`, which fails on any parse error, broken internal link, missing title,
 description or canonical, hreflang pair without its return link, stray App Store link, price,
 currency word or trial length in the copy, pass-rate claim, page that cannot be reached from
-the home page, selling page without its Pass Guarantee line, sitemap gap or wrong lastmod, or JSON-LD that does not parse, an FAQ that differs from the
+the home page, sitemap gap or wrong lastmod, or JSON-LD that does not parse, an FAQ that differs from the
 visible one, or app markup with a price or rating. Run the checker on
 its own after editing any page.
 

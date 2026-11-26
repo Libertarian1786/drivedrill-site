@@ -26,8 +26,6 @@ from build_state_pages import CHECK_SVG, QUESTION_FLOOR, SITE_URL, esc, trial_ht
 # The Spanish store wording (owner's decision 2026-10-05), not a translation of the English.
 PILL_ES = "EDICIÓN 2026"
 TRIAL_ES = "Prueba gratis de 3 días · Cancela cuando quieras"  # 2026-11-20: the 2.0 store trial pill (was "Plan semanal o pago único")
-GUARANTEE_NOTE_ES = ('Garantía de aprobación: apruebas tu examen de conocimientos o te devolvemos tu dinero. '
-                     '<a href="/es/garantia/">Condiciones.</a>')
 FOOTER_LINE_ES = "DriveDrill es una app de estudio independiente y no está afiliada a ningún organismo estatal."
 
 # The hero phone: the Spanish capture of the same screens the English pages use.
@@ -353,7 +351,6 @@ def render_header(en_href: str = "/") -> str:
     <nav class="nav" aria-label="Principal">
       <a class="d-only" href="/es/#estados">Estados</a>
       <a href="/es/motocicleta/">Motocicleta</a>
-      <a class="d-only" href="/es/garantia/">Garantía</a>
       <a class="lang" href="{en_href}" hreflang="en" lang="en" aria-label="English"><span class="d-only">English</span><span class="m-only">EN</span></a>
     </nav>
   </div>
@@ -367,7 +364,6 @@ def render_footer(en_href: str = "/") -> str:
       <a class="brand" href="/es/"><img src="/img/icon-192.png" alt="" width="32" height="32">DriveDrill</a>
       <nav class="foot-nav" aria-label="Pie de página">
         <a href="/es/#estados">Exámenes de práctica</a>
-        <a href="/es/garantia/">Garantía de aprobación</a>
         <a href="/es/privacidad/">Privacidad</a>
         <a href="/es/terminos/">Términos</a>
         <a href="/es/soporte/">Soporte</a>
@@ -414,7 +410,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
          for s in sorted(related, key=lambda s: sort_key(es_packs[s['stateCode']]['stateName']))]
         + [("/es/#estados", "Los 50 estados y DC")])
     more_html = en.chip_list([("/es/motocicleta/", "Examen de motocicleta"),
-                              ("/es/padres/", "Para padres"), ("/es/garantia/", "Garantía de aprobación")])
+                              ("/es/padres/", "Para padres")])
 
     hero = en.render_hero(
         crumbs=(f'<p class="crumbs"><a href="/es/#estados">&larr; Los 51 exámenes de práctica</a>'
@@ -423,8 +419,7 @@ def render_state_page(state: dict, es_pack: dict, questions: list[dict],
         h1=f'Examen de práctica del permiso {esc(n.de)} <span class="hl">2026</span>',
         facts=en.facts_line(*facts_es(state)),
         cta=(f'{en.store_button("es-car", "es")}\n'
-             f'          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_ES)}</p>\n'
-             f'          <p class="g-note">{GUARANTEE_NOTE_ES}</p>'),
+             f'          <p class="trial-note">{CHECK_SVG}{trial_html(TRIAL_ES)}</p>'),
         phone=PHONE_ES_BY_STATE.get(code, PHONE_ES),
     )
 
