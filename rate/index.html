@@ -85,10 +85,10 @@
       var spot = document.getElementById("spot");
       if (s.ourPosition) { spot.textContent = "We're #" + s.ourPosition + " in the search"; spot.hidden = false; }
       var ol = document.getElementById("list");
-      s.top.filter(function (a) { return a.pos <= 5 || a.us; }).forEach(function (a) {
+      s.top.filter(function (a) { return s.ourPosition && a.pos <= s.ourPosition; }).forEach(function (a) {
         var li = el("li", a.us ? "us" : ""), img = el("img"); if (a.icon) img.src = a.icon; else img.style.visibility = "hidden"; img.alt = ""; img.width = 44; img.height = 44;
         var t = el("div", "t"); t.appendChild(el("b", "", a.name));
-        t.appendChild(el("span", "", (a.us ? "DriveDrill · " : "") + (a.ratings ? a.ratings.toLocaleString() + " ratings" : "New")));
+        t.appendChild(el("span", "", a.us ? "DriveDrill" : (a.ratings ? a.ratings.toLocaleString() + " ratings" : "New")));
         li.appendChild(el("span", "n", String(a.pos))); li.appendChild(img); li.appendChild(t); ol.appendChild(li);
       });
     }).catch(function () {});
