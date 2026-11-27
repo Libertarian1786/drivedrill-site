@@ -36,7 +36,6 @@
   #list li .t { min-width: 0; }
   #list li .t b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   #list li .t span { font-size: .85rem; color: var(--ink-2); }
-  .find .when { text-align: center; font-size: .85rem; color: var(--ink-2); margin: 0; }
 </style>
 </head>
 <body>
@@ -51,7 +50,6 @@
   <a class="btn store-link" id="get" data-store="find-get" href="https://apps.apple.com/us/app/id6813140105"><img src="/apple-touch-icon.png" alt="" width="60" height="60">Open the App Store</a>
   <p class="term">It searches for <b id="term">DMV Practice Test・2027</b></p>
   <ol id="list"></ol>
-  <p class="when" id="when"></p>
 </main>
 <script>
   (function () {
@@ -67,8 +65,9 @@
     fetch("/data/live_listing.json?" + Math.floor(Date.now() / 60000)).then(function (r) { return r.json(); }).then(function (d) {
       var s = d[KEY]; if (!s) return;
       var spot = document.getElementById("spot");
-      var w = new Date(d.checkedAt), old = Date.now() - w.getTime() > 2 * 3600000;
-      if (s.ourPosition) { spot.textContent = (old ? "We were #" : "We're #") + s.ourPosition + (old ? "" : " right now"); spot.hidden = false; }
+      var w = new Date(d.checkedAt), old = Date.now() - w.getTime() > 3 * 3600000;
+      if (old) return; // 11-27 David "people are going to time check this": no time shown; an old list is not shown at all
+      if (s.ourPosition) { spot.textContent = "We're #" + s.ourPosition; spot.hidden = false; }
       var ol = document.getElementById("list");
       s.top.filter(function (a) { return a.pos <= 6 || a.us; }).forEach(function (a) {
         var li = el("li", a.us ? "us" : ""), img = el("img"); if (a.icon) img.src = a.icon; else img.style.visibility = "hidden"; img.alt = ""; img.width = 48; img.height = 48;
@@ -76,8 +75,6 @@
         t.appendChild(el("span", "", (a.us ? "DriveDrill · " : "") + (a.ratings ? a.ratings.toLocaleString() + " ratings" : "New")));
         li.appendChild(el("span", "n", String(a.pos))); li.appendChild(img); li.appendChild(t); ol.appendChild(li);
       });
-      var today = w.toDateString() === new Date().toDateString();
-      document.getElementById("when").textContent = "Checked " + (today ? "" : w.toLocaleDateString([], { month: "short", day: "numeric" }) + ", ") + w.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
     }).catch(function () {});
   })();
 </script>
