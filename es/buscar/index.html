@@ -22,27 +22,34 @@
   .find .term { text-align: center; font-size: 1.05rem; color: var(--ink-2); margin: 0; }
   .find .term b { color: var(--ink); }
   .find .spot { text-align: center; font-size: 1.2rem; font-weight: 700; margin: 0; }
-  .find .btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px 18px; border-radius: 18px;
-    font-weight: 700; font-size: 1.15rem; text-decoration: none; color: #fff; background: linear-gradient(180deg, var(--btn-top), var(--btn-bot)); }
-  .find .btn img { width: 44px; height: 44px; border-radius: 11px; }
-  .find ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
-  .find li { display: grid; grid-template-columns: 2ch 48px 1fr; align-items: center; gap: 10px; padding: 8px 10px;
+  .find .btn { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 22px 18px; border-radius: 22px;
+    font-weight: 800; font-size: 1.45rem; text-decoration: none; color: #fff; background: linear-gradient(180deg, var(--btn-top), var(--btn-bot)); }
+  .find .btn img { width: 60px; height: 60px; border-radius: 14px; }
+  .find .how { display: block; list-style: decimal; margin: 0; padding-left: 1.6em; font-size: 1.35rem; line-height: 1.5; font-weight: 700; }
+  .find .how li { display: list-item; background: none; box-shadow: none; border: 0; border-radius: 0; padding: 2px 0; }
+  #list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  #list li { display: grid; grid-template-columns: 2ch 48px 1fr; align-items: center; gap: 10px; padding: 8px 10px;
     border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
-  .find li.us { box-shadow: 0 0 0 3px var(--btn-bot); }
-  .find li img { width: 48px; height: 48px; border-radius: 12px; }
-  .find li .n { font-weight: 700; color: var(--ink-2); text-align: right; }
-  .find li .t { min-width: 0; }
-  .find li .t b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .find li .t span { font-size: .85rem; color: var(--ink-2); }
+  #list li.us { box-shadow: 0 0 0 3px var(--btn-bot); }
+  #list li img { width: 48px; height: 48px; border-radius: 12px; }
+  #list li .n { font-weight: 700; color: var(--ink-2); text-align: right; }
+  #list li .t { min-width: 0; }
+  #list li .t b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #list li .t span { font-size: .85rem; color: var(--ink-2); }
   .find .when { text-align: center; font-size: .85rem; color: var(--ink-2); margin: 0; }
 </style>
 </head>
 <body>
 <main class="wrap find">
   <h1>Descarga DriveDrill</h1>
-  <p class="term">Busca en el App Store <b id="term">Examen DMV: Permiso de Manejo</b></p>
+  <ol class="how">
+    <li>Toca el botón verde.</li>
+    <li>Busca nuestro ícono naranja DMV 2027.</li>
+    <li>Toca Obtener.</li>
+  </ol>
   <p class="spot" id="spot" hidden></p>
-  <a class="btn store-link" id="get" data-store="find-get-es" href="https://apps.apple.com/us/app/id6813140105"><img src="/apple-touch-icon.png" alt="" width="44" height="44">Buscar y descargar DriveDrill</a>
+  <a class="btn store-link" id="get" data-store="find-get-es" href="https://apps.apple.com/us/app/id6813140105"><img src="/apple-touch-icon.png" alt="" width="60" height="60">Abrir el App Store</a>
+  <p class="term">Busca <b id="term">Examen DMV: Permiso de Manejo</b></p>
   <ol id="list"></ol>
   <p class="when" id="when"></p>
 </main>
