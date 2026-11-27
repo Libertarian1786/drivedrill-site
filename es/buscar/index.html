@@ -67,16 +67,17 @@
     fetch("/data/live_listing.json?" + Math.floor(Date.now() / 60000)).then(function (r) { return r.json(); }).then(function (d) {
       var s = d[KEY]; if (!s) return;
       var spot = document.getElementById("spot");
-      if (s.ourPosition) { spot.textContent = "Estamos en el puesto #" + s.ourPosition + " ahora"; spot.hidden = false; }
+      var w = new Date(d.checkedAt), old = Date.now() - w.getTime() > 2 * 3600000;
+      if (s.ourPosition) { spot.textContent = (old ? "Estábamos en el puesto " : "Estamos en el puesto ") + s.ourPosition + (old ? "" : " ahora"); spot.hidden = false; }
       var ol = document.getElementById("list");
-      s.top.slice(0, 6).forEach(function (a) {
-        var li = el("li", a.us ? "us" : ""), img = el("img"); img.src = a.icon; img.alt = ""; img.width = 48; img.height = 48;
+      s.top.filter(function (a) { return a.pos <= 6 || a.us; }).forEach(function (a) {
+        var li = el("li", a.us ? "us" : ""), img = el("img"); if (a.icon) img.src = a.icon; else img.style.visibility = "hidden"; img.alt = ""; img.width = 48; img.height = 48;
         var t = el("div", "t"); t.appendChild(el("b", "", a.name));
         t.appendChild(el("span", "", (a.us ? "DriveDrill · " : "") + (a.ratings ? a.ratings.toLocaleString() + " calificaciones" : "Nueva")));
         li.appendChild(el("span", "n", String(a.pos))); li.appendChild(img); li.appendChild(t); ol.appendChild(li);
       });
-      var w = new Date(d.checkedAt);
-      document.getElementById("when").textContent = "Revisado " + w.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+      var today = w.toDateString() === new Date().toDateString();
+      document.getElementById("when").textContent = "Revisado " + (today ? "" : w.toLocaleDateString([], { month: "short", day: "numeric" }) + ", ") + w.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
     }).catch(function () {});
   })();
 </script>
