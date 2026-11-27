@@ -26,7 +26,7 @@
   /* 2026-11-27 (owner, for this page: link to our search term for downloads): step 1 opens App Store search for our name
      on iPhone, so the install counts as a search download; below it the App Store's live order for that search
      (data/live_listing.json, refreshed by the PC job) with our row outlined. */
-  .rate .do { margin: 0; font-family: inherit; font-size: 1.55rem; line-height: 1.35; font-weight: 700; color: var(--ink); }
+  .rate .do { margin: 0 auto; font-family: inherit; font-size: 1.45rem; line-height: 1.35; font-weight: 700; color: var(--ink); text-align: left; display: grid; gap: 4px; width: fit-content; }
   .rate .spot { margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--ink); }
   .rate .live { list-style: none; margin: 0 0 10px; padding: 0 4px; display: grid; gap: 8px; text-align: left; }
   #list li { display: grid; grid-template-columns: 2ch 44px 1fr; align-items: center; gap: 10px; padding: 7px 10px;
@@ -45,11 +45,11 @@
 </head>
 <body>
 <main class="wrap rate">
-  <h1 class="do">Tap below.<br>Find our orange icon.<br>Tap Get.</h1>
+  <h1 class="do"><span>• Tap below.</span><span>• Find our orange icon.</span><span>• Tap Get.</span></h1>
   <a class="btn one store-link" data-store="rate-install" href="https://apps.apple.com/us/app/id6813140105"><img src="/apple-touch-icon.png" alt="" width="52" height="52">1. Install DriveDrill</a>
   <p class="spot" id="spot" hidden></p>
   <ol class="live" id="list"></ol>
-  <p class="do">Come back here.<br>Tap below.<br>Tap 5 stars, then Send.</p>
+  <p class="do"><span>• Come back here.</span><span>• Tap below.</span><span>• Tap 5 stars, then Send.</span></p>
   <a class="btn two store-link" data-store="rate-review" href="https://apps.apple.com/us/app/id6813140105?action=write-review">2. Rate it</a>
   <p class="small">If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
   <p>Thank you!</p>
