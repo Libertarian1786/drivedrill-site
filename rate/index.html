@@ -76,11 +76,30 @@
     function hit(key) { try { fetch(base + key, { mode: "no-cors", keepalive: true }); } catch (e) {} }
     // 2026-11-12 (owner: "I just want state data", "city would be great too"): each visit and tap is also logged with the
     // visitor's approximate city and state from get.geojs.io (their IP is looked up there and not kept by us), posted to an
-    // ntfy.sh topic the tracker reads. Only event | city | state | country is sent; no IP, no ID.
+    // ntfy.sh topic the tracker reads. Sent: event | city | state | country | device ID | phone type; no IP.
     var geo = fetch("https://get.geojs.io/v1/ip/geo.json").then(function (r) { return r.json(); }).catch(function () { return {}; });
+    // 2026-11-27 (owner: "save more info from each phone ... device type or id ... so we can see unique devices"): a random
+    // ID made on this phone the first time (kept in this browser only; not tied to any name or account) and the phone type
+    // the browser reports: iPhone/iPad/Android/Mac/Windows, OS version, browser, screen size. Apple hides the exact model.
+    var devId = "";
+    try { devId = localStorage.getItem("dd_dev") || ""; if (!devId) { devId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + "-" + Math.random().toString(36).slice(2)); localStorage.setItem("dd_dev", devId); } } catch (e) {}
+    function devType() {
+      var u = navigator.userAgent || "", m, os = "Other", v = "", br = "Browser";
+      if (/iPad/.test(u) || (/Macintosh/.test(u) && navigator.maxTouchPoints > 1)) os = "iPad";
+      else if (/iPhone/.test(u)) os = "iPhone";
+      else if (/Android/.test(u)) os = "Android";
+      else if (/Macintosh/.test(u)) os = "Mac";
+      else if (/Windows/.test(u)) os = "Windows";
+      if ((m = u.match(/OS (\d+)[_.](\d+)/)) && (os === "iPhone" || os === "iPad")) v = "iOS " + m[1] + "." + m[2];
+      else if ((m = u.match(/Version\/(\d+\.\d+)/)) && os === "iPad") v = "iOS " + m[1];
+      else if ((m = u.match(/Android (\d+(\.\d+)?)/))) v = m[1];
+      if (/FBAN|FBAV|Instagram/.test(u)) br = "Facebook-or-Instagram"; else if (/EdgiOS|Edg\//.test(u)) br = "Edge";
+      else if (/FxiOS|Firefox/.test(u)) br = "Firefox"; else if (/CriOS|Chrome/.test(u)) br = "Chrome"; else if (/Safari/.test(u)) br = "Safari";
+      return [os, v, br, screen.width + "x" + screen.height].filter(Boolean).join(" ");
+    }
     function log(ev) {
       geo.then(function (g) {
-        var line = [ev, g.city || "?", g.region || "?", g.country_code || "?"].join(" | ");
+        var line = [ev, g.city || "?", g.region || "?", g.country_code || "?", devId, devType()].join(" | ");
         try { fetch("https://ntfy.sh/dd-rate-geo-2673826459b2", { method: "POST", body: line, keepalive: true }); } catch (e) {}
       });
     }
