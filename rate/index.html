@@ -26,6 +26,7 @@
   /* 2026-11-27 (owner, for this page: link to our search term for downloads): step 1 opens App Store search for our name
      on iPhone, so the install counts as a search download; below it the App Store's live order for that search
      (data/live_listing.json, refreshed by the PC job) with our row outlined. */
+  .rate .do { margin: 10px 0 0; font-size: 1.55rem; line-height: 1.35; font-weight: 700; color: var(--ink); }
   .rate .spot { margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--ink); }
   .rate .live { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; text-align: left; }
   #list li { display: grid; grid-template-columns: 2ch 44px 1fr; align-items: center; gap: 10px; padding: 7px 10px;
@@ -42,12 +43,13 @@
 <main class="wrap rate">
   <img class="app" src="/apple-touch-icon.png" alt="DriveDrill app icon" width="84" height="84">
   <h1>Rate DriveDrill</h1>
+  <p class="do">Tap below.<br>Find our orange icon.<br>Tap Get.</p>
   <a class="btn one store-link" data-store="rate-install" href="https://apps.apple.com/us/app/id6813140105">1. Install DriveDrill</a>
-  <p class="small">Find our orange DMV 2027 icon and tap Get. Then come back to this page.</p>
   <p class="spot" id="spot" hidden></p>
   <ol class="live" id="list"></ol>
+  <p class="do">Come back here.<br>Tap below.<br>Tap 5 stars, then Send.</p>
   <a class="btn two store-link" data-store="rate-review" href="https://apps.apple.com/us/app/id6813140105?action=write-review">2. Rate it</a>
-  <p class="small">Tap the 5th star (★★★★★), then Send. If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
+  <p class="small">If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
   <p>Thank you!</p>
 </main>
 <script>
