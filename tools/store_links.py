@@ -41,6 +41,10 @@ STORE_LINKS = {
     # 2026-11-11 (owner): the hidden /rate/ page, reached only by its QR code: install, then Apple's review screen
     "rate-install": APP_STORE,
     "rate-review": APP_STORE + "?action=write-review",
+    # 2026-11-27 (owner: "Ok do that"): hidden /find/ + /es/buscar/ (live App Store search order); on iPhone the page
+    # swaps this for an App Store search link, so the download comes from a search
+    "find-get": APP_STORE,
+    "find-get-es": APP_STORE,
     "cdl-prep": CDL_PREP_APP_STORE,     # /cdl-prep/
     "es-cdl-prep": CDL_PREP_APP_STORE,  # /es/cdl-prep/
 }

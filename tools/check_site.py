@@ -79,7 +79,7 @@ SELLING = {"/": "en", "/motorcycle/": "en", "/parents/": "en",
 PRICE_FREE = set(SELLING) | {"/practice/"}
 REQUIRED = PRICE_FREE | LEGACY | ES_LEGAL | CDL_PREP_PAGES  # hand-written pages that must exist
 STATE_PAGE = re.compile(r"/practice/[a-z-]+/|/es/[a-z-]+/")  # generated quiz pages (minus NOT_STATE)
-NOT_STATE = PRICE_FREE | ES_LEGAL | STUBS | CDL_PREP_PAGES
+NOT_STATE = PRICE_FREE | ES_LEGAL | STUBS | CDL_PREP_PAGES | {"/es/buscar/"}  # 2026-11-27: hidden search-order page, not a state page
 STATE_SLUGS_MIN = 51
 
 # Structured data (JSON-LD). Every block must parse and name schema.org and a @type. The state
@@ -570,7 +570,8 @@ def main(argv: list[str] | None = None) -> int:
                 reachable.add(dst)
                 todo.append(dst)
     # 2026-11-11 (owner: "a hidden webpage"): /rate/ is linked from nowhere on purpose (QR code only, noindex)
-    for path in sorted(set(pages) - reachable - {"/rate/"} - {p for p in STUBS if p in pages and pages[p].noindex}):
+    # 2026-11-27 (owner: "Ok do that"): /find/ and /es/buscar/ (live App Store search order) are link-only too, noindex
+    for path in sorted(set(pages) - reachable - {"/rate/", "/find/", "/es/buscar/"} - {p for p in STUBS if p in pages and pages[p].noindex}):
         errors.append(f"{path}: cannot be reached from the home page by following links")
 
     # --- sitemap and robots

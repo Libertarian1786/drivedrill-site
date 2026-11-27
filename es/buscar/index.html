@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Busca DriveDrill en el App Store</title>
+<meta name="description" content="Busca Examen DMV: Permiso de Manejo en el App Store y descarga DriveDrill.">
+<link rel="canonical" href="https://drivedrill.app/es/buscar/">
+<link rel="icon" href="/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#DCEBFA">
+<link rel="stylesheet" href="/style.css">
+<style>
+  /* 2026-11-27 (owner: "I want the page when fetched to pull the live listing", then "Ok do that" to a 15-minute update):
+     hidden page, noindex, not in the sitemap. Shows the App Store's real search order for our name (data/live_listing.json,
+     written every 15 minutes by the PC job), our spot highlighted, and a Get button that opens App Store search for our name
+     so the download comes from a search. */
+  .find { max-width: 30rem; margin: 0 auto; padding-block: 32px 56px; display: grid; gap: 14px; }
+  .find h1 { margin: 0; font: 700 1.7rem/1.2 var(--display); text-align: center; }
+  .find .term { text-align: center; font-size: 1.05rem; color: var(--ink-2); margin: 0; }
+  .find .term b { color: var(--ink); }
+  .find .spot { text-align: center; font-size: 1.2rem; font-weight: 700; margin: 0; }
+  .find .btn { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 14px 18px; border-radius: 18px;
+    font-weight: 700; font-size: 1.15rem; text-decoration: none; color: #fff; background: linear-gradient(180deg, var(--btn-top), var(--btn-bot)); }
+  .find .btn img { width: 44px; height: 44px; border-radius: 11px; }
+  .find ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .find li { display: grid; grid-template-columns: 2ch 48px 1fr; align-items: center; gap: 10px; padding: 8px 10px;
+    border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+  .find li.us { box-shadow: 0 0 0 3px var(--btn-bot); }
+  .find li img { width: 48px; height: 48px; border-radius: 12px; }
+  .find li .n { font-weight: 700; color: var(--ink-2); text-align: right; }
+  .find li .t { min-width: 0; }
+  .find li .t b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .find li .t span { font-size: .85rem; color: var(--ink-2); }
+  .find .when { text-align: center; font-size: .85rem; color: var(--ink-2); margin: 0; }
+</style>
+</head>
+<body>
+<main class="wrap find">
+  <h1>Descarga DriveDrill</h1>
+  <p class="term">Busca en el App Store <b id="term">Examen DMV: Permiso de Manejo</b></p>
+  <p class="spot" id="spot" hidden></p>
+  <a class="btn store-link" id="get" data-store="find-get-es" href="https://apps.apple.com/us/app/id6813140105"><img src="/apple-touch-icon.png" alt="" width="44" height="44">Buscar y descargar DriveDrill</a>
+  <ol id="list"></ol>
+  <p class="when" id="when"></p>
+</main>
+<script>
+  (function () {
+    var KEY = "es", TERM = "Examen DMV: Permiso de Manejo";
+    var ua = navigator.userAgent || "";
+    var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+    var get = document.getElementById("get");
+    // On iPhone and iPad the button opens App Store search with our name typed in (and copies it, in case the
+    // App Store opens without it); elsewhere it stays the normal App Store link.
+    if (ios) get.href = "itms-apps://?action=search&q=" + encodeURIComponent(TERM);
+    get.addEventListener("click", function () { try { navigator.clipboard.writeText(TERM); } catch (e) {} });
+    function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+    fetch("/data/live_listing.json?" + Math.floor(Date.now() / 60000)).then(function (r) { return r.json(); }).then(function (d) {
+      var s = d[KEY]; if (!s) return;
+      var spot = document.getElementById("spot");
+      if (s.ourPosition) { spot.textContent = "Estamos en el puesto #" + s.ourPosition + " ahora"; spot.hidden = false; }
+      var ol = document.getElementById("list");
+      s.top.slice(0, 6).forEach(function (a) {
+        var li = el("li", a.us ? "us" : ""), img = el("img"); img.src = a.icon; img.alt = ""; img.width = 48; img.height = 48;
+        var t = el("div", "t"); t.appendChild(el("b", "", a.name));
+        t.appendChild(el("span", "", (a.us ? "DriveDrill · " : "") + (a.ratings ? a.ratings.toLocaleString() + " calificaciones" : "Nueva")));
+        li.appendChild(el("span", "n", String(a.pos))); li.appendChild(img); li.appendChild(t); ol.appendChild(li);
+      });
+      var w = new Date(d.checkedAt);
+      document.getElementById("when").textContent = "Revisado " + w.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+    }).catch(function () {});
+  })();
+</script>
+</body>
+</html>
