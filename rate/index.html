@@ -22,7 +22,20 @@
   .rate .one { background: var(--card); color: var(--green); border: 2px solid var(--btn-bot); }
   .rate .two { background: linear-gradient(180deg, var(--btn-top), var(--btn-bot)); color: #fff; }
   .rate p { margin: 0; color: var(--ink-2); font-size: 1rem; line-height: 1.45; }
-  .rate .small { font-size: .92rem; }
+  .rate .small { font-size: 1.08rem; font-weight: 600; color: var(--ink); }
+  /* 2026-11-27 (owner, for this page: link to our search term for downloads): step 1 opens App Store search for our name
+     on iPhone, so the install counts as a search download; below it the App Store's live order for that search
+     (data/live_listing.json, refreshed by the PC job) with our row outlined. */
+  .rate .spot { margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--ink); }
+  .rate .live { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; text-align: left; }
+  #list li { display: grid; grid-template-columns: 2ch 44px 1fr; align-items: center; gap: 10px; padding: 7px 10px;
+    border-radius: 14px; background: var(--card); box-shadow: 0 0 0 1px var(--line); }
+  #list li.us { box-shadow: 0 0 0 3px var(--btn-bot); }
+  #list li img { width: 44px; height: 44px; border-radius: 11px; }
+  #list li .n { font-weight: 700; color: var(--ink-2); text-align: right; }
+  #list li .t { min-width: 0; }
+  #list li .t b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .98rem; }
+  #list li .t span { font-size: .82rem; color: var(--ink-2); }
 </style>
 </head>
 <body>
@@ -30,7 +43,9 @@
   <img class="app" src="/apple-touch-icon.png" alt="DriveDrill app icon" width="84" height="84">
   <h1>Rate DriveDrill</h1>
   <a class="btn one store-link" data-store="rate-install" href="https://apps.apple.com/us/app/id6813140105">1. Install DriveDrill</a>
-  <p class="small">Tap Get. Apple only lets you rate apps you have downloaded. Then come back to this page.</p>
+  <p class="small">Find our orange DMV 2027 icon and tap Get. Then come back to this page.</p>
+  <p class="spot" id="spot" hidden></p>
+  <ol class="live" id="list"></ol>
   <a class="btn two store-link" data-store="rate-review" href="https://apps.apple.com/us/app/id6813140105?action=write-review">2. Rate it</a>
   <p class="small">Tap the 5th star (★★★★★), then Send. If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
   <p>Thank you!</p>
@@ -59,6 +74,24 @@
     var ua = navigator.userAgent || "";
     var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
     if (two && ios) two.href = "itms-apps://apps.apple.com/app/id6813140105?action=write-review";
+    // 2026-11-27: step 1 opens App Store search for our exact name (copied too, in case search opens empty)
+    var TERM = "DMV Practice Test・2027";
+    if (one && ios) one.href = "itms-apps://?action=search&q=" + encodeURIComponent(TERM);
+    if (one) one.addEventListener("click", function () { try { navigator.clipboard.writeText(TERM); } catch (e) {} });
+    function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
+    fetch("/data/live_listing.json?" + Math.floor(Date.now() / 60000)).then(function (r) { return r.json(); }).then(function (d) {
+      var s = d.name; if (!s) return;
+      if (Date.now() - new Date(d.checkedAt).getTime() > 3 * 3600000) return; // no old list, no time shown
+      var spot = document.getElementById("spot");
+      if (s.ourPosition) { spot.textContent = "We're #" + s.ourPosition + " in the search"; spot.hidden = false; }
+      var ol = document.getElementById("list");
+      s.top.filter(function (a) { return a.pos <= 5 || a.us; }).forEach(function (a) {
+        var li = el("li", a.us ? "us" : ""), img = el("img"); if (a.icon) img.src = a.icon; else img.style.visibility = "hidden"; img.alt = ""; img.width = 44; img.height = 44;
+        var t = el("div", "t"); t.appendChild(el("b", "", a.name));
+        t.appendChild(el("span", "", (a.us ? "DriveDrill · " : "") + (a.ratings ? a.ratings.toLocaleString() + " ratings" : "New")));
+        li.appendChild(el("span", "n", String(a.pos))); li.appendChild(img); li.appendChild(t); ol.appendChild(li);
+      });
+    }).catch(function () {});
     if (one) one.addEventListener("click", function () { hit("install_taps"); log("install_tap"); });
     if (two) two.addEventListener("click", function () { hit("rate_taps"); log("rate_tap"); });
   })();
