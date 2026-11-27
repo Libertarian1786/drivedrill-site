@@ -80,7 +80,9 @@
     if (two && ios) two.href = "itms-apps://apps.apple.com/app/id6813140105?action=write-review";
     // 2026-11-27: step 1 opens App Store search for our exact name (copied too, in case search opens empty)
     var TERM = "DMV Practice Test・2027";
-    if (one && ios) one.href = "itms-apps://?action=search&q=" + encodeURIComponent(TERM);
+    // iPhone/iPad: App Store app search. Everything else: Apple's web search page for the same words (not our page).
+    if (one) one.href = ios ? "itms-apps://?action=search&q=" + encodeURIComponent(TERM)
+                            : "https://apps.apple.com/us/iphone/search?term=" + encodeURIComponent(TERM);
     if (one) one.addEventListener("click", function () { try { navigator.clipboard.writeText(TERM); } catch (e) {} });
     function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; }
     fetch("/data/live_listing.json?" + Math.floor(Date.now() / 60000)).then(function (r) { return r.json(); }).then(function (d) {
