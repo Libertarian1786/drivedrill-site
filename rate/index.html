@@ -30,6 +30,10 @@
   .rate .step { display: grid; gap: 12px; padding: 16px 14px 18px; border-radius: 22px; background: var(--card); box-shadow: 0 0 0 2px var(--line); }
   .rate .label { margin: 0; font-family: inherit; font-size: 1.45rem; font-weight: 800; color: var(--green); }
   .rate .back { margin: 4px 0; font-size: 1.35rem; font-weight: 800; color: #B35A00; }
+  /* back mode: after the install tap, when the visitor returns to this page only Step 2 shows, big */
+  .rate.backmode #s1, .rate.backmode #sep { display: none; }
+  .rate.backmode #s2 { box-shadow: 0 0 0 4px var(--btn-bot); }
+  .rate .again { font-size: 1rem; color: var(--ink-2); }
   .rate .do { margin: 0 auto; font-family: inherit; font-size: 1.45rem; line-height: 1.35; font-weight: 700; color: var(--ink); text-align: left; display: grid; gap: 4px; width: fit-content; }
   .rate .spot { margin: 0; font-weight: 700; font-size: 1.1rem; color: var(--ink); }
   .rate .live { list-style: none; margin: 0 0 10px; padding: 0 4px; display: grid; gap: 8px; text-align: left; }
@@ -49,22 +53,23 @@
 </head>
 <body>
 <main class="wrap rate">
-  <h1 class="top">Two steps:</h1>
-  <section class="step">
+  <h1 class="top" id="top">Install, then come back here to rate us.</h1>
+  <section class="step" id="s1">
     <h2 class="label">Step 1: Install</h2>
-    <p class="do"><span>• Find our orange icon.</span><span>• Tap Get.</span></p>
+    <p class="do"><span>• Find our orange icon.</span><span>• Tap Get.</span><span>• Come back here.</span></p>
     <a class="btn one store-link" data-store="rate-install" href="https://apps.apple.com/us/app/id6813140105"><img src="/apple-touch-icon.png" alt="" width="52" height="52">Install DriveDrill</a>
     <p class="spot" id="spot" hidden></p>
     <ol class="live" id="list"></ol>
   </section>
-  <p class="back">Then come back to this site to rate us ↓</p>
-  <section class="step">
+  <p class="back" id="sep">Then come back to this site to rate us ↓</p>
+  <section class="step" id="s2">
     <h2 class="label">Step 2: Rate</h2>
     <p class="do"><span>• Tap 5 stars, then Send.</span></p>
     <a class="btn two store-link" data-store="rate-review" href="https://apps.apple.com/us/app/id6813140105?action=write-review">Rate DriveDrill</a>
     <p class="small">If Send stays grey, close that screen, scroll down the app's page and tap the 5th star under "Tap to Rate".</p>
   </section>
   <p>Thank you!</p>
+  <p class="again" id="again" hidden><a href="#" id="showall">Not installed yet? Show step 1</a></p>
 </main>
 <script>
   // 2026-11-11 (owner: "can you just count the website clicks"): counts page visits and taps on the two buttons.
@@ -111,6 +116,22 @@
       });
     }).catch(function () {});
     if (one) one.addEventListener("click", function () { hit("install_taps"); log("install_tap"); });
+    // 2026-11-27 (owner: "people are going to read step one and then be off the page"): after the install tap the page
+    // remembers it (this browser only) and, when the visitor comes back, opens on Step 2 alone.
+    var main = document.querySelector("main.rate"), top = document.getElementById("top");
+    function backMode() {
+      main.classList.add("backmode"); top.textContent = "Welcome back! Last step: rate us.";
+      document.getElementById("again").hidden = false; window.scrollTo(0, 0);
+    }
+    function tapped() { try { return Date.now() - (+localStorage.getItem("dd_rate_install_tap") || 0) < 3 * 86400000; } catch (e) { return false; } }
+    if (one) one.addEventListener("click", function () { try { localStorage.setItem("dd_rate_install_tap", String(Date.now())); } catch (e) {} });
+    if (tapped()) backMode();
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible" && tapped()) backMode(); });
+    window.addEventListener("pageshow", function () { if (tapped()) backMode(); });
+    document.getElementById("showall").addEventListener("click", function (e) {
+      e.preventDefault(); main.classList.remove("backmode"); top.textContent = "Install, then come back here to rate us.";
+      document.getElementById("again").hidden = true; try { localStorage.removeItem("dd_rate_install_tap"); } catch (x) {}
+    });
     if (two) two.addEventListener("click", function () { hit("rate_taps"); log("rate_tap"); });
   })();
 </script>
