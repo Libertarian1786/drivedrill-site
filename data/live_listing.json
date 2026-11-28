@@ -70,7 +70,7 @@
     "name": "DMV Permit Practice Test・2026",
     "subtitle": "Driving License: Drivers prep",
     "icon": "/img/live/6740144126.png",
-    "ratings": 3448,
+    "ratings": 3449,
     "stars": 4.5,
     "us": false
    },
@@ -127,7 +127,7 @@
     "name": "DMV: Practice Test 2026 Permit",
     "subtitle": "Driver License Driving Prep",
     "icon": "/img/live/1215870281.png",
-    "ratings": 30634,
+    "ratings": 30630,
     "stars": 4.5,
     "us": false
    },
@@ -177,7 +177,7 @@
     "name": "CA DMV Wallet",
     "subtitle": "California’s mobile DL/ID",
     "icon": "/img/live/6449002508.png",
-    "ratings": 150691,
+    "ratings": 150718,
     "stars": 5,
     "us": false
    },
@@ -213,6 +213,6 @@
    }
   ]
  },
- "checkedAt": "2026-11-28T02:35:03+00:00",
- "checkedEpoch": 1795833303
+ "checkedAt": "2026-11-28T03:35:04+00:00",
+ "checkedEpoch": 1795836904
 }
