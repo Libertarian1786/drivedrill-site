@@ -1,21 +1,11 @@
 {
  "name": {
   "term": "DMV Practice Test・2027",
-  "ourPosition": 4,
-  "outOf": 249,
+  "ourPosition": 3,
+  "outOf": 247,
   "top": [
    {
     "pos": 1,
-    "id": "1634978578",
-    "name": "DMV Practice Test · 2027",
-    "subtitle": "DMV Practice Test · 2027",
-    "icon": "/img/live/1634978578.png",
-    "ratings": 91,
-    "stars": 4.5,
-    "us": false
-   },
-   {
-    "pos": 2,
     "id": "1553740877",
     "name": "DMV Practice Test・2026",
     "subtitle": "Drivers Ed: DMV permit test",
@@ -25,17 +15,17 @@
     "us": false
    },
    {
-    "pos": 3,
-    "id": "1469368096",
-    "name": "DMV Practice Test 2026: Permit",
-    "subtitle": "Driver's License & Permit Exam",
-    "icon": "/img/live/1469368096.png",
-    "ratings": 6787,
-    "stars": 5,
+    "pos": 2,
+    "id": "1634978578",
+    "name": "DMV Practice Test · 2027",
+    "subtitle": "DMV Practice Test · 2027",
+    "icon": "/img/live/1634978578.png",
+    "ratings": 91,
+    "stars": 4.5,
     "us": false
    },
    {
-    "pos": 4,
+    "pos": 3,
     "id": "6813140105",
     "name": "DMV Practice Test・2027",
     "subtitle": "Permit & Driving Test Prep",
@@ -43,6 +33,16 @@
     "ratings": 11,
     "stars": 5,
     "us": true
+   },
+   {
+    "pos": 4,
+    "id": "1469368096",
+    "name": "DMV Practice Test 2026: Permit",
+    "subtitle": "Driver's License & Permit Exam",
+    "icon": "/img/live/1469368096.png",
+    "ratings": 6787,
+    "stars": 5,
+    "us": false
    },
    {
     "pos": 5,
@@ -56,22 +56,22 @@
    },
    {
     "pos": 6,
-    "id": "6740144126",
-    "name": "DMV Permit Practice Test・2026",
-    "subtitle": "Driving License: Drivers prep",
-    "icon": "/img/live/6740144126.png",
-    "ratings": 3449,
-    "stars": 4.5,
-    "us": false
-   },
-   {
-    "pos": 7,
     "id": "6748745720",
     "name": "DMV Practice Test: Permit",
     "subtitle": "Drivers License Written Exam",
     "icon": "/img/live/6748745720.png",
     "ratings": 34,
     "stars": 5,
+    "us": false
+   },
+   {
+    "pos": 7,
+    "id": "6740144126",
+    "name": "DMV Permit Practice Test・2026",
+    "subtitle": "Driving License: Drivers prep",
+    "icon": "/img/live/6740144126.png",
+    "ratings": 3449,
+    "stars": 4.5,
     "us": false
    },
    {
@@ -213,6 +213,6 @@
    }
   ]
  },
- "checkedAt": "2026-11-28T12:35:02+00:00",
- "checkedEpoch": 1795869302
+ "checkedAt": "2026-11-28T13:20:02+00:00",
+ "checkedEpoch": 1795872002
 }
